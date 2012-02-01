@@ -1,1 +1,1 @@
-module.exports = fs.readFileSync('./LL.min.js', 'utf8');
+module.exports = require('fs').readFileSync('./LL.min.js', 'utf8');
