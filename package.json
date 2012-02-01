@@ -1,0 +1,10 @@
+{
+  "name": "LL",
+  "description": "Lazy load my friend",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/fasterize/FasterizeEngine.git"
+  },
+  "private": true
+}
