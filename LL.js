@@ -102,9 +102,6 @@ function LazyImg ( target, offset) {
   function fetchImages() {
     var img, temp, len, i;
 
-    // still trying to get the target
-    target = target || document.getElementById( id );
-
     // if it's the first time
     // initialize images array
     if ( !imgs && target ) {
