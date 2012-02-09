@@ -47,8 +47,6 @@ function img_sort( a, b ) {
   return getTopPos( a ) - getTopPos( b );
 }
 
-// let's just provide some interface
-// for the outside world
 function LazyImg ( target, offset) {
 
   var imgs = null,    // images array (ordered)
@@ -57,7 +55,10 @@ function LazyImg ( target, offset) {
 
   offset = offset || 200; // for prefetching
 
-  addEvent( window, "load", fetchImages );
+  // search for images 50ms after adding this script,
+  // TODO : add a special case and args to know that it was triggered by
+  // setTimeout, if there's no images then try again later
+  setTimeout(fetchImages, 50);
   addEvent( window, "scroll", fetchImages );
 
   function destroy() {
@@ -112,7 +113,7 @@ function LazyImg ( target, offset) {
 
     // we've fetched the last image -> finished
     if ( last && last === imgs.length )  {
-      self.destroy();
+      destroy();
     }
   }
 }
