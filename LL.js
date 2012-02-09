@@ -18,64 +18,29 @@ var lazyAttr = "data-src",
 
 // cross browser event handling
 function addEvent( el, type, fn ) {
-  if ( window.addEventListener ) {
-    el.addEventListener( type, fn, false );
-  } else if ( window.attachEvent ) {
-    el.attachEvent( "on" + type, fn );
-  } else {
-    var old = el["on" + type];
-    el["on" + type] = function() { old(); fn(); };
-  }
+  el.attachEvent && el.attachEvent( "on" + type, fn )
+    || el.addEventListener( type, fn, false );
 }
 
 // cross browser event handling
 function removeEvent( el, type, fn ) {
-  if ( window.removeEventListener ) {
-    el.removeEventListener( type, fn, false );
-  } else if ( window.attachEvent ) {
-    el.detachEvent( "on" + type, fn );
-  }
+  el.detachEvent && el.detachEvent( "on" + type, fn )
+    || el.removeEventListener( type, fn, false );
 }
 
 // cross browser window height
 function getWindowHeight() {
-  if ( window.innerHeight ) {
-    winH = window.innerHeight;
-  } else if ( document.documentElement.clientHeight ) {
-    winH = document.documentElement.clientHeight;
-  } else if ( document.body && document.body.clientHeight ) {
-    winH = document.body.clientHeight;
-  } else {        // fallback:
-    winH = 10000; // just load all the images
-  }
+  winH = window.innerHeight ||
+    document.documentElement.clientHeight ||
+    document.body.clientHeight ||
+    10000;
+
   return winH;
 }
 
-// getBoundingClientRect alternative
-function findPos(obj) {
-  var top  = 0;
-  if (obj && obj.offsetParent) {
-    do {
-      top += obj.offsetTop || 0;
-      top -= obj.scrollTop || 0;
-    } while (obj = obj.offsetParent); //
-    return { "top" : top };
-  }
+function getTopPos( el ) {
+  return el.$$top || el.getBoundingClientRect().top;
 }
-
-// top position of an element
-var getTopPos = (function() {
-  var dummy = document.createElement("div");
-  if ( dummy.getBoundingClientRect ) {
-    return function( el ) {
-      return el.$$top || el.getBoundingClientRect().top;
-    };
-  } else {
-    return function( el ) {
-      return el.$$top || findPos( el ).top;
-    };
-  }
-})();
 
 // sorts images by their vertical positions
 function img_sort( a, b ) {
