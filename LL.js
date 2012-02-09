@@ -13,8 +13,7 @@
 !function(window, document){
 
 // glocal variables
-var instances = {},
-    lazyAttr = "data-src",
+var lazyAttr = "data-src",
     winH;
 
 // cross browser event handling
@@ -85,114 +84,80 @@ function img_sort( a, b ) {
 
 // let's just provide some interface
 // for the outside world
-var LazyImg = function( target, offset ) {
+function LazyImg ( target, offset) {
 
-  var imgs,    // images array (ordered)
-      last,    // last visible image (index)
-      id,      // id of the target element
-      self;    // this instance
+  var imgs = null,    // images array (ordered)
+      last = 0,    // last visible image (index)
+      target = document;
 
   offset = offset || 200; // for prefetching
 
-  if ( !target ) {
-    target = document;
-    id = "$document";
-  } else if ( typeof target === "string" ) {
-    id = target;
-    target = document.getElementById( target );
-  } else {
-    id = target.id || "$undefined";
+  addEvent( window, "load", fetchImages );
+  addEvent( window, "scroll", fetchImages );
+
+  function destroy() {
+    removeEvent( window, "scroll", fetchImages );
   }
 
-  // return if this instance already exists
-  if ( instances[id] ) {
-    return instances[id];
-  }
+  function fetchImages() {
+    var img, temp, len, i;
 
-  // or make a new instance
-  self = instances[id] = {
+    // still trying to get the target
+    target = target || document.getElementById( id );
 
-    // init & reset
-    init: function() {
-      imgs = null;
-      last = 0;
-      addEvent( window, "scroll", self.fetchImages );
-      self.fetchImages();
-      return this;
-    },
+    // if it's the first time
+    // initialize images array
+    if ( !imgs && target ) {
 
-    destroy: function() {
-      removeEvent( window, "scroll", self.fetchImages );
-      delete instances[id];
-    },
+      temp = target.getElementsByTagName( "img" );
 
-    // fetches images, starting at last (index)
-    fetchImages: function() {
+      if ( temp.length ) {
+        imgs = [];
+        len  = temp.length;
+      } else return;
 
-      var img, temp, len, i;
+      // fill the array for sorting
+      for ( i = 0; i < len; i++ ) {
+        img = temp[i];
+        if ( img.nodeType === 1 && img.getAttribute(lazyAttr) ) {
 
-      // still trying to get the target
-      target = target || document.getElementById( id );
-
-      // if it's the first time
-      // initialize images array
-      if ( !imgs && target ) {
-
-        temp = target.getElementsByTagName( "img" );
-
-        if ( temp.length ) {
-          imgs = [];
-          len  = temp.length;
-        } else return;
-
-        // fill the array for sorting
-        for ( i = 0; i < len; i++ ) {
-          img = temp[i];
-          if ( img.nodeType === 1 && img.getAttribute(lazyAttr) ) {
-
-              // store them and cache current
-              // positions for faster sorting
-              img.$$top = getTopPos( img );
-              imgs.push( img );
-          }
+            // store them and cache current
+            // positions for faster sorting
+            img.$$top = getTopPos( img );
+            imgs.push( img );
         }
-        imgs.sort( img_sort );
       }
-
-      // loop through the images
-      while ( imgs[last] ) {
-
-        img = imgs[last];
-
-        // delete cached position
-        if ( img.$$top ) img.$$top = null;
-
-        // check if the img is above the fold
-        if ( getTopPos( img ) < winH + offset )  {
-
-          // then change the src
-          img.src = img.getAttribute(lazyAttr);
-          last++;
-        }
-        else return;
-      }
-
-      // we've fetched the last image -> finished
-      if ( last && last === imgs.length )  {
-        self.destroy();
-      }
+      imgs.sort( img_sort );
     }
-  };
 
-  return self.init();
-};
+    // loop through the images
+    while ( imgs[last] ) {
+
+      img = imgs[last];
+
+      // delete cached position
+      if ( img.$$top ) img.$$top = null;
+
+      // check if the img is above the fold
+      if ( getTopPos( img ) < winH + offset )  {
+
+        // then change the src
+        img.src = img.getAttribute(lazyAttr);
+        last++;
+      }
+      else return;
+    }
+
+    // we've fetched the last image -> finished
+    if ( last && last === imgs.length )  {
+      self.destroy();
+    }
+  }
+}
 
 // initialize
 getWindowHeight();
-addEvent( window, "load",   LazyImg().fetchImages );
-addEvent( window, "resize", getWindowHeight       );
+addEvent( window, "resize", getWindowHeight);
 LazyImg();
-
-window.LazyImg = LazyImg;
 
 }(this, document)
