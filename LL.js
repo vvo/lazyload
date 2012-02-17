@@ -10,7 +10,7 @@
 //  (c) 2010 Balázs Galambosi
 //
 
-!function(window, document){
+(function(window, document){
 
 // glocal variables
 var lazyAttr = "data-src",
@@ -53,13 +53,12 @@ function img_sort( a, b ) {
   return getTopPos( a ) - getTopPos( b );
 }
 
-function LazyImg ( target, offset) {
+function LazyImg () {
 
   var imgs = null,    // images array (ordered)
       last = 0,    // last visible image (index)
-      target = document;
-
-  offset = offset || 200; // for prefetching
+      target = document,
+      offset = 200 // prefetching vertical offset
 
   // search for images 50ms after adding this script,
   // TODO : add a special case and args to know that it was triggered by
@@ -129,4 +128,4 @@ getWindowHeight();
 addEvent( window, "resize", getWindowHeight);
 LazyImg();
 
-}(this, document)
+})(this, document)
