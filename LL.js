@@ -58,7 +58,7 @@ function LazyImg () {
   var imgs = null,    // images array (ordered)
       last = 0,    // last visible image (index)
       target = document,
-      offset = 200 // prefetching vertical offset
+      offset = 200; // prefetching vertical offset
 
   // search for images 50ms after adding this script,
   // TODO : add a special case and args to know that it was triggered by
