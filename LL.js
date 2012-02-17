@@ -134,7 +134,10 @@ function LazyImg () {
 
   var fetchImages = throttle(fetchImages, 30);
   setTimeout(fetchImages, 30);
-  addEvent( window, "scroll", fetchImages );
+  setTimeout(fetchImages, 1000);
+  setTimeout(fetchImages, 2000);
+  addEvent( window, 'scroll', fetchImages );
+  addEvent( window, 'error', fetchImages );
 }
 
 // initialize
