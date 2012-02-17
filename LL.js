@@ -18,14 +18,20 @@ var lazyAttr = "data-src",
 
 // cross browser event handling
 function addEvent( el, type, fn ) {
-  el.attachEvent && el.attachEvent( "on" + type, fn )
-    || el.addEventListener( type, fn, false );
+  if (el.attachEvent) {
+    el.attachEvent && el.attachEvent( "on" + type, fn );
+  } else {
+    el.addEventListener( type, fn, false );
+  }
 }
 
 // cross browser event handling
 function removeEvent( el, type, fn ) {
-  el.detachEvent && el.detachEvent( "on" + type, fn )
-    || el.removeEventListener( type, fn, false );
+  if (el.detachEvent) {
+    el.detachEvent && el.detachEvent( "on" + type, fn );
+  } else {
+    el.removeEventListener( type, fn, false );
+  }
 }
 
 // cross browser window height
