@@ -64,7 +64,7 @@ function LazyImg ( target, offset) {
   // search for images 50ms after adding this script,
   // TODO : add a special case and args to know that it was triggered by
   // setTimeout, if there's no images then try again later
-  setTimeout(fetchImages, 50);
+  setTimeout(fetchImages, 20);
   addEvent( window, "scroll", fetchImages );
 
   function destroy() {
