@@ -16,6 +16,20 @@
 var lazyAttr = "data-src",
     winH;
 
+function throttle(fn, minDelay) {
+  var lastCall = 0;
+  return function() {
+    var now = +new Date;
+    if (now - lastCall < minDelay) {
+      return;
+    }
+    lastCall = now;
+    // we do not return anything as
+    // https://github.com/documentcloud/underscore/issues/387
+    fn.apply(this, arguments);
+  }
+}
+
 // cross browser event handling
 function addEvent( el, type, fn ) {
   if (el.attachEvent) {
@@ -44,6 +58,8 @@ function getWindowHeight() {
   return winH;
 }
 
+var getWindowHeight = throttle(getWindowHeight, 30);
+
 function getTopPos( el ) {
   return el.$$top || el.getBoundingClientRect().top;
 }
@@ -59,12 +75,6 @@ function LazyImg () {
       last = 0,    // last visible image (index)
       target = document,
       offset = 200; // prefetching vertical offset
-
-  // search for images 50ms after adding this script,
-  // TODO : add a special case and args to know that it was triggered by
-  // setTimeout, if there's no images then try again later
-  setTimeout(fetchImages, 20);
-  addEvent( window, "scroll", fetchImages );
 
   function destroy() {
     removeEvent( window, "scroll", fetchImages );
@@ -121,6 +131,10 @@ function LazyImg () {
       destroy();
     }
   }
+
+  var fetchImages = throttle(fetchImages, 30);
+  setTimeout(fetchImages, 30);
+  addEvent( window, "scroll", fetchImages );
 }
 
 // initialize
