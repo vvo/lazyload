@@ -51,8 +51,8 @@ function removeEvent( el, type, fn ) {
 // cross browser window height
 function getWindowHeight() {
   winH = window.innerHeight ||
-    document.documentElement.clientHeight ||
-    document.body.clientHeight ||
+    (document.documentElement && document.documentElement.clientHeight) ||
+    (document.body && document.body.clientHeight) ||
     10000;
 
   return winH;
