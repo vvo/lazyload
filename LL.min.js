@@ -11,7 +11,6 @@
 //
 
 (function(window, document){
-
 // glocal variables
 var lazyAttr = "data-src",
     winH;
@@ -57,7 +56,6 @@ function getWindowHeight() {
 
   return winH;
 }
-
 var getWindowHeight = throttle(getWindowHeight, 30);
 
 function getTopPos( el ) {
@@ -78,6 +76,8 @@ function LazyImg () {
 
   function destroy() {
     removeEvent( window, "scroll", fetchImages );
+    removeEvent( window, "error", fetchImages );
+    removeEvent( window, "resize", getWindowHeight );
   }
 
   function fetchImages() {
@@ -97,12 +97,13 @@ function LazyImg () {
       // fill the array for sorting
       for ( i = 0; i < len; i++ ) {
         img = temp[i];
-        if ( img.nodeType === 1 && img.getAttribute(lazyAttr) ) {
-
-            // store them and cache current
-            // positions for faster sorting
-            img.$$top = getTopPos( img );
-            imgs.push( img );
+        if ( img.nodeType === 1
+            && img.getAttribute('src') === null
+            && img.getAttribute(lazyAttr) ) {
+          // store them and cache current
+          // positions for faster sorting
+          img.$$top = getTopPos( img );
+          imgs.push( img );
         }
       }
       imgs.sort( img_sort );
@@ -132,17 +133,20 @@ function LazyImg () {
     }
   }
 
-  var fetchImages = throttle(fetchImages, 30);
-  setTimeout(fetchImages, 30);
-  setTimeout(fetchImages, 1000);
-  setTimeout(fetchImages, 2000);
+  var fetchImages = throttle(fetchImages, 15);
+
+  destroy();
+
+  addEvent( window, "resize", getWindowHeight);
   addEvent( window, 'scroll', fetchImages );
   addEvent( window, 'error', fetchImages );
+
+  getWindowHeight();
+  setTimeout(fetchImages, 15);
 }
 
 // initialize
-getWindowHeight();
-addEvent( window, "resize", getWindowHeight);
+addEvent( window, "load", LazyImg);
 LazyImg();
 
 })(this, document)
