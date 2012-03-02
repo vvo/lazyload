@@ -1,5 +1,7 @@
 (function(window, document){
 
+  window.fstrz = true;
+
   function throttle(fn, minDelay) {
     var lastCall = 0;
     return function() {
