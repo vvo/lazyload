@@ -1,7 +1,5 @@
 (function(window, document){
 
-  window.fstrz = true;
-
   function throttle(fn, minDelay) {
     var lastCall = 0;
     return function() {
@@ -37,36 +35,76 @@
   // glocal variables
   var
     lazyAttr = 'data-src',
-    offset = 200,
     winH,
+    pageHasLoaded,
 
     // cross browser window height
-    getWindowHeight = throttle(function getWindowHeight() {
+    getWindowHeightThrottle = throttle(function getWindowHeight() {
       winH = window.innerHeight ||
         (document.documentElement && document.documentElement.clientHeight) ||
         (document.body && document.body.clientHeight) ||
         10000;
-    }, 30),
+    }, 77),
 
-    checkImages = throttle(function checkImages() {
-      var imgs = document.getElementsByTagName('img'),
+    checkImagesThrottle = throttle(function checkImages() {
+      var
+        imgs = document.getElementsByTagName('img'),
         last = imgs.length,
-        current;
+        current,
+        allImagesDone = true;
 
       for (current = 0; current < last; current++) {
-        showIfVisible(imgs[current]);
+        // if showIfVisible is false, it means we have some waiting images to be
+        // shown
+        if(showIfVisible(imgs[current]) === false) {
+          allImagesDone = false;
+        }
       }
-    }, 30);
+
+      if (allImagesDone && pageHasLoaded) {
+        unsubscribe();
+      }
+    }, 77);
 
   function showIfVisible(el) {
-    if (el.getAttribute(lazyAttr) !== null && el.getBoundingClientRect().top < winH + offset) {
+    if (el.getAttribute(lazyAttr) === null) {
+      // img already shown
+      return true;
+    }
+
+    // 200 is the vertical offset used for preloading soon to be visible images
+    if (el.getBoundingClientRect().top < winH + 200) {
       el.src = el.getAttribute(lazyAttr);
       el.removeAttribute(lazyAttr);
+      // img shown
+      return true;
+    } else {
+      // img to be shown
+      return false;
     }
   }
 
-  getWindowHeight();
-  addEvent(window, 'resize', getWindowHeight);
-  addEvent(window, 'scroll', checkImages);
+  function unsubscribe() {
+    removeEvent(window, 'resize', getWindowHeightThrottle);
+    removeEvent(window, 'scroll', checkImagesThrottle);
+  }
+
+  getWindowHeightThrottle();
+  addEvent(window, 'resize', getWindowHeightThrottle);
+  addEvent(window, 'scroll', checkImagesThrottle);
+  addEvent(window, 'load', function() {
+    pageHasLoaded = true;
+  });
+
+  // Indicates that the page is optimized
+  window['fstrz'] = true;
+
+  // Import any fzns object
+  window['fzns'] = window['fzns'] || {};
+
+  // Export and creates LL.show() to be used by <img onload=/>
+  window['fzns']['LL'] = {
+    's': showIfVisible
+  };
 
 })(this, document)
