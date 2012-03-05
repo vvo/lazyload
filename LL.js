@@ -32,6 +32,25 @@
     }
   }
 
+  function showIfVisible(img, index) {
+    // 200 is the vertical offset used for preloading soon to be visible images
+    if (img.getBoundingClientRect().top < winH + 200) {
+      img.src = img.getAttribute(lazyAttr);
+      img.removeAttribute(lazyAttr);
+      imgs.splice(index, 1);
+      // img shown
+      return true;
+    } else {
+      // img to be shown
+      return false;
+    }
+  }
+
+  function unsubscribe() {
+    removeEvent(window, 'resize', getWindowHeightThrottle);
+    removeEvent(window, 'scroll', checkImagesThrottle);
+  }
+
   var
     lazyAttr = 'data-src',
     winH,
@@ -64,37 +83,18 @@
       if (allImagesDone && pageHasLoaded) {
         unsubscribe();
       }
-    }, 5);
-
-  function showIfVisible(img, index) {
-    // 200 is the vertical offset used for preloading soon to be visible images
-    if (img.getBoundingClientRect().top < winH + 200) {
-      img.src = img.getAttribute(lazyAttr);
-      img.removeAttribute(lazyAttr);
-      imgs.splice(index, 1);
-      // img shown
-      return true;
-    } else {
-      // img to be shown
-      return false;
-    }
-  }
-
-  function unsubscribe() {
-    removeEvent(window, 'resize', getWindowHeightThrottle);
-    removeEvent(window, 'scroll', checkImagesThrottle);
-  }
+    }, 20);
 
   // Indicates that the page is optimized
   window['fstrz'] = true;
   // Import any fzns object (Fasterize Name Space)
-  window['fzns'] = window['fzns'] || {};
-  // Export and creates LL.s() to be used by <img onload=/>
-  window['fzns']['LL'] = {
-    's': function(el) {
-      // To avoid onload being called and called and called ...
-      el.onload = null;
-      showIfVisible(el, imgs.push(el) - 1);
+  window['fzns'] = window['fzns'] || {
+    'LL' : {
+      's' : function(el) {
+        // To avoid onload being called and called and called ...
+        el.onload = null;
+        showIfVisible(el, imgs.push(el) - 1);
+      }
     }
   };
 
