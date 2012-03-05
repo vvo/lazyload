@@ -37,12 +37,12 @@
     if (img.getBoundingClientRect().top < winH + 200) {
       img.src = img.getAttribute(lazyAttr);
       img.removeAttribute(lazyAttr);
-      imgs.splice(index, 1);
-      // img shown
-      return true;
+      // we do not use splice() as we could be in the checkImages's for loop
+      imgs[index] = null;
+
+      return true; // img shown
     } else {
-      // img to be shown
-      return false;
+      return false; // img to be shown
     }
   }
 
@@ -75,7 +75,7 @@
         var img = imgs[current];
         // if showIfVisible is false, it means we have some waiting images to be
         // shown
-        if(img !== undefined && showIfVisible(img, current) === false) {
+        if(img !== null && showIfVisible(img, current) === false) {
           allImagesDone = false;
         }
       }
