@@ -11,6 +11,7 @@ show images at page load.
 1. Add lazyload.min.js to your page in the <head> section, either src or inline if
 you do not have any other scripts in the <head>
 2. Change all <img> tags to this :
+
 ```html
   <img
   data-src="real/image/src.jpg"
