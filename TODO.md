@@ -13,3 +13,4 @@ function elementInViewport(el) {
 }
 ```
 - Add automated tests using casperjs
+- Check for resize event
