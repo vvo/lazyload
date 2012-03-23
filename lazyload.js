@@ -111,8 +111,6 @@
     }
   }
 
-  // TODO : handle the case where we unsubscribed but a new image got inserted, like
-  // a waiting invisible javascript dom string
   function unsubscribe() {
     removeEvent(window, 'resize', getWindowHeightT);
     removeEvent(window, 'scroll', showImagesT);
