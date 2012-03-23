@@ -1,10 +1,10 @@
 {
-  "name": "LL",
-  "description": "Lazy load my friend",
+  "name": "lazyload",
+  "description": "Image lazy loading",
   "version": "0.5.2",
   "repository": {
     "type": "git",
-    "url": "http://github.com/fasterize/LL.git"
+    "url": "http://github.com/fasterize/lazyload.git"
   },
   "private": true
 }

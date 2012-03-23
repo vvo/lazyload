@@ -1,0 +1,13 @@
+Standalone javascript image lazy loader
+
+
+TODO:
+function elementInViewport(el) {
+    var rect = el.getBoundingClientRect()
+    return (
+        rect.top + rect.height >= 0 &&
+        rect.left + rect.width >= 0 &&
+        rect.bottom - rect.height <= window.innerHeight &&
+        rect.right - rect.width <= window.innerWidth
+        )
+}

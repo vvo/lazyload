@@ -1,1 +1,1 @@
-module.exports = require('fs').readFileSync(__dirname + '/LL.min.js', 'utf8');
+module.exports = require('fs').readFileSync(__dirname + '/lazyload.min.js', 'utf8');
