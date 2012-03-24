@@ -41,7 +41,7 @@ If you need IE6 & 7, use the b.gif image instead of the base64 src.
 
 We built our lazyloader with efficiency and speed in mind.
 
-We do not call documents.getElementsByTagName (not at start, not in a loop). Each image register itself to the
+We do not call `documents.getElementsByTagName` (not at start, not in a loop). Each image register itself to the
 lazy loader. This was a great idea taken from mod_pagespeed.
 
 Scroll and resize events are throttled so that we do not run too often.
