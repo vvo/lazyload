@@ -1,4 +1,4 @@
-# Standalone, fast & cross browser JavaScript image lazy loader
+# lazyload
 
 This image lazy loader is designed to help you save http requests on images.
 
