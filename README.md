@@ -1,6 +1,6 @@
-# Standalone, fast & cross browser JavaScript image lazy loader
+# lazyload
 
-This image lazy loader is designed to help you save http requests on images.
+This image lazyloader is designed to help you save http requests on images.
 
 Most of the time, when you have 100 images on a page, your user doesn't need them all.
 
@@ -23,13 +23,13 @@ Change all `<img>` tags to lazyload :
 
 ## More infos
 
-### Why another lazy load plugin
+### Why another lazyload plugin
 
-We could not find any standalone lazy loader but [the one on stackoverflow](http://stackoverflow.com/questions/3228521/stand-alone-lazy-loading-images-no-framework-based).
+We could not find any standalone lazyloader but [the one on stackoverflow](http://stackoverflow.com/questions/3228521/stand-alone-lazy-loading-images-no-framework-based).
 
-We first used this one, then we re-wrote it entirely with ideas from [mod_pagespeed lazy loader](http://www.modpagespeed.com/lazyload_images.html?ModPagespeed=on&ModPagespeedFilters=lazyload_images).
+We first used this one, then we re-wrote it entirely with ideas from [mod_pagespeed lazyloader](http://www.modpagespeed.com/lazyload_images.html?ModPagespeed=on&ModPagespeedFilters=lazyload_images).
 
-mod_pagespeed lazy loader fails on IE because it triggers an infinite onload loop. We solved that.
+mod_pagespeed lazyloader fails on IE because it triggers an infinite onload loop. We solved that.
 
 ### Browser support
 
@@ -42,7 +42,7 @@ If you need IE6 & 7, use the b.gif image instead of the base64 src.
 We built our lazyloader with efficiency and speed in mind.
 
 We do not call `documents.getElementsByTagName` (not at start, not in a loop). Each image register itself to the
-lazy loader. This was a great idea taken from mod_pagespeed.
+lazyloader. This was a great idea taken from mod_pagespeed.
 
 Scroll and resize events are throttled so that we do not run too often.
 
@@ -58,7 +58,7 @@ Do not worry about the size overhead of adding a lot of base 64 src images to yo
 
 ## Contact
 
-If you want to automatically add lazy load to your website, contact us at http://fasterize.com
+If you want to automatically add lazyload to your website, contact us at http://fasterize.com
 
 ## Licence
 
