@@ -17,7 +17,7 @@ Change all `<img>` tags to lazyload :
 ```html
   <img
     data-src="real/image/src.jpg"
-    src=data:image/gif;base64,R0lGODlhAQABAID/AP///wAAACwAAAAAAQABAAACAkQBADs=
+    src=data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
     onload=lzld(this) />
 ```
 
@@ -51,7 +51,7 @@ Adding to the `<head>` is mandatory otherwise we could not show images as fast a
 I recommend adding the script in inline in the `<head>`. It only weights
 < 500 bytes gzipped.
 
-The base 64 src should be the smallest possible it is from http://www.google-analytics.com/__utm.gif
+The base 64 src should be the smallest possible it is from http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever
 
 Do not worry about the size overhead of adding a lot of base 64 src images to your page :
  GZIP is here to help (http://www.gzip.org/deflate.html).
