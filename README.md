@@ -17,7 +17,7 @@ Change all `<img>` tags to lazyload :
 ```html
   <img
     data-src="real/image/src.jpg"
-    src=data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==5
     onload=lzld(this) />
 ```
 
@@ -49,7 +49,7 @@ Scroll and resize events are throttled so that we do not run too often.
 Adding to the `<head>` is mandatory otherwise we could not show images as fast as we want.
 
 I recommend adding the script in inline in the `<head>`. It only weights
-< 500 bytes gzipped.
+~ 550 bytes gzipped.
 
 The base 64 src should be the smallest possible it is from http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever
 
