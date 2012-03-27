@@ -49,7 +49,7 @@
   addEvent(window, 'resize', getWindowHeightT);
   addEvent(window, 'scroll', showImagesT);
   addEvent(document, 'DOMContentLoaded', onDomReady);
-  addEvent(window, 'load', onPageLoad);
+  addEvent(window, 'load', onLoad);
 
   function onFakeImgLoad(img) {
     // To avoid onload being called and called and called ...
