@@ -38,26 +38,41 @@
     pageHasLoaded,
 
     // throttled functions, so that we do not call them too much
-    getWindowHeightT = throttle(getWindowHeight, 50),
+    getWindowHeightT = throttle(getWindowHeight, 20),
     showImagesT = throttle(showImages, 20);
 
   // Called from every lazy <img> onload event
-  window['lzld'] = onload;
+  window['lzld'] = onFakeImgLoad;
 
   // Bind events
   getWindowHeight();
   addEvent(window, 'resize', getWindowHeightT);
   addEvent(window, 'scroll', showImagesT);
-  addEvent(window, 'load', function() {
-    pageHasLoaded = true;
-  });
+  addEvent(document, 'DOMContentLoaded', onDomReady);
+  addEvent(window, 'load', onPageLoad);
 
-  function onload(img) {
+  function onFakeImgLoad(img) {
     // To avoid onload being called and called and called ...
     // This is what prevents pagespeed's lazyload to work on IE!
     img.onload = null;
 
     showIfVisible(img, imgs.push(img) - 1);
+  }
+
+  function onDomReady() {
+    showImagesT();
+    setTimeout(showImagesT, 20);
+  }
+
+  function onLoad() {
+    pageHasLoaded = true;
+    // if page height changes (hiding elements at start)
+    // we should recheck for new in viewport images that need to be shown
+    // see onload test
+    showImagesT();
+    // we are the first to be notified about onload, so let others event handlers
+    // pass and then try again
+    setTimeout(showImagesT, 20);
   }
 
   function throttle(fn, minDelay) {
@@ -115,6 +130,7 @@
 
   // Loop through images array to find to-be-shown images
   function showImages() {
+    debugger;
     var
       last = imgs.length,
       current,
@@ -137,6 +153,8 @@
   function unsubscribe() {
     removeEvent(window, 'resize', getWindowHeightT);
     removeEvent(window, 'scroll', showImagesT);
+    removeEvent(window, 'load', onLoad);
+    removeEvent(document, 'DOMContentLoaded', onDomReady);
   }
 
 })(this, document)
