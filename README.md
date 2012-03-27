@@ -17,7 +17,7 @@ Change all `<img>` tags to lazyload :
 ```html
   <img
     data-src="real/image/src.jpg"
-    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==5
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
     onload=lzld(this) />
 ```
 
