@@ -130,7 +130,6 @@
 
   // Loop through images array to find to-be-shown images
   function showImages() {
-    debugger;
     var
       last = imgs.length,
       current,
