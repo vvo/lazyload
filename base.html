@@ -1,16 +1,14 @@
 <!doctype html>
 <html>
   <head>
-    <title>lazyload - 03/30/2012</title>
+    <title>base - 03/30/2012</title>
 
     <link rel=stylesheet href=./demo.css type=text/css />
-    <script>(function(d,f){function j(){g();setTimeout(g,20)}function k(){l=!0;g();setTimeout(g,20)}function m(a){var b=0;return function(){var c=+new Date;20>c-b||(b=c,a.apply(this,arguments))}}function e(a,b,c){a.attachEvent?a.attachEvent&&a.attachEvent("on"+b,c):a.addEventListener(b,c,!1)}function h(a,b,c){a.detachEvent?a.detachEvent&&a.detachEvent("on"+b,c):a.removeEventListener(b,c,!1)}function n(a,b){return a.getBoundingClientRect().top<o+s?(a.src=a.getAttribute(p),a.removeAttribute(p),i[b]=null,!0):!1}
-    function q(){o=d.innerHeight||f.documentElement&&f.documentElement.clientHeight||f.body&&f.body.clientHeight||1E4}var s=200,p="data-src",o,i=[],l,r=m(q),g=m(function(){var a=i.length,b,c=!0;for(b=0;b<a;b++){var e=i[b];null!==e&&!n(e,b)&&(c=!1)}c&&l&&(h(d,"resize",r),h(d,"scroll",g),h(d,"load",k),h(f,"DOMContentLoaded",j))});d.lzld=function(a){a.onload=null;n(a,i.push(a)-1)};q();e(d,"resize",r);e(d,"scroll",g);e(f,"DOMContentLoaded",j);e(d,"load",k)})(this,document)</script>
   </head>
 
   <body>
 
-    <h1><a href=https://github.com/fasterize/lazyload>reference url</a></h1>
+    <h1><a href=./base.html>reference url</a></h1>
 
     <img src=./imgs/1.jpg width=45 height=45 />
     <img src=./imgs/2.jpg width=45 height=45 />
