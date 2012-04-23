@@ -15,4 +15,5 @@ function elementInViewport(el) {
 - Add automated tests using casperjs
 - Check for resize event
 - Add IE6/IE7 support ? + Test
+- Add "used by" section in README
 - Provide fallback for users w/o JS ?
