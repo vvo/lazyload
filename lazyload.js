@@ -110,7 +110,11 @@
   // img = dom element
   // index = imgs array index
   function showIfVisible(img, index) {
-    if (img.getBoundingClientRect().top < winH + offset) {
+    // We have to check that the current node is in the DOM
+    // It could be a detached() dom node
+    // http://bugs.jquery.com/ticket/4996
+    if (contains(document.documentElement, img)
+      && img.getBoundingClientRect().top < winH + offset) {
       img.src = img.getAttribute(lazyAttr);
       img.removeAttribute(lazyAttr);
       imgs[index] = null;
@@ -164,6 +168,12 @@
     removeEvent(window, 'scroll', showImagesT);
     removeEvent(window, 'load', onLoad);
     removeEvent(document, 'DOMContentLoaded', onDomReady);
+  }
+
+  function contains(a, b){
+    return a.contains ?
+      a != b && a.contains(b) :
+      !!(a.compareDocumentPosition(b) & 16);
   }
 
 })(this, document)
