@@ -27,32 +27,30 @@
 (function(window, document){
 
   var
-    docElem = document.documentElement || document.body,
     // Vertical offset in px. Used for preloading images while scrolling
     offset = 200,
     //where to get real src
     lazyAttr = 'data-src',
     // Window height
-    winH,
+    winH = viewport(),
     // Self-populated page images array, we do not getElementsByTagName
     imgs = [],
     pageHasLoaded,
 
     // throttled functions, so that we do not call them too much
-    saveWindowHeightT = throttle(saveWindowHeight, 20),
+    saveViewportT = throttle(viewport, 20),
     showImagesT = throttle(showImages, 20);
 
   // Called from every lazy <img> onload event
-  window['lzld'] = onFakeImgLoad;
+  window['lzld'] = onDataSrcImgLoad;
 
   // Bind events
-  saveWindowHeight();
-  addEvent(window, 'resize', saveWindowHeightT);
+  addEvent(window, 'resize', saveViewportT);
   addEvent(window, 'scroll', showImagesT);
   addEvent(document, 'DOMContentLoaded', onDomReady);
   addEvent(window, 'load', onLoad);
 
-  function onFakeImgLoad(img) {
+  function onDataSrcImgLoad(img) {
     // To avoid onload being called and called and called ...
     // This is what prevents pagespeed's lazyload to work on IE!
     img.onload = null;
@@ -62,7 +60,7 @@
 
   function onDomReady() {
     showImagesT();
-    setTimeout(showImagesT, 20);
+    setTimeout(showImagesT, 25);
   }
 
   function onLoad() {
@@ -71,9 +69,10 @@
     // we should recheck for new in viewport images that need to be shown
     // see onload test
     showImagesT();
-    // we are the first to be notified about onload, so let others event handlers
+    // we could be the first to be notified about onload, so let others event handlers
     // pass and then try again
-    setTimeout(showImagesT, 20);
+    // because they could change things on images
+    setTimeout(showImagesT, 25);
   }
 
   function throttle(fn, minDelay) {
@@ -90,7 +89,7 @@
     }
   }
 
-  // cross browser event add
+  // X-browser
   function addEvent( el, type, fn ) {
     if (el.attachEvent) {
       el.attachEvent && el.attachEvent( 'on' + type, fn );
@@ -99,7 +98,7 @@
     }
   }
 
-  // cross browser event remove
+  // X-browser
   function removeEvent( el, type, fn ) {
     if (el.detachEvent) {
       el.detachEvent && el.detachEvent( 'on' + type, fn );
@@ -121,10 +120,21 @@
     }
   }
 
-  // cross browser window height
-  function saveWindowHeight() {
-    // if window height 0 then we will load all images
-    return winH = window.innerHeight || docElem.clientHeight || 10000;
+  // cross browser viewport calculation
+  function viewport() {
+    if (document.documentElement.clientHeight >= 0) {
+      return document.documentElement.clientHeight;
+    } else if (document.body && document.body.clientHeight >= 0) {
+      return document.body.clientHeight
+    } else if (window.innerHeight >= 0) {
+      return window.innerHeight;
+    } else {
+      return 0;
+    }
+  }
+
+  function saveViewport() {
+    winH = viewport();
   }
 
   // Loop through images array to find to-be-shown images
@@ -150,7 +160,7 @@
 
   // remove all event listeners
   function unsubscribe() {
-    removeEvent(window, 'resize', saveWindowHeightT);
+    removeEvent(window, 'resize', saveViewportT);
     removeEvent(window, 'scroll', showImagesT);
     removeEvent(window, 'load', onLoad);
     removeEvent(document, 'DOMContentLoaded', onDomReady);
