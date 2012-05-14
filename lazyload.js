@@ -27,6 +27,7 @@
 (function(window, document){
 
   var
+    docElem = document.documentElement || document.body,
     // Vertical offset in px. Used for preloading images while scrolling
     offset = 200,
     //where to get real src
@@ -38,15 +39,15 @@
     pageHasLoaded,
 
     // throttled functions, so that we do not call them too much
-    getWindowHeightT = throttle(getWindowHeight, 20),
+    saveWindowHeightT = throttle(saveWindowHeight, 20),
     showImagesT = throttle(showImages, 20);
 
   // Called from every lazy <img> onload event
   window['lzld'] = onFakeImgLoad;
 
   // Bind events
-  getWindowHeight();
-  addEvent(window, 'resize', getWindowHeightT);
+  saveWindowHeight();
+  addEvent(window, 'resize', saveWindowHeightT);
   addEvent(window, 'scroll', showImagesT);
   addEvent(document, 'DOMContentLoaded', onDomReady);
   addEvent(window, 'load', onLoad);
@@ -121,11 +122,9 @@
   }
 
   // cross browser window height
-  function getWindowHeight() {
-    winH = window.innerHeight ||
-      (document.documentElement && document.documentElement.clientHeight) ||
-      (document.body && document.body.clientHeight) ||
-      10000;
+  function saveWindowHeight() {
+    // if window height 0 then we will load all images
+    return winH = window.innerHeight || docElem.clientHeight || 10000;
   }
 
   // Loop through images array to find to-be-shown images
@@ -149,8 +148,9 @@
     }
   }
 
+  // remove all event listeners
   function unsubscribe() {
-    removeEvent(window, 'resize', getWindowHeightT);
+    removeEvent(window, 'resize', saveWindowHeightT);
     removeEvent(window, 'scroll', showImagesT);
     removeEvent(window, 'load', onLoad);
     removeEvent(document, 'DOMContentLoaded', onDomReady);
