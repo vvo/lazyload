@@ -18,7 +18,7 @@ Change all `<img>` tags to lazyload :
   <img
     data-src="real/image/src.jpg"
     src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-    onload=lzld(this) />
+    onload=lzld(this) onerror=lzld(this) />
 ```
 
 ## More infos
@@ -33,9 +33,14 @@ mod_pagespeed lazyloader fails on IE because it triggers an infinite onload loop
 
 ### Browser support
 
-IE8+ or modern browser. IE6 & 7 does not support base64 images.
+IE7+ or modern browser.
 
-If you need IE6 & 7, use the b.gif image instead of the base64 src.
+IE7 originally does not support data uri:s images but using the onerror event on to-be-lazyloaded images, we're able to register the current image in the lazyloader.
+The only drawback (IE7) is that you can have red crosses showing that original data uri:s image cannot be loaded. But well, it's IE7 so no big deal.
+
+IE6 untested.
+
+If you really need IE6/7 full support, you can use the provided b.gif image instead of the base64 src.
 
 ### How we do it
 

@@ -55,6 +55,9 @@
     // This is what prevents pagespeed's lazyload to work on IE!
     img.onload = null;
 
+    // on IE < 8 we get an onerror event instead of an onload event
+    img.onerror = null;
+
     showIfVisible(img, imgs.push(img) - 1);
   }
 
