@@ -9,7 +9,7 @@ show images at page load.
 
 ## How to use
 
-Add lazyload.min.js to your page in the `<head>` section, either src or inline if
+Add lazyload.min.js to your page just before the `</head>` section, either src or inline if
 you do not have any other scripts in the `<head>`.
 
 Change all `<img>` tags to lazyload :
@@ -21,28 +21,37 @@ Change all `<img>` tags to lazyload :
     onload=lzld(this) onerror=lzld(this) />
 ```
 
-## More infos
+## Production ready
 
-### Why another lazyload plugin
+So, is it safe to use this piece of software? Don't trust us, trust them:
+
+* [mobile.lemonde.fr](view-source:http://mobile.lemonde.fr/), news, 1st mobile website in France. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
+* [rue89.com](view-source:http://www.rue89.com/), news, 40 millions page views per month. [source](http://www.ojd-internet.com/chiffres-internet/7851-rue89.com)
+* [playtv.fr](view-source:http://playtv.fr/), tv guide, millions of page views per month. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
+
+They all use lazyload for production websites and are happy with it. Customers told us that
+they cut page download size by 2!
+
+There's a lot of other happy customers (smaller).
+
+## Why another lazyload plugin
 
 We could not find any standalone lazyloader but [the one on stackoverflow](http://stackoverflow.com/questions/3228521/stand-alone-lazy-loading-images-no-framework-based).
 
-We first used this one, then we re-wrote it entirely with ideas from [mod_pagespeed lazyloader](http://www.modpagespeed.com/lazyload_images.html?ModPagespeed=on&ModPagespeedFilters=lazyload_images).
+We first used that one, then we re-wrote it entirely with ideas from [mod_pagespeed lazyloader](http://www.modpagespeed.com/lazyload_images.html?ModPagespeed=on&ModPagespeedFilters=lazyload_images).
 
-mod_pagespeed lazyloader fails on IE because it triggers an infinite onload loop. We solved that.
+Also, mod_pagespeed lazyloader fails on IE because it triggers an infinite onload loop. We [solved that](https://github.com/fasterize/lazyload/commit/d1bddf3207f9b873df65d7e46de9eceeabc7690e#L0R96).
 
-### Browser support
+## Browser support
 
-IE7+ or modern browser.
+IE6+ or modern browser.
 
-IE7 originally does not support data uri:s images but using the onerror event on to-be-lazyloaded images, we're able to register the current image in the lazyloader.
-The only drawback (IE7) is that you can have red crosses showing that original data uri:s image cannot be loaded. But well, it's IE7 so no big deal.
+IE6/7 originally does not support data uri:s images but using the onerror event on to-be-lazyloaded images, we're able to register the current image in the lazyloader.
+The only drawback is that you can have red crosses showing that original data uri:s image cannot be loaded. But well, it's old IE so no big deal.
 
-IE6 untested.
+You can have IE6/7 support without the hack, use the `b.gif` image instead of the data uri:s.
 
-If you really need IE6/7 full support, you can use the provided b.gif image instead of the base64 src.
-
-### How we do it
+## How we do it
 
 We built our lazyloader with efficiency and speed in mind.
 
@@ -64,6 +73,11 @@ Do not worry about the size overhead of adding a lot of base 64 src images to yo
 ## Contact
 
 If you want to automatically add lazyload to your website, contact us at http://fasterize.com
+
+## CMS integration
+
+* [Drupa](http://drupal.org/project/lazyload), thanks to https://twitter.com/#!/cirotix
+* your favorite CMS: do it!
 
 ## Licence
 
