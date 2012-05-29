@@ -76,7 +76,7 @@ If you want to automatically add lazyload to your website, contact us at http://
 
 ## CMS integration
 
-* [Drupa](http://drupal.org/project/lazyload), thanks to https://twitter.com/#!/cirotix
+* [Drupal](http://drupal.org/project/lazyload), thanks to https://twitter.com/#!/cirotix
 * your favorite CMS: do it!
 
 ## Licence
