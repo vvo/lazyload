@@ -25,9 +25,9 @@ Change all `<img>` tags to lazyload :
 
 So, is it safe to use this piece of software? Don't trust us, trust them:
 
-* [mobile.lemonde.fr](view-source:http://mobile.lemonde.fr/), news, 1st mobile website in France. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
-* [rue89.com](view-source:http://www.rue89.com/), news, 40 millions page views per month. [source](http://www.ojd-internet.com/chiffres-internet/7851-rue89.com)
-* [playtv.fr](view-source:http://playtv.fr/), tv guide, millions of page views per month. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
+* [mobile.lemonde.fr](http://mobile.lemonde.fr/), news, 1st mobile website in France. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
+* [rue89.com](http://www.rue89.com/), news, 40 millions page views per month. [source](http://www.ojd-internet.com/chiffres-internet/7851-rue89.com)
+* [playtv.fr](http://playtv.fr/), tv guide, millions of page views per month. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
 
 They all use lazyload for production websites and are happy with it. Customers told us that
 they cut page download size by 2!
