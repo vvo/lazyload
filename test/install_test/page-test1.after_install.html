@@ -1,0 +1,27 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="fr-FR">
+<head profile="http://gmpg.org/xfn/11">
+	<title>Page Test</title>
+<script type="text/javascript">(function(d,b){function j(){f();setTimeout(f,25)}function k(){l=!0;f();setTimeout(f,25)}function g(a){var c=0;return function(){var b=+new Date;20>b-c||(c=b,a.apply(this,arguments))}}function e(a,c,b){a.attachEvent?a.attachEvent&&a.attachEvent("on"+c,b):a.addEventListener(c,b,!1)}function h(a,b,d){a.detachEvent?a.detachEvent&&a.detachEvent("on"+b,d):a.removeEventListener(b,d,!1)}function m(a,c){return(b.documentElement.contains?b.documentElement!=a&&b.documentElement.contains(a):b.documentElement.compareDocumentPosition(a)&
+16)&&a.getBoundingClientRect().top<q+r?(a.src=a.getAttribute(n),a.removeAttribute(n),i[c]=null,!0):!1}function o(){return 0<=b.documentElement.clientHeight?b.documentElement.clientHeight:b.body&&0<=b.body.clientHeight?b.body.clientHeight:0<=d.innerHeight?d.innerHeight:0}var r=200,n="data-src",q=o(),i=[],l,p=g(o),f=g(function(){var a=i.length,c,e=!0;for(c=0;c<a;c++){var g=i[c];null!==g&&!m(g,c)&&(e=!1)}e&&l&&(h(d,"resize",p),h(d,"scroll",f),h(d,"load",k),h(b,"DOMContentLoaded",j))});d.lzld=function(a){a.onload=
+null;a.onerror=null;m(a,i.push(a)-1)};e(d,"resize",p);e(d,"scroll",f);e(b,"DOMContentLoaded",j);e(d,"load",k)})(this,document);</script></head>
+<body>
+	<img
+      data-src="test/com" class="foo" alt="boo"
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    onload=lzld(this) onerror=lzld(this)  />
+	<img
+      data-src="test/com" class="foo1" alt="boo2"
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    onload=lzld(this) onerror=lzld(this)  /> 
+	<img
+      data-src=""
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    onload=lzld(this) onerror=lzld(this)  />
+	<img
+      data-src="test/com" class="foo1" alt="boo2"
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    onload=lzld(this) onerror=lzld(this)  />
+	<img data-test="1"></img>
+</body>
+</html>

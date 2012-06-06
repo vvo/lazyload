@@ -21,6 +21,15 @@ Change all `<img>` tags to lazyload :
     onload=lzld(this) onerror=lzld(this) />
 ```
 
+You can use the script install.sh to apply the lazyloader in all the html files of a folder.
+The script will inline the lazyloader code and replace all the <img> by the new format.
+
+Note: the script will do a back-up of all the html files with the extension .bak.
+
+```sh
+./install.sh test/install_test/*.html
+```
+
 ## Production ready
 
 So, is it safe to use this piece of software? Don't trust us, trust them:
