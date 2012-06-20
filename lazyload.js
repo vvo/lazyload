@@ -47,7 +47,7 @@
   // Bind events
   addEvent(window, 'resize', saveViewportT);
   addEvent(window, 'scroll', showImagesT);
-  addEvent(document, 'DOMContentLoaded', onDomReady);
+  domready(findImages);
   addEvent(window, 'load', onLoad);
 
   function onDataSrcImgLoad(img) {
@@ -63,8 +63,7 @@
     }
   }
 
-  function onDomReady() {
-    // find images
+  function findImages() {
     var
       domreadyImgs = document.getElementsByTagName('img'),
       currentImg;
@@ -123,6 +122,43 @@
     } else {
       el.removeEventListener( type, fn, false );
     }
+  }
+
+  // custom domready function
+  // ripped from https://github.com/dperini/ContentLoaded/blob/master/src/contentloaded.js
+  // http://javascript.nwbox.com/ContentLoaded/
+  // http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE
+  // kept the inner logic, merged with our helpers/variables
+  function domready(callback) {
+    var
+      done = false,
+      top = true;
+
+    function init(e) {
+      if (e.type === 'readystatechange' && document.readyState !== 'complete') return;
+      removeEvent((e.type === 'load' ? window : document), e.type, init);
+      if (!done) {
+        done = true;
+        callback();
+      }
+    }
+
+    function poll() {
+      try { document.documentElement.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+      init('poll');
+    }
+
+    if (document.readyState === 'complete') callback();
+    else {
+      if (document.createEventObject && document.documentElement.doScroll) {
+        try { top = !window.frameElement; } catch(e) { }
+        if (top) poll();
+      }
+      addEvent(document, 'DOMContentLoaded', init);
+      addEvent(document, 'readystatechange', init);
+      addEvent(window, 'load', init);
+    }
+
   }
 
   // img = dom element
@@ -185,9 +221,9 @@
     removeEvent(window, 'resize', saveViewportT);
     removeEvent(window, 'scroll', showImagesT);
     removeEvent(window, 'load', onLoad);
-    removeEvent(document, 'DOMContentLoaded', onDomReady);
   }
 
+  // http://ejohn.org/blog/comparing-document-position/
   function contains(a, b){
     return a.contains ?
       a != b && a.contains(b) :
