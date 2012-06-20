@@ -6,22 +6,19 @@ Most of the time, when you have 100 images on a page, your user doesn't need the
 
 This lazyloader will only load what is necessary.
 
-It's a standalone script that weights 919b gzipped.
+It's a standalone script that weights 919 bytes gzipped.
 
 ## How to use
 
 1. Add lazyload.min.js to your page before any `<script>` tag, either src or inline if
 you do not have any other scripts in the `<head>`.
-
 2. Change all `<img>` tags to lazyload :
-
 ```html
   <img
     data-src="real/image/src.jpg"
     src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
     onload=lzld(this) onerror=lzld(this) />
 ```
-
 3. Enjoy
 
 ## Production ready? Yes.
