@@ -4,15 +4,16 @@ This image lazyloader is designed to help you save http requests on images.
 
 Most of the time, when you have 100 images on a page, your user doesn't need them all.
 
-It's like http://davidwalsh.name/lazyload-plugin but standalone and faster to
-show images at page load.
+This lazyloader will only load what is necessary.
+
+It's a standalone script that weights 919b gzipped.
 
 ## How to use
 
-Add lazyload.min.js to your page just before the `</head>` section, either src or inline if
+1. Add lazyload.min.js to your page before any `<script>` tag, either src or inline if
 you do not have any other scripts in the `<head>`.
 
-Change all `<img>` tags to lazyload :
+2. Change all `<img>` tags to lazyload :
 
 ```html
   <img
@@ -21,18 +22,18 @@ Change all `<img>` tags to lazyload :
     onload=lzld(this) onerror=lzld(this) />
 ```
 
-## Production ready
+3. Enjoy
 
-So, is it safe to use this piece of software? Don't trust us, trust them:
+## Production ready? Yes.
+
+Is it safe to use this piece of software? Don't trust us, trust them:
 
 * [mobile.lemonde.fr](http://mobile.lemonde.fr/), news, 1st mobile website in France. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
 * [rue89.com](http://www.rue89.com/), news, 40 millions page views per month. [source](http://www.ojd-internet.com/chiffres-internet/7851-rue89.com)
 * [playtv.fr](http://playtv.fr/), tv guide, millions of page views per month. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
 
 They all use lazyload for production websites and are happy with it. Customers told us that
-they cut page download size by 2!
-
-There's a lot of other happy customers (smaller).
+they *cut page download size by 2*!
 
 ## Why another lazyload plugin
 
@@ -40,28 +41,31 @@ We could not find any standalone lazyloader but [the one on stackoverflow](http:
 
 We first used that one, then we re-wrote it entirely with ideas from [mod_pagespeed lazyloader](http://www.modpagespeed.com/lazyload_images.html?ModPagespeed=on&ModPagespeedFilters=lazyload_images).
 
+We're now upgrading our lazyload from time to time to make it more robust.
+
 ## Browser support
 
-IE6+ or modern browser.
+*IE6+ or modern browser.*
 
 IE6/7 originally does not support data uri:s images but using the onerror event on to-be-lazyloaded images, we're able to register the current image in the lazyloader.
 The only drawback is that you can have red crosses showing that original data uri:s image cannot be loaded. But well, it's old IE so no big deal.
 
-You can have IE6/7 support without the hack, use the `b.gif` image instead of the data uri:s.
+You can have IE6/7 support without the hack, use the `b.gif` image instead of the data uri:s and remove `onerror`.
 
-## How we do it
+## How does it works
 
 We built our lazyloader with efficiency and speed in mind.
 
-We do not call `documents.getElementsByTagName` (not at start, not in a loop). Each image register itself to the
-lazyloader. This was a great idea taken from mod_pagespeed.
+Many cases are handled, see test/.
+
+We watch the domready event.
+
+But if it takes too much time to fire, we use the `<img onload=lzld(this)` fallback that will fire before the domready event.
 
 Scroll and resize events are throttled so that we do not run too often.
 
 Adding to the `<head>` is mandatory otherwise we could not show images as fast as we want.
-
-I recommend adding the script in inline in the `<head>`. It only weights
-~ 550 bytes gzipped.
+And we would not be the first script to register to the domready event.
 
 The base 64 src should be the smallest possible it is from http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever
 
