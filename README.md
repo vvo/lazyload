@@ -40,8 +40,6 @@ We could not find any standalone lazyloader but [the one on stackoverflow](http:
 
 We first used that one, then we re-wrote it entirely with ideas from [mod_pagespeed lazyloader](http://www.modpagespeed.com/lazyload_images.html?ModPagespeed=on&ModPagespeedFilters=lazyload_images).
 
-Also, mod_pagespeed lazyloader fails on IE because it triggers an infinite onload loop. We [solved that](https://github.com/fasterize/lazyload/commit/d1bddf3207f9b873df65d7e46de9eceeabc7690e#L0R96).
-
 ## Browser support
 
 IE6+ or modern browser.
