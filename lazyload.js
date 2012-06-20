@@ -51,11 +51,6 @@
   addEvent(window, 'load', onLoad);
 
   function onDataSrcImgLoad(img) {
-    // To avoid onload loop calls
-    img.onload = null;
-    // on IE < 8 we get an onerror event instead of an onload event
-    img.onerror = null;
-
     // if image is not already in the imgs array
     // it can already be in it if domready was fast and img onload slow
     if (inArray(img, imgs) === -1) {
@@ -169,9 +164,18 @@
     // http://bugs.jquery.com/ticket/4996
     if (contains(document.documentElement, img)
       && img.getBoundingClientRect().top < winH + offset) {
+      // To avoid onload loop calls
+      // removeAttribute on IE is not enough to prevent the event to fire
+      img.onload = null;
+      img.removeAttribute('onload');
+      // on IE < 8 we get an onerror event instead of an onload event
+      img.onerror = null;
+      img.removeAttribute('onerror');
+
       img.src = img.getAttribute(lazyAttr);
       img.removeAttribute(lazyAttr);
       imgs[index] = null;
+
       return true; // img shown
     } else {
       return false; // img to be shown
