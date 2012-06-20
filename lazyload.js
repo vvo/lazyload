@@ -51,18 +51,33 @@
   addEvent(window, 'load', onLoad);
 
   function onDataSrcImgLoad(img) {
-    // To avoid onload being called and called and called ...
-    // This is what prevents pagespeed's lazyload to work on IE!
+    // To avoid onload loop calls
     img.onload = null;
-
     // on IE < 8 we get an onerror event instead of an onload event
     img.onerror = null;
 
-    showIfVisible(img, imgs.push(img) - 1);
+    // if image is not already in the imgs array
+    // it can already be in it if domready was fast and img onload slow
+    if (imgs.indexOf(img) === -1) {
+      showIfVisible(img, imgs.push(img) - 1);
+    }
   }
 
   function onDomReady() {
-    showImagesT();
+    // find images
+    var
+      domreadyImgs = document.getElementsByTagName('img'),
+      currentImg;
+
+    // merge them with already self onload registered imgs
+    for (var imgIndex = 0, max = domreadyImgs.length; imgIndex < max; imgIndex += 1) {
+      currentImg = domreadyImgs[imgIndex];
+      if (imgs.indexOf(currentImg) === -1) {
+        imgs.push(currentImg);
+      }
+    }
+
+    showImages();
     setTimeout(showImagesT, 25);
   }
 

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test</title>
+  <script src="../lazyload.js"></script>
+  <script src="./jquery-1.7.2.js"></script>
+  <script>$(function() {
+    $('h1').text('Document Ready!');
+
+    $('i').text($('img').attr('src'));
+  });
+  </script>
+  <style>html,body{margin:0;padding:0;background:#00f}</style>
+</head>
+<body>
+<h1>Document Not Ready ...</h1>
+<h2>Found src should be <b>imgs/2.jpg</b></h2>
+
+<p>Found src: <i></i></p>
+
+<img style="border:10px solid #000;display:block" width=200 height=200 data-src="imgs/2.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />a
+
+<p>This test check that when the domready event is really fast, we still manage to show the image and switch data-src/src attributes.</p>
+
+<p>This will still not work for scripts trying to get the src of lazyloaded images below the fold as their src will still be a blank data-uri image.</p>
+
+</body>
+</html>

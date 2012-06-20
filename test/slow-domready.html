@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test</title>
+  <script src="../lazyload.js"></script>
+  <script src="./jquery-1.7.2.js"></script>
+  <script>$(function() {
+    $('h1').text('Document Ready!');
+  });
+  </script>
+  <style>html,body{margin:0;padding:0;background:#00f}</style>
+</head>
+<body>
+<h1>Document Not Ready ...</h1>
+<h2>Image should show before domready</h2>
+
+<img style="border:10px solid #000;display:block" width=200 height=200 data-src="imgs/2.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />a
+
+<p>This test check that even if domready event is very slow, we still manage to show a lazyloaded image before the script.</p>
+
+<script>
+document.write('<scr' + 'ipt type="text/javascript" src="http://1.cuzillion.com/bin/resource.cgi?type=js&sleep=1&jsdelay=1&n=1&t=1340197119"></scr' + 'ipt>');
+</script>
+
+</body>
+</html>
