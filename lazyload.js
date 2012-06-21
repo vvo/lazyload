@@ -36,6 +36,7 @@
     // Self-populated page images array, we do not getElementsByTagName
     imgs = [],
     pageHasLoaded,
+    isFF = navigator && navigator.userAgent && /Firefox/.test(navigator.userAgent),
 
     // throttled functions, so that we do not call them too much
     saveViewportT = throttle(viewport, 20),
@@ -47,7 +48,9 @@
   // Bind events
   addEvent(window, 'resize', saveViewportT);
   addEvent(window, 'scroll', showImagesT);
-  domready(findImages);
+  if(!isFF) {
+    domready(findImages);
+  }
   addEvent(window, 'load', onLoad);
 
   function onDataSrcImgLoad(img) {
