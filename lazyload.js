@@ -25,6 +25,9 @@
 */
 
 (function(window, document){
+  // Prevent double lazyload script on same page
+  // We NEED to use string as closure compiler would otherwise compile this statement badly
+  if (window['lzld']) return;
 
   var
     // Vertical offset in px. Used for preloading images while scrolling
@@ -36,7 +39,6 @@
     // Self-populated page images array, we do not getElementsByTagName
     imgs = [],
     pageHasLoaded,
-    isFF = navigator && navigator.userAgent && /Firefox/.test(navigator.userAgent),
 
     // throttled functions, so that we do not call them too much
     saveViewportT = throttle(viewport, 20),
@@ -48,9 +50,7 @@
   // Bind events
   addEvent(window, 'resize', saveViewportT);
   addEvent(window, 'scroll', showImagesT);
-  if(!isFF) {
-    domready(findImages);
-  }
+  domready(findImages);
   addEvent(window, 'load', onLoad);
 
   function onDataSrcImgLoad(img) {
