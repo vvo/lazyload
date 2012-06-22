@@ -8,6 +8,12 @@ This lazyloader will only load what is necessary.
 
 It's a standalone script that weights ~1KB minified gzipped.
 
+## Using it in your project, website or any application
+
+You should use the `lazyload.min.js` file from this repo. It has a line with [licence](#Licence) information in it that is mandatory.
+
+It helps us to be rewarded for our work and you to always have a link to this project.
+
 ## How to use
 
 1. Add lazyload.min.js to your page before any `<script>` tag, either src or inline if
