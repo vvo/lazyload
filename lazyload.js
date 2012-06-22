@@ -38,7 +38,7 @@
     winH = viewport(),
     // Self-populated page images array, we do not getElementsByTagName
     imgs = [],
-    pageHasLoaded,
+    pageHasLoaded = false,
     unsubscribed = false,
 
     // throttled functions, so that we do not call them too much
@@ -100,7 +100,7 @@
   function throttle(fn, minDelay) {
     var lastCall = 0;
     return function() {
-      var now = +new Date;
+      var now = +new Date();
       if (now - lastCall < minDelay) {
         return;
       }
@@ -273,4 +273,4 @@
     return -1;
   }
 
-})(this, document)
+}(this, document))
