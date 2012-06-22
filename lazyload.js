@@ -239,16 +239,29 @@
     removeEvent(window, 'load', onLoad);
   }
 
-  // http://ejohn.org/blog/comparing-document-position/
-  function contains(a, b){
-    return a.contains ?
-      a != b && a.contains(b) :
-      !!(a.compareDocumentPosition(b) & 16);
   function subscribe() {
     unsubscribed = false;
     addEvent(window, 'resize', saveViewportT);
     addEvent(window, 'scroll', showImagesT);
   }
+
+  // https://github.com/jquery/sizzle/blob/3136f48b90e3edc84cbaaa6f6f7734ef03775a07/sizzle.js#L708
+  var contains = document.documentElement.compareDocumentPosition ?
+    function( a, b ) {
+      return !!(a.compareDocumentPosition( b ) & 16);
+    } :
+    document.documentElement.contains ?
+    function( a, b ) {
+      return a !== b && ( a.contains ? a.contains( b ) : false );
+    } :
+    function( a, b ) {
+      while ( (b = b.parentNode) ) {
+        if ( b === a ) {
+          return true;
+        }
+      }
+      return false;
+    };
 
   // https://github.com/jquery/jquery/blob/f3515b735e4ee00bb686922b2e1565934da845f8/src/core.js#L610
   // We cannot use Array.prototype.indexOf because it's not always available
