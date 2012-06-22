@@ -1,7 +1,7 @@
 {
   "name": "lazyload",
   "description": "Image lazy loading",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "repository": {
     "type": "git",
     "url": "http://github.com/fasterize/lazyload.git"
