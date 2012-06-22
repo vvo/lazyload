@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test</title>
+  <script src="../lazyload.js"></script>
+  <script src="./jquery-1.7.2.js"></script>
+  <style>html,body{background:#00f}</style>
+</head>
+<body>
+
+<h1>This test checks that after-onload ajax inserted images can still be lazyloaded</h1>
+
+<img data-src="imgs/3.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />c
+
+<button id="clickme">click here to load more</button>
+  <script>
+    $('button').click(function() {
+      $('#ajax').load('./ajax/images.html');
+    });
+  </script>
+<div id="ajax"></div>
+</body>
+</html>

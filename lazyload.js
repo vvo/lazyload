@@ -39,6 +39,7 @@
     // Self-populated page images array, we do not getElementsByTagName
     imgs = [],
     pageHasLoaded,
+    unsubscribed = false,
 
     // throttled functions, so that we do not call them too much
     saveViewportT = throttle(viewport, 20),
@@ -47,16 +48,22 @@
   // Called from every lazy <img> onload event
   window['lzld'] = onDataSrcImgLoad;
 
-  // Bind events
-  addEvent(window, 'resize', saveViewportT);
-  addEvent(window, 'scroll', showImagesT);
+  // init
   domready(findImages);
   addEvent(window, 'load', onLoad);
+
+  // Bind events
+  subscribe();
 
   function onDataSrcImgLoad(img) {
     // if image is not already in the imgs array
     // it can already be in it if domready was fast and img onload slow
     if (inArray(img, imgs) === -1) {
+      // this case happens when the page had loaded but we inserted more lazyload images with
+      // javascript (ajax). We need to re-watch scroll/resize
+      if (unsubscribed) {
+        subscribe();
+      }
       showIfVisible(img, imgs.push(img) - 1);
     }
   }
@@ -225,6 +232,7 @@
 
   // remove all event listeners
   function unsubscribe() {
+    unsubscribed = true;
     removeEvent(window, 'resize', saveViewportT);
     removeEvent(window, 'scroll', showImagesT);
     removeEvent(window, 'load', onLoad);
@@ -235,6 +243,10 @@
     return a.contains ?
       a != b && a.contains(b) :
       !!(a.compareDocumentPosition(b) & 16);
+  function subscribe() {
+    unsubscribed = false;
+    addEvent(window, 'resize', saveViewportT);
+    addEvent(window, 'scroll', showImagesT);
   }
 
   // https://github.com/jquery/jquery/blob/f3515b735e4ee00bb686922b2e1565934da845f8/src/core.js#L610
