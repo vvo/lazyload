@@ -6,7 +6,7 @@ Most of the time, when you have 100 images on a page, your user doesn't need the
 
 This lazyloader will only load what is necessary.
 
-It's a standalone script that weights 929 bytes minified gzipped.
+It's a standalone script that weights ~1KB minified gzipped.
 
 ## How to use
 
