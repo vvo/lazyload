@@ -83,7 +83,7 @@ If you want to automatically add lazyload to your website, contact us at http://
 
 (The MIT Licence)
 
-Copyright (c) 2012 Vincent Voyer, Stéphane Rios
+Copyright (c) 2012 Vincent Voyer, http://fasterize.com
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
