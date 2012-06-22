@@ -55,6 +55,7 @@
   // Bind events
   subscribe();
 
+  // called by img onload= or onerror= for IE6/7
   function onDataSrcImgLoad(img) {
     // if image is not already in the imgs array
     // it can already be in it if domready was fast and img onload slow
@@ -68,6 +69,7 @@
     }
   }
 
+  // find and merge images on domready with possibly already present onload= onerror= imgs
   function findImages() {
     var
       domreadyImgs = document.getElementsByTagName('img'),
@@ -230,7 +232,6 @@
     }
   }
 
-  // remove all event listeners
   function unsubscribe() {
     unsubscribed = true;
     removeEvent(window, 'resize', saveViewportT);
