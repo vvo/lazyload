@@ -32,7 +32,7 @@ you do not have any other scripts in the `<head>`.
 
 Is it safe to use this piece of software? Don't trust us, trust them:
 
-* [mobile.lemonde.fr](http://mobile.lemonde.fr/), news, 1st mobile website in France. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
+* [www.lemonde.fr](http://www.lemonde.fr/) & [mobile.lemonde.fr](http://mobile.lemonde.fr/), news, [top5](http://www.ojd-internet.com/chiffres-internet/) desktop website in France, [1st](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33)(pdf)mobile website in France.
 * [rue89.com](http://www.rue89.com/), news, 40 millions page views per month. [source](http://www.ojd-internet.com/chiffres-internet/7851-rue89.com)
 * [playtv.fr](http://playtv.fr/), tv guide, millions of page views per month. [source](http://www.mediametrie.fr/internet/communiques/telecharger.php?f=26408ffa703a72e8ac0117e74ad46f33) (pdf)
 
