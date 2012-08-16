@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <title>detached images dom nodes</title>
+  <script src="../lazyload.js"></script>
+  <script src="./jquery-1.7.2.js"></script>
+  <script>
+    $(function() {
+      // the action of $('<img') will trigger the onload event
+      // then it will not be triggered again when inserted into dom
+      // the only way I can think of to tackle this is have a setInterval
+      // polling for not-yet-loaded images
+      // but that's expensive
+      // if you resize and scroll down, it will be shown
+      var $img = $('<img data-src="imgs/2.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />');
+      $(window).load(function() {
+        setTimeout(function(){
+          $('#ajax').append($img);
+        }, 1000)
+      });
+    });
+  </script>
+  <style>html,body{background:#00f}</style>
+</head>
+<body>
+
+<h1>This test checks that detached dom nodes can be lazyloaded (fails)</h1>
+
+<div style="margin-top:300px"></div>
+
+<h1>And now ajax images</h1>
+<div id="ajax"></div>
+</body>
+</html>
