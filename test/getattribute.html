@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <title>getAttribute test</title>
+  <script src="../lazyload.js"></script>
+  <script src="./jquery-1.7.2.js"></script>
+  <style>html,body{margin:0;padding:0;background:#00f}</style>
+</head>
+<body>
+<script>
+  var srcs = [];
+
+  function done() {
+    var res = 'success';
+    for (var i = 0, max = srcs.length; i < max; i++) {
+      if (srcs[i].indexOf('imgs/1.jpg') === -1) {
+        res = 'error ('+srcs[i]+')';
+        break;
+      }
+    }
+
+    $('#result').text(res);
+  }
+
+  // domready
+  $(function() {
+    srcs.push(document.getElementsByTagName('img')[0].getAttribute('src'));
+    srcs.push(document.getElementById('img1').getAttribute('src'))
+    srcs.push($('#img2').attr('src'));
+  });
+
+  // onload
+  $(window).load(function() {
+    // fails in ie < 8
+    srcs.push($('#img4').attr('src'));
+    done();
+  });
+
+</script>
+
+<p>We checks that in any situation when a script requests an img src, we give real src, not
+  the fake blank image.</p>
+
+<p>A lot of slideshows are trying to get src attributes. Attention, we cannot handle img['src']</p>
+
+<p style="background: #fff">It passes if it says `success`: <span id="result"></span></p>
+
+<img id="img1" style="border:10px solid #000;display:block" width=200 height=200 data-src="imgs/1.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />
+
+<img id="img2" style="border:10px solid #000;display:block" width=200 height=200 data-src="imgs/1.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />
+
+<div style="height:900px"></div>
+
+<img id="img3" style="border:10px solid #000;display:block" width=200 height=200 data-src="imgs/1.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />
+
+<img id="img4" style="border:10px solid #000;display:block" width=200 height=200 data-src="imgs/1.jpg" src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== onload=lzld(this) onerror=lzld(this) />
+
+<script>
+  // before dom ready
+  // fails in ie < 8
+  srcs.push(document.getElementById('img3').getAttribute('src'));
+</script>
+
+</body>
+</html>

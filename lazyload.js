@@ -44,6 +44,11 @@ if (!window['lzld']) {
       saveViewportT = throttle(viewport, 20),
       showImagesT = throttle(showImages, 20);
 
+    // Override image element .getAttribute globally so that we give the real src
+    // does not works for ie < 8: http://perfectionkills.com/whats-wrong-with-extending-the-dom/
+    // Internet Explorer 7 (and below) [...] does not expose global Node, Element, HTMLElement, HTMLParagraphElement
+    window['HTMLImageElement'] && overrideGetattribute();
+
     // Called from every lazy <img> onload event
     window['lzld'] = onDataSrcImgLoad;
 
@@ -242,6 +247,20 @@ if (!window['lzld']) {
       unsubscribed = false;
       addEvent(window, 'resize', saveViewportT);
       addEvent(window, 'scroll', showImagesT);
+    }
+
+    function overrideGetattribute() {
+      var original = HTMLImageElement.prototype.getAttribute;
+      HTMLImageElement.prototype.getAttribute = function(name) {
+        if(name === 'src') {
+          var realSrc = original.call(this, lazyAttr);
+          return realSrc || original.call(this, name);
+        } else {
+          // our own lazyloader will go through theses lines
+          // because we use getAttribute(lazyAttr)
+          return original.call(this, name);
+        }
+      }
     }
 
     // https://github.com/jquery/sizzle/blob/3136f48b90e3edc84cbaaa6f6f7734ef03775a07/sizzle.js#L708
