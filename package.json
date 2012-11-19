@@ -4,7 +4,7 @@
   "version": "0.8.5",
   "repository": {
     "type": "git",
-    "url": "http://github.com/fasterize/lazyload.git"
+    "url": "http://github.com/vvo/lazyload.git"
   },
   "private": true,
   "directories": {
