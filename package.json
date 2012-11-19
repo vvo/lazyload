@@ -7,19 +7,15 @@
     "url": "http://github.com/fasterize/lazyload.git"
   },
   "private": true,
-  "readmeFilename": "README.md",
-  "main": "index.js",
   "directories": {
     "test": "test"
-  },
-  "scripts": {
-    "test": ""
   },
   "keywords": [
     "performance",
     "image",
-    "lazyload"
+    "lazyload",
+    "webperf"
   ],
-  "author": "vvo",
-  "license": "FIXME"
+  "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
+  "license": "mit"
 }
