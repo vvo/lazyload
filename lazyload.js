@@ -29,6 +29,9 @@
 if (!window['lzld']) {
   (function(window, document){
 
+    var pageHasLoaded = false, winH = 0;
+
+    // retro compatibility old lazyload
     window['lzld'] = (function() {
       var instance;
       return function() {
@@ -39,6 +42,14 @@ if (!window['lzld']) {
 
     window['lazyload'] = lazyload;
 
+    addEvent(window, 'load', function loaded() {
+      pageHasLoaded = true;
+    });
+
+    addEvent(window, 'resize', throttle(function saveViewport() {
+      winH = viewport();
+    }, 50));
+
     function lazyload(opts) {
 
       var defaults = {
@@ -47,22 +58,20 @@ if (!window['lzld']) {
       };
 
       var
-        // Window height
-        winH = viewport(),
         // Self-populated page images array, we do not getElementsByTagName
         imgs = [],
-        pageHasLoaded = false,
-        unsubscribed = false,
-
-        // throttled functions, so that we do not call them too much
-        saveViewportT = throttle(viewport, 20),
+        listening = false,
         showImagesT = throttle(showImages, 20);
 
       opts = merge(defaults, opts || {});
 
       // init
       domready(findImages);
-      addEvent(window, 'load', onLoad);
+      domready(showImages);
+      setTimeout(showImagesT, 25);
+
+      addEvent(window, 'load', showImagesT);
+      addEvent(window, 'load', partial(setTimeout, showImagesT, 25));
 
       // Bind events
       subscribe();
@@ -81,7 +90,7 @@ if (!window['lzld']) {
         if (inArray(img, imgs) === -1) {
           // this case happens when the page had loaded but we inserted more lazyload images with
           // javascript (ajax). We need to re-watch scroll/resize
-          if (unsubscribed) {
+          if (!listening) {
             subscribe();
           }
           showIfVisible(img, imgs.push(img) - 1);
@@ -101,21 +110,6 @@ if (!window['lzld']) {
             imgs.push(currentImg);
           }
         }
-
-        showImages();
-        setTimeout(showImagesT, 25);
-      }
-
-      function onLoad() {
-        pageHasLoaded = true;
-        // if page height changes (hiding elements at start)
-        // we should recheck for new in viewport images that need to be shown
-        // see onload test
-        showImagesT();
-        // we could be the first to be notified about onload, so let others event handlers
-        // pass and then try again
-        // because they could change things on images
-        setTimeout(showImagesT, 25);
       }
 
       // img = dom element
@@ -144,11 +138,7 @@ if (!window['lzld']) {
         }
       }
 
-      function saveViewport() {
-        winH = viewport();
-      }
-
-      // Loop through images array to find to-be-shown images
+      // Loop through an images array to find to-be-shown images
       function showImages() {
         var
           last = imgs.length,
@@ -170,16 +160,13 @@ if (!window['lzld']) {
       }
 
       function unsubscribe() {
-        unsubscribed = true;
-        removeEvent(window, 'resize', saveViewportT);
         removeEvent(window, 'scroll', showImagesT);
-        removeEvent(window, 'load', onLoad);
+        listening = false;
       }
 
       function subscribe() {
-        unsubscribed = false;
-        addEvent(window, 'resize', saveViewportT);
         addEvent(window, 'scroll', showImagesT);
+        listening = true;
       }
 
       function replaceGetAttribute() {
@@ -333,6 +320,19 @@ if (!window['lzld']) {
       }
 
       return -1;
+    }
+
+    function partial(fn /*, args...*/) {
+      // A reference to the Array#slice method.
+      var slice = Array.prototype.slice;
+      // Convert arguments object to an array, removing the first argument.
+      var args = slice.call(arguments, 1);
+
+      return function() {
+        // Invoke the originally-specified function, passing in all originally-
+        // specified arguments, followed by any just-specified arguments.
+        return fn.apply(this, args.concat(slice.call(arguments, 0)));
+      };
     }
 
   }(this, document))
