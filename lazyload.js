@@ -112,7 +112,7 @@ if (!window['Lazyload']) {
     Lazyload.prototype.onDataSrcImgLoad = function onDataSrcImgLoad(img) {
       // if image is not already in the imgs array
       // it can already be in it if domready was fast and img onload slow
-      if (inArray(img, this.imgs) === -1) {
+      if (indexOf.call(this.imgs, img) === -1) {
         // this case happens when the page had loaded but we inserted more lazyload images with
         // javascript (ajax). We need to re-watch scroll/resize
         if (!this.listening) {
@@ -131,7 +131,7 @@ if (!window['Lazyload']) {
       // merge them with already self onload registered imgs
       for (var imgIndex = 0, max = domreadyImgs.length; imgIndex < max; imgIndex += 1) {
         currentImg = domreadyImgs[imgIndex];
-        if (currentImg.getAttribute(this.opts.lazyAttr) && inArray(currentImg, this.imgs) === -1) {
+        if (currentImg.getAttribute(this.opts.lazyAttr) && indexOf.call(this.imgs, currentImg) === -1) {
           this.imgs.push(currentImg);
         }
       }
@@ -312,42 +312,11 @@ if (!window['Lazyload']) {
         return false;
       };
 
-    // https://github.com/jquery/jquery/blob/f3515b735e4ee00bb686922b2e1565934da845f8/src/core.js#L610
-    // We cannot use Array.prototype.indexOf because it's not always available
-    function inArray(elem, array, i) {
-      var len;
-
-      if ( array ) {
-        if ( Array.prototype.indexOf ) {
-          return Array.prototype.indexOf.call( array, elem, i );
-        }
-
-        len = array.length;
-        i = i ? i < 0 ? Math.max( 0, len + i ) : i : 0;
-
-        for ( ; i < len; i++ ) {
-          // Skip accessing in sparse arrays
-          if ( i in array && array[ i ] === elem ) {
-            return i;
-          }
-        }
-      }
-
-      return -1;
-    }
-
-    function partial(fn /*, args...*/) {
-      // A reference to the Array#slice method.
-      var slice = Array.prototype.slice;
-      // Convert arguments object to an array, removing the first argument.
-      var args = slice.call(arguments, 1);
-
-      return function() {
-        // Invoke the originally-specified function, passing in all originally-
-        // specified arguments, followed by any just-specified arguments.
-        return fn.apply(this, args.concat(slice.call(arguments, 0)));
-      };
-    }
+    // as suggested by http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
+    var indexOf = [].indexOf || function (value) {
+        for (var i = this.length; i-- && this[i] !== value;);
+        return i;
+    };
 
   }(this, document))
 }
