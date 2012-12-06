@@ -37,7 +37,7 @@ if (!window['Lazyload']) {
       var instance;
       return function() {
         if (!instance) instance = new Lazyload();
-        else instance.apply(null, arguments);
+        instance.apply(null, arguments)
       }
     }());
 
