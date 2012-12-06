@@ -29,161 +29,169 @@
 if (!window['lzld']) {
   (function(window, document){
 
-    var pageHasLoaded = false, winH = 0;
+    var pageHasLoaded = false, winH = viewport();
 
     // retro compatibility old lazyload
     window['lzld'] = (function() {
       var instance;
       return function() {
-        if (!instance) instance = lazyload();
+        if (!instance) instance = new Lazyload();
         else instance.apply(null, arguments);
       }
     }());
 
-    window['lazyload'] = lazyload;
+    window['Lazyload'] = Lazyload;
 
     addEvent(window, 'load', function loaded() {
       pageHasLoaded = true;
+      winH = viewport();
     });
 
     addEvent(window, 'resize', throttle(function saveViewport() {
       winH = viewport();
     }, 50));
 
-    function lazyload(opts) {
-
-      var defaults = {
+    /**
+     * A new lazyloader, watching the whole window right now
+     * @constructor
+     * @param {Object=} opts Provide offset or lazyAttr or none
+     */
+    function Lazyload(opts) {
+      this.opts = merge({
         offset: 200,
         lazyAttr: 'data-src'
-      };
+      }, opts || {});
 
-      var
-        // Self-populated page images array, we do not getElementsByTagName
-        imgs = [],
-        listening = false,
-        showImagesT = throttle(showImages, 20);
-
-      opts = merge(defaults, opts || {});
+      this.imgs = [];
+      this.listening = false;
+      this.showImagesT = throttle(bind(this.showImages, this), 20)
 
       // init
-      domready(findImages);
-      domready(showImages);
-      setTimeout(showImagesT, 25);
+      domready(bind(this.findImages, this));
+      domready(bind(this.showImages, this));
+      setTimeout(this.showImagesT, 25);
 
-      addEvent(window, 'load', showImagesT);
-      addEvent(window, 'load', partial(setTimeout, showImagesT, 25));
+      addEvent(window, 'load', this.showImagesT);
+      addEvent(window, 'load', partial(setTimeout, this.showImagesT, 25));
 
       // Bind events
-      subscribe();
+      this.subscribe();
 
       // Override image element .getAttribute globally so that we give the real src
       // does not works for ie < 8: http://perfectionkills.com/whats-wrong-with-extending-the-dom/
       // Internet Explorer 7 (and below) [...] does not expose global Node, Element, HTMLElement, HTMLParagraphElement
       if ('HTMLImageElement' in window) {
-        replaceGetAttribute();
+        this.replaceGetAttribute();
       }
 
-      // called by img onload= or onerror= for IE6/7
-      function onDataSrcImgLoad(img) {
-        // if image is not already in the imgs array
-        // it can already be in it if domready was fast and img onload slow
-        if (inArray(img, imgs) === -1) {
-          // this case happens when the page had loaded but we inserted more lazyload images with
-          // javascript (ajax). We need to re-watch scroll/resize
-          if (!listening) {
-            subscribe();
-          }
-          showIfVisible(img, imgs.push(img) - 1);
-        }
-      }
+      return bind(this.onDataSrcImgLoad, this);
+    }
 
-      // find and merge images on domready with possibly already present onload= onerror= imgs
-      function findImages() {
-        var
-          domreadyImgs = document.getElementsByTagName('img'),
-          currentImg;
-
-        // merge them with already self onload registered imgs
-        for (var imgIndex = 0, max = domreadyImgs.length; imgIndex < max; imgIndex += 1) {
-          currentImg = domreadyImgs[imgIndex];
-          if (currentImg.getAttribute(opts.lazyAttr) && inArray(currentImg, imgs) === -1) {
-            imgs.push(currentImg);
-          }
-        }
-      }
-
-      // img = dom element
-      // index = imgs array index
-      function showIfVisible(img, index) {
-        // We have to check that the current node is in the DOM
-        // It could be a detached() dom node
-        // http://bugs.jquery.com/ticket/4996
-        if (contains(document.documentElement, img)
-          && img.getBoundingClientRect().top < winH + opts.offset) {
-          // To avoid onload loop calls
-          // removeAttribute on IE is not enough to prevent the event to fire
-          img.onload = null;
-          img.removeAttribute('onload');
-          // on IE < 8 we get an onerror event instead of an onload event
-          img.onerror = null;
-          img.removeAttribute('onerror');
-
-          img.src = img.getAttribute(opts.lazyAttr);
-          img.removeAttribute(opts.lazyAttr);
-          imgs[index] = null;
-
-          return true; // img shown
+    Lazyload.prototype.replaceGetAttribute = function replaceGetAttribute() {
+      var original = HTMLImageElement.prototype.getAttribute;
+      var lazyload = this;
+      HTMLImageElement.prototype.getAttribute = function(name) {
+        if(name === 'src') {
+          var realSrc = original.call(this, lazyload.opts.lazyAttr);
+          return realSrc || original.call(this, name);
         } else {
-          return false; // img to be shown
+          // our own lazyloader will go through theses lines
+          // because we use getAttribute(opts.lazyAttr)
+          return original.call(this, name);
+        }
+      }
+    }
+
+    // called by img onload= or onerror= for IE6/7
+    Lazyload.prototype.onDataSrcImgLoad = function onDataSrcImgLoad(img) {
+      // if image is not already in the imgs array
+      // it can already be in it if domready was fast and img onload slow
+      if (inArray(img, this.imgs) === -1) {
+        // this case happens when the page had loaded but we inserted more lazyload images with
+        // javascript (ajax). We need to re-watch scroll/resize
+        if (!this.listening) {
+          this.subscribe();
+        }
+        this.showIfVisible(img, this.imgs.push(img) - 1);
+      }
+    }
+
+    // find and merge images on domready with possibly already present onload= onerror= imgs
+    Lazyload.prototype.findImages = function findImages() {
+      var
+        domreadyImgs = document.getElementsByTagName('img'),
+        currentImg;
+
+      // merge them with already self onload registered imgs
+      for (var imgIndex = 0, max = domreadyImgs.length; imgIndex < max; imgIndex += 1) {
+        currentImg = domreadyImgs[imgIndex];
+        if (currentImg.getAttribute(this.opts.lazyAttr) && inArray(currentImg, this.imgs) === -1) {
+          this.imgs.push(currentImg);
+        }
+      }
+    }
+
+    // img = dom element
+    // index = imgs array index
+    Lazyload.prototype.showIfVisible = function showIfVisible(img, index) {
+      // We have to check that the current node is in the DOM
+      // It could be a detached() dom node
+      // http://bugs.jquery.com/ticket/4996
+      if (contains(document.documentElement, img)
+        && img.getBoundingClientRect().top < winH + this.opts.offset) {
+        // To avoid onload loop calls
+        // removeAttribute on IE is not enough to prevent the event to fire
+        img.onload = null;
+        img.removeAttribute('onload');
+        // on IE < 8 we get an onerror event instead of an onload event
+        img.onerror = null;
+        img.removeAttribute('onerror');
+
+        img.src = img.getAttribute(this.opts.lazyAttr);
+        img.removeAttribute(this.opts.lazyAttr);
+        this.imgs[index] = null;
+
+        return true; // img shown
+      } else {
+        return false; // img to be shown
+      }
+    }
+
+    // Loop through an images array to find to-be-shown images
+    Lazyload.prototype.showImages = function showImages() {
+      var
+        last = this.imgs.length,
+        current,
+        allImagesDone = true;
+
+      for (current = 0; current < last; current++) {
+        var img = this.imgs[current];
+        // if showIfVisible is false, it means we have some waiting images to be
+        // shown
+        if(img !== null && !this.showIfVisible(img, current)) {
+          allImagesDone = false;
         }
       }
 
-      // Loop through an images array to find to-be-shown images
-      function showImages() {
-        var
-          last = imgs.length,
-          current,
-          allImagesDone = true;
-
-        for (current = 0; current < last; current++) {
-          var img = imgs[current];
-          // if showIfVisible is false, it means we have some waiting images to be
-          // shown
-          if(img !== null && !showIfVisible(img, current)) {
-            allImagesDone = false;
-          }
-        }
-
-        if (allImagesDone && pageHasLoaded) {
-          unsubscribe();
-        }
+      if (allImagesDone && pageHasLoaded) {
+        this.unsubscribe();
       }
+    }
 
-      function unsubscribe() {
-        removeEvent(window, 'scroll', showImagesT);
-        listening = false;
+    Lazyload.prototype.unsubscribe = function unsubscribe() {
+      removeEvent(window, 'scroll', this.showImagesT);
+      this.listening = false;
+    }
+
+    Lazyload.prototype.subscribe = function subscribe() {
+      addEvent(window, 'scroll', this.showImagesT);
+      this.listening = true;
+    }
+
+    function bind (method, context){
+      return function(){
+        method.apply(context, arguments);
       }
-
-      function subscribe() {
-        addEvent(window, 'scroll', showImagesT);
-        listening = true;
-      }
-
-      function replaceGetAttribute() {
-        var original = HTMLImageElement.prototype.getAttribute;
-        HTMLImageElement.prototype.getAttribute = function(name) {
-          if(name === 'src') {
-            var realSrc = original.call(this, opts.lazyAttr);
-            return realSrc || original.call(this, name);
-          } else {
-            // our own lazyloader will go through theses lines
-            // because we use getAttribute(opts.lazyAttr)
-            return original.call(this, name);
-          }
-        }
-      }
-
-      return onDataSrcImgLoad;
     }
 
     function merge(defaults, opts) {
