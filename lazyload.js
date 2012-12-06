@@ -26,12 +26,13 @@
 
 // Prevent double lazyload script on same page
 // We NEED to use string as closure compiler would otherwise compile this statement badly
-if (!window['lzld']) {
+if (!window['Lazyload']) {
   (function(window, document){
 
     var pageHasLoaded = false, winH = viewport();
 
     // retro compatibility old lazyload
+    // will automatically create an instance at first lzld call
     window['lzld'] = (function() {
       var instance;
       return function() {
