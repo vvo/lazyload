@@ -73,7 +73,12 @@ if (!window['Lazyload']) {
       setTimeout(this.showImagesT, 25);
 
       addEvent(window, 'load', this.showImagesT);
-      addEvent(window, 'load', partial(setTimeout, this.showImagesT, 25));
+
+      // Ok, cannot use setTimeout.apply in IE7/8 LOL, you don't wanna know why, wait 3 years
+      // http://stackoverflow.com/questions/11619826/internet-explorer-7-8-and-window-functions-are-empty-objects
+      addEvent(window, 'load', bind(function() {
+        setTimeout(this.showImagesT, 25);
+      }, this));
 
       // Bind events
       this.subscribe();
