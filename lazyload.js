@@ -194,6 +194,8 @@ if (!window['Lazyload']) {
       this.listening = true;
     }
 
+
+    /* Lazyload utility belt *\!/* SHINY *\!/* */
     function bind (method, context){
       return function(){
         method.apply(context, arguments);
