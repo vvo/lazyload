@@ -112,6 +112,11 @@ if (!window['Lazyload']) {
     Lazyload.prototype.onDataSrcImgLoad = function onDataSrcImgLoad(img) {
       // if image is not already in the imgs array
       // it can already be in it if domready was fast and img onload slow
+
+      // For the first image of the stack, it is possible we already shown it
+      // But we still got the onload event
+      if (img.getAttribute(this.opts.lazyAttr) === null) return;
+
       if (indexOf.call(this.imgs, img) === -1) {
         // this case happens when the page had loaded but we inserted more lazyload images with
         // javascript (ajax). We need to re-watch scroll/resize
