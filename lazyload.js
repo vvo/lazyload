@@ -43,7 +43,7 @@ if (!window['Lazyload']) {
 
     window['Lazyload'] = Lazyload;
 
-    addEvent(window, 'load', function loaded() {
+    addEvent(window, 'load', function onLoadFired() {
       pageHasLoaded = true;
       winH = viewport();
     });
@@ -152,6 +152,7 @@ if (!window['Lazyload']) {
         && img.getBoundingClientRect().top < winH + this.opts.offset) {
         // To avoid onload loop calls
         // removeAttribute on IE is not enough to prevent the event to fire
+
         img.onload = null;
         img.removeAttribute('onload');
         // on IE < 8 we get an onerror event instead of an onload event
