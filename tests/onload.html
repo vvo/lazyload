@@ -3,18 +3,16 @@
 <head>
   <title>onload test</title>
   <link rel="stylesheet" type="text/css" href="test.css" />
-  <script src="../lazyload.js"></script>
-  <script>window.lzld = (new Lazyload).getLzld();</script>
   <script src="js/helper.js"></script>
+  <script src="../lazyload.js"></script>
+  <script>window.lzld = (new Lazyload).lzld;</script>
   <script src="js/jquery-1.8.3.js"></script>
 </head>
 <body>
-
 <h1>onload test
   <p>checks that if we hide images after onload, subsequent ones will be shown</p>
   <p>To solves this, maybe use mutation events, manipulation events, or click on page, or mouse move!</p>
 </h1>
-
 
 <div id="result"></div>
 <div id="debug"></div>

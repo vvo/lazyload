@@ -55,7 +55,8 @@ function makeRunOnce(fn) {
   }
 }
 
-
-
-
-
+window.onerror = function() {
+  window.onload = function() {
+    error();  
+  }
+}
