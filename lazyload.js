@@ -34,10 +34,10 @@ if (!window['Lazyload']) {
     // retro compatibility old lazyload
     // will automatically create an instance at first lzld call
     window['lzld'] = (function() {
-      var instance;
+      var lzld;
       return function() {
-        if (!instance) instance = new Lazyload();
-        instance.apply(null, arguments)
+        if (lzld === undefined) lzld = (new Lazyload).lzld;
+        lzld.apply(null, arguments)
       }
     }());
 
@@ -83,14 +83,14 @@ if (!window['Lazyload']) {
       // Bind events
       this.subscribe();
 
+      this['lzld'] = bind(this.onDataSrcImgLoad, this);
+
       // Override image element .getAttribute globally so that we give the real src
       // does not works for ie < 8: http://perfectionkills.com/whats-wrong-with-extending-the-dom/
       // Internet Explorer 7 (and below) [...] does not expose global Node, Element, HTMLElement, HTMLParagraphElement
       if ('HTMLImageElement' in window) {
         this.replaceGetAttribute();
       }
-
-      return bind(this.onDataSrcImgLoad, this);
     }
 
     Lazyload.prototype.replaceGetAttribute = function replaceGetAttribute() {
