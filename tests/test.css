@@ -1,0 +1,58 @@
+#debug {
+  position:fixed;
+  width:50%;
+  height:1em;
+  left:25%;
+  top:0;
+  background:white;
+  border:1px dotted black;
+}
+
+#result {
+  position:fixed;
+  top:0;
+  left:0;
+  border:5px solid black;
+  width:200px;
+  height:2em;
+  vertical-align: middle;
+  font:125% Arial black;
+  text-align: center;
+  text-transform: uppercase;
+  background:gray;
+}
+
+#result:before {
+  content: "Unknown";
+  line-height: 2em;  
+}
+
+#result.error:before {
+  content: "Error";
+}
+
+#result.success:before {
+  content: "Success";
+}
+
+#result.error {
+  background:red;
+}
+
+#result.success {
+  background:green;
+}
+
+.sep {
+  margin-bottom:200px;
+}
+
+h1 {
+  position:fixed;
+  top:0;
+  left:220px;
+}
+
+h1 p {
+  font-size:50%;
+}

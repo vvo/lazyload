@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <title>Standard test</title>
+  <link rel="stylesheet" type="text/css" href="test.css" />
+  <script src="../lazyload.js"></script>
+  <script src="js/jquery-1.8.3.js"></script>
+  <script src="js/helper.js"></script>
+</head>
+<body>
+
+<h1>When everything is set up properly</h1>
+
+<div id="result"></div>
+<div id="debug"></div>
+<div id="content"></div>
+<div id="ajax"></div>
+
+<script>
+setup(test);
+
+function setup(cb) {
+  insertImage(15);
+  cb();
+  insertSlowScript();
+}
+
+function test() {
+  var imgs = document.getElementsByTagName('img');
+  var first = imgs[0];
+  var last = imgs[imgs.length - 1];
+  var domready = false;
+
+  if (imgs.length !== 15)
+    error("Bad image count");
+  if (first.getAttribute('data-src') === null)
+    error("Top images should not be shown, yet");
+  if (last.getAttribute('data-src') === null)
+    error("Bottom images should not be shown");
+
+  var check = setInterval(findImage, 50);
+  var timeout = setTimeout(stopTest, 2100);
+
+  $(function() {
+    domready = true;
+  });
+
+  function findImage() {
+    if (first.getAttribute('data-src') === null && domready === false) {
+      success();
+      clearInterval(check);
+      clearTimeout(timeout);
+    }
+  }
+
+  function stopTest() {
+    clearInterval(check);
+  }
+}
+</script>
+
+</body>
+</html>
