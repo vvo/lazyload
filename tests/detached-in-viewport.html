@@ -3,7 +3,7 @@
 <head>
   <title>detached images dom nodes</title>
   <script src="../lazyload.js"></script>
-  <script src="./jquery-1.7.2.js"></script>
+  <script src="js/jquery-1.8.3.js"></script>
   <script>
     $(function() {
       // the action of $('<img') will trigger the onload event
@@ -25,6 +25,8 @@
 <body>
 
 <h1>This test checks that detached dom nodes can be lazyloaded (fails)</h1>
+
+<p>checks that if we hide images after onload, subsequent ones will be shown</p><p>To solves this, maybe use mutation events, manipulation events, or click on page, or mouse move!</p>
 
 <div style="margin-top:300px"></div>
 

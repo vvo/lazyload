@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+  <title>Custom container test</title>
+  <link rel="stylesheet" type="text/css" href="test.css" />
+  <script src="js/helper.js"></script>
+  <script src="../lazyload.js"></script>
+</head>
+<body>
+
+<h1>Custom container test</h1>
+
+<div id="result"></div>
+<div id="debug"></div>
+<div id="content" class="small"></div>
+<div id="ajax"></div>
+<div style="margin-top:8000px"></div>
+
+<script>
+var container = document.getElementById('content');
+setup(test);
+
+function setup(cb) {
+  container.scrollTop = 0;
+  window.lzld = (new Lazyload({container: document.getElementById('content')})).lzld;
+  insertSlowImage(1);
+  insertImage(15);
+  insertSlowImage(1);
+  cb();
+}
+
+function test() {
+  var imgs = document.getElementsByTagName('img');
+  var first = imgs[0];
+  var last = imgs[imgs.length - 1];
+
+  if (imgs.length !== 17)
+    error("Bad image count");
+  if (first.getAttribute('data-src') === null)
+    error("Top images should not be shown, yet");
+  if (last.getAttribute('data-src') === null)
+    error("Bottom images should not be shown");
+
+  setTimeout(function() {
+    // we scroll the body, we should not load images from the container
+    scroll(0, 10000);
+    setTimeout(function() {
+      if (first.getAttribute('data-src') !== null)
+        error("Top image should be shown");
+      if (first.getAttribute('onload') !== null)
+        error("Top image should have onload removed");
+      if (last.getAttribute('data-src') === null)
+        error("Bottom image should not be shown, yet");
+
+      container.scrollTop = 10000;
+      setTimeout(function() {
+        if (last.getAttribute('data-src') !== null)
+          error("Bottom image should be shown");
+        success();
+      }, 100)
+    }, 100)
+  }, 100);
+}
+</script>
+
+</body>
+</html>
