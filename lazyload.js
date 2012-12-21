@@ -22,14 +22,15 @@ if (!window['Lazyload']) {
     });
 
     /**
-     * A new lazyloader, watching the whole window right now
+     * Lazyload, defer image loading to visible images
      * @constructor
-     * @param {Object=} opts Provide offset or lazyAttr or none
+     * @param {Object=} opts Provide offset, lazyAttr, container or none
      */
     function Lazyload(opts) {
       this.opts = merge({
-        offset: 200,
-        lazyAttr: 'data-src'
+        'offset': 200,
+        'lazyAttr': 'data-src',
+        'container': document
       }, opts || {});
 
       this.imgs = [];
@@ -124,7 +125,7 @@ if (!window['Lazyload']) {
       // merge them with already self onload registered imgs
       for (var imgIndex = 0, max = domreadyImgs.length; imgIndex < max; imgIndex += 1) {
         currentImg = domreadyImgs[imgIndex];
-        if (currentImg.getAttribute(this.opts.lazyAttr) && indexOf.call(this.imgs, currentImg) === -1) {
+        if (currentImg.getAttribute(this.opts['lazyAttr']) && indexOf.call(this.imgs, currentImg) === -1) {
           this.imgs.push(currentImg);
         }
       }
@@ -147,8 +148,8 @@ if (!window['Lazyload']) {
         img.onerror = null;
         img.removeAttribute('onerror');
 
-        img.src = img.getAttribute(this.opts.lazyAttr);
-        img.removeAttribute(this.opts.lazyAttr);
+        img.src = img.getAttribute(this.opts['lazyAttr']);
+        img.removeAttribute(this.opts['lazyAttr']);
         this.imgs[index] = null;
 
         return true; // img shown
