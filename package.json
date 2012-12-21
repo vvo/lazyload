@@ -7,9 +7,6 @@
     "url": "http://github.com/vvo/lazyload.git"
   },
   "private": true,
-  "directories": {
-    "test": "test"
-  },
   "keywords": [
     "performance",
     "image",
@@ -17,5 +14,5 @@
     "webperf"
   ],
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
-  "license": "mit"
+  "license": "MIT"
 }
