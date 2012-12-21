@@ -37,6 +37,12 @@ if (!window['Lazyload']) {
       this.showImagesT = throttle(bind(this.showImages, this), 20)
 
       // init
+      if (this.opts['container'] === document) {
+        this.scrollContainer = window;
+        domready(bind(this.setBodyContainer, this));
+      } else {
+        this.scrollContainer = this.opts['container'];
+      }
       domready(bind(this.findImages, this));
       domready(bind(this.showImages, this));
       setTimeout(this.showImagesT, 25);
@@ -160,12 +166,12 @@ if (!window['Lazyload']) {
     }
 
     Lazyload.prototype.unsubscribe = function unsubscribe() {
-      removeEvent(window, 'scroll', this.showImagesT);
+      removeEvent(this.scrollContainer, 'scroll', this.showImagesT);
       this.listening = false;
     }
 
     Lazyload.prototype.subscribe = function subscribe() {
-      addEvent(window, 'scroll', this.showImagesT);
+      addEvent(this.scrollContainer, 'scroll', this.showImagesT);
       this.listening = true;
     }
 
