@@ -34,10 +34,10 @@ if (!window['Lazyload']) {
     // retro compatibility old lazyload
     // will automatically create an instance at first lzld call
     window['lzld'] = (function() {
-      var lzld;
+      var instance;
       return function() {
-        if (lzld === undefined) lzld = (new Lazyload).lzld;
-        lzld.apply(null, arguments)
+        if (instance === undefined) instance = new Lazyload;
+        instance['lzld'].apply(instance, arguments)
       }
     }());
 
