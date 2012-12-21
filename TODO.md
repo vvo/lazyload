@@ -17,3 +17,15 @@ function elementInViewport(el) {
 - Add IE6/IE7 support ? + Test
 - Add "used by" section in README
 - Provide fallback for users w/o JS ?
+
+---
+
+Failing tests: create issues with possible ways
+Auto start option
+RESIZE EVENT must showimages, add failing test
+Be able to give multiple data srcs
+Provide callback to choose the data src
+Provide callback to choose how to show the image (add fadeIn example)
+Show example using a spinner then fadeIn
+Update github pages, create beautifull one with all examples and features
+Double script fails sur IE
