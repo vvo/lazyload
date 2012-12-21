@@ -56,3 +56,23 @@ h1 {
 h1 p {
   font-size:50%;
 }
+
+.horizontal {
+  width:10000px;
+}
+
+.horizontal .sep {
+  height:0;
+  width:200px;
+  float:left;
+}
+
+.floatLeft {
+  float:left;
+}
+
+.small {
+  width:400px;
+  height:300px;
+  overflow:scroll;
+}
