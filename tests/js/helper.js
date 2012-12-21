@@ -1,3 +1,4 @@
+scroll(0, 0);
 var slowSrc = 'http://1.cuzillion.com/bin/resource.cgi?type=gif&sleep=5&n=1&'
 var localSrc = 'imgs/%i.jpg?'
 var mainTpl = [
