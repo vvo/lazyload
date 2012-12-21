@@ -168,6 +168,7 @@ if (!window['Lazyload']) {
     Lazyload.prototype.unsubscribe = function unsubscribe() {
       removeEvent(this.scrollContainer, 'scroll', this.showImagesT);
       this.listening = false;
+      this.imgs = [];
     }
 
     Lazyload.prototype.subscribe = function subscribe() {
