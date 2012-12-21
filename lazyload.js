@@ -34,7 +34,7 @@ if (!window['Lazyload']) {
 
       this.imgs = [];
       this.listening = false;
-      this.showImagesT = throttle(bind(this.showImages, this), 20)
+      this.showImagesT = throttle(bind(this.showImages, this), 20);
 
       // init
       if (this.opts['container'] === document) {
@@ -43,8 +43,10 @@ if (!window['Lazyload']) {
       } else {
         this.scrollContainer = this.opts['container'];
       }
+
       domready(bind(this.findImages, this));
       domready(bind(this.showImages, this));
+
       setTimeout(this.showImagesT, 25);
 
       addEvent(window, 'load', this.showImagesT);
@@ -90,7 +92,9 @@ if (!window['Lazyload']) {
 
       // For the first image of the stack, it is possible we already shown it
       // But we still got the onload event
-      if (img.getAttribute(this.opts.lazyAttr) === null) return;
+      if (img.getAttribute(this.opts['lazyAttr']) === null) {
+        return;
+      }
 
       if (indexOf.call(this.imgs, img) === -1) {
         // this case happens when the page had loaded but we inserted more lazyload images with
@@ -127,9 +131,9 @@ if (!window['Lazyload']) {
         && hasScrolled(this.opts['container'], img, this.opts['offset'])) {
         // To avoid onload loop calls
         // removeAttribute on IE is not enough to prevent the event to fire
-
         img.onload = null;
         img.removeAttribute('onload');
+
         // on IE < 8 we get an onerror event instead of an onload event
         img.onerror = null;
         img.removeAttribute('onerror');
