@@ -85,8 +85,17 @@ if (!window['Lazyload']) {
       }
     }
 
+    // document.body is not available when Lazyload is in the <head> of the document
+    // so fix it as asap: domready or first onload= event
+    Lazyload.prototype.setBodyContainer = function setBodyContainer() {
+      this.opts['container'] = document.body;
+    }
+
     // called by img onload= or onerror= for IE6/7
     Lazyload.prototype.onDataSrcImgLoad = function onDataSrcImgLoad(img) {
+      if (this.opts['container'] === document) {
+        this.setBodyContainer();
+      }
       // if image is not already in the imgs array
       // it can already be in it if domready was fast and img onload slow
 
