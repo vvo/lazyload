@@ -29,7 +29,7 @@
 if (!window['Lazyload']) {
   (function(window, document){
 
-    var pageHasLoaded = false, winH = viewport();
+    var pageHasLoaded = false;
 
     // retro compatibility old lazyload
     // will automatically create an instance at first lzld call
@@ -45,12 +45,7 @@ if (!window['Lazyload']) {
 
     addEvent(window, 'load', function onLoadFired() {
       pageHasLoaded = true;
-      winH = viewport();
     });
-
-    addEvent(window, 'resize', throttle(function saveViewport() {
-      winH = viewport();
-    }, 50));
 
     /**
      * A new lazyloader, watching the whole window right now
@@ -149,7 +144,7 @@ if (!window['Lazyload']) {
       // It could be a detached() dom node
       // http://bugs.jquery.com/ticket/4996
       if (contains(document.documentElement, img)
-        && img.getBoundingClientRect().top < winH + this.opts.offset) {
+        && hasScrolled(this.opts['container'], img, this.opts['offset'])) {
         // To avoid onload loop calls
         // removeAttribute on IE is not enough to prevent the event to fire
 
@@ -287,20 +282,40 @@ if (!window['Lazyload']) {
 
     }
 
-    // cross browser viewport calculation
-    function viewport() {
-      // All new browsers
-      if (document.documentElement.clientHeight >= 0) {
-        return document.documentElement.clientHeight;
-      // IE6/7/8 quirksmode
-      } else if (document.body && document.body.clientHeight >= 0) {
-        return document.body.clientHeight
-      } else if (window.innerHeight >= 0) {
-        return window.innerHeight;
-      } else {
-        return 0;
+    function hasScrolled(container, element, offset) {
+      // when no offset given, default to plaholder height or width
+      // it means you should set your width= height=
+      if (!offset) offset = Math.max(element.clientHeight, element.clientWidth);
+
+      var rect = element.getBoundingClientRect();
+      var pos = {
+        x: rect.left - offset,
+        y: rect.top - offset
       }
+      var viewport = {
+        x: 0,
+        y: 0
+      }
+
+      if (container === document.body) {
+        viewport.x += document.documentElement.clientWidth;
+        viewport.y += document.documentElement.clientHeight;
+      } else {
+        pos.x += scrollOffset().x;
+        pos.y += scrollOffset().y;
+        viewport.x += container.clientWidth;
+        viewport.y += container.clientHeight;
+      }
+
+      return pos.y <= viewport.y && pos.x <= viewport.x;
     }
+
+    function scrollOffset() {
+      return {
+        x: Math.max(window.pageXOffset || 0, document.body.scrollLeft, document.documentElement.scrollLeft),
+        y: Math.max(window.pageYOffset || 0, document.body.scrollTop, document.documentElement.scrollTop)
+      }
+    }    
 
     // https://github.com/jquery/sizzle/blob/3136f48b90e3edc84cbaaa6f6f7734ef03775a07/sizzle.js#L708
     var contains = document.documentElement.compareDocumentPosition ?
