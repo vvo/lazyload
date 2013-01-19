@@ -18,7 +18,7 @@ var error = makeRunOnce(function error(msg) {
 });
 var success = makeRunOnce(function success() {
   if (errorFlag) return;
-  success = true;
+  successFlag = true;
   document.getElementById('debug').className = 'hide';
   document.getElementById('result').className = 'success';
 });
@@ -59,6 +59,6 @@ function makeRunOnce(fn) {
 
 window.onerror = function() {
   window.onload = function() {
-    error();  
+    error();
   }
 }

@@ -6,6 +6,10 @@
     "type": "git",
     "url": "http://github.com/vvo/lazyload.git"
   },
+  "dependencies": {
+    "wd": "0.0.x",
+    "async": "0.1.x"
+  },
   "private": true,
   "keywords": [
     "performance",
@@ -13,6 +17,9 @@
     "lazyload",
     "webperf"
   ],
+  "scripts": {
+    "test": "node tests/functionnal.js"
+  },
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT"
 }
