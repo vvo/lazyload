@@ -18,6 +18,7 @@ var error = makeRunOnce(function error(msg) {
 });
 var success = makeRunOnce(function success() {
   if (errorFlag) return;
+  success = true;
   document.getElementById('debug').className = 'hide';
   document.getElementById('result').className = 'success';
 });
