@@ -1,25 +1,37 @@
-var wd = require('wd');
 var async = require('async');
 var assert = require('assert');
+var baseurl = 'http://192.168.56.1:8080/tests/';
+var browse = require('./browse');
+var browsers = require('./browsers.local.json');
+var remoteCfg = {};
 
-var desired = {
-  browserName: 'firefox'
+browsers.forEach(launchTests);
+
+function launchTests(desired) {
+  var queue = async.queue(runTest, 2);
+
+  findTests(function(err, tests) {
+    tests.forEach(function(filename) {
+      queue.push({
+        url: baseurl + filename + '?' + Date.now(),
+        desired: desired
+      }, function(err) {
+        if (err !== null) {
+          console.error(err);
+          console.error(filename + ' was NOT OK on ' + desired.browserName + ' ' + (desired.version ? desired.version : ''));
+        } else {
+          console.log(filename + ' was OK on ' + desired.browserName + ' ' + (desired.version ? desired.version : ''));
+        }
+      });
+    });
+  });
 }
-
-findTests(function(err, tests) {
-  async.forEachSeries(tests, runTest, function(err) {
-    if (err !== null) {
-      assert.fail(err, null, err.message)
-    }
-  })
-});
 
 function findTests(cb) {
   var fs = require('fs');
   fs.readdir(__dirname, function(err, files) {
     files = files.filter(isHtml);
     files = files.sort();
-    // files = [files[5]]
     cb(null, files);
   });
 
@@ -28,26 +40,20 @@ function findTests(cb) {
   }
 }
 
-function runTest(file, cb) {
-  var browser = wd.remote();
+function runTest(opt, cb) {
+  var condition = "errorFlag === false && successFlag === true";
+  browse(opt.url, opt.desired, remoteCfg, function(err, browser) {
+    if (err !== null) {
+      console.error(arguments);
+      process.exit(1);
+    }
 
-  async.series([
-    browser.init.bind(browser, desired),
-    browser.get.bind(browser, 'http://192.168.56.1:8080/tests/' + file),
-    // wait for the test to execute before polling
-    wait.bind(null, 1000),
-    browser.waitForCondition.bind(browser, "errorFlag === false && successFlag === true", 1000, 100)
-    ], function(err, results) {
-      browser.quit();
-      if(err !== null) {
-        cb(new Error(file + ' has had an error: ' + err));
-      } else {
-        console.log(file + ' was OK');
-        cb(null);
+    browser.waitForCondition(condition, 3000, 100, function(err, results) {
+      if (err !== null) {
+        console.error(arguments, opt.url, opt.desired);
+        process.exit(1)
       }
-  });
-}
-
-function wait(ms, cb) {
-  setTimeout(cb, ms);
+      browser.quit(cb.bind(null, err));
+    });
+  })
 }
