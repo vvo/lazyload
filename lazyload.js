@@ -2,6 +2,7 @@
 // We NEED to use string as closure compiler would otherwise compile this statement badly
 if (!window['Lazyload']) {
   (function(window, document) {
+    'use strict';
 
     var pageHasLoaded = false;
 
