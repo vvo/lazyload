@@ -211,7 +211,7 @@ if (!window['Lazyload']) {
     function throttle(fn, minDelay) {
       var lastCall = 0;
       return function() {
-        var now = +new Date();
+        var now = getTimestamp();
         if (now - lastCall < minDelay) {
           return;
         }
@@ -342,6 +342,12 @@ if (!window['Lazyload']) {
     var indexOf = [].indexOf || function(value) {
       for (var i = this.length; i-- && this[i] !== value;);
       return i;
+    };
+
+    // Workaround for https://code.google.com/p/v8/issues/detail?id=2558
+    // See also http://jsperf.com/date-now-vs-new-date-gettime/8
+    var getTimestamp = Date.now || function() {
+      return new Date().getTime();
     };
 
   }(this, document))
