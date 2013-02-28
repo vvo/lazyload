@@ -1,7 +1,7 @@
 // Prevent double lazyload script on same page
 // We NEED to use string as closure compiler would otherwise compile this statement badly
 if (!window['Lazyload']) {
-  (function(window, document){
+  (function(window, document) {
 
     var pageHasLoaded = false;
 
@@ -75,7 +75,7 @@ if (!window['Lazyload']) {
       var original = HTMLImageElement.prototype.getAttribute;
       var lazyload = this;
       HTMLImageElement.prototype.getAttribute = function(name) {
-        if(name === 'src') {
+        if (name === 'src') {
           var realSrc = original.call(this, lazyload.opts.lazyAttr);
           return realSrc || original.call(this, name);
         } else {
@@ -169,7 +169,7 @@ if (!window['Lazyload']) {
         var img = this.imgs[current];
         // if showIfVisible is false, it means we have some waiting images to be
         // shown
-        if(img !== null && !this.showIfVisible(img, current)) {
+        if (img !== null && !this.showIfVisible(img, current)) {
           allImagesDone = false;
         }
       }
@@ -192,8 +192,8 @@ if (!window['Lazyload']) {
 
 
     /* Lazyload utility belt *\!/* SHINY *\!/* */
-    function bind (method, context){
-      return function(){
+    function bind(method, context) {
+      return function() {
         method.apply(context, arguments);
       }
     }
@@ -223,20 +223,20 @@ if (!window['Lazyload']) {
     }
 
     // X-browser
-    function addEvent( el, type, fn ) {
+    function addEvent(el, type, fn) {
       if (el.attachEvent) {
-        el.attachEvent && el.attachEvent( 'on' + type, fn );
+        el.attachEvent && el.attachEvent('on' + type, fn);
       } else {
-        el.addEventListener( type, fn, false );
+        el.addEventListener(type, fn, false);
       }
     }
 
     // X-browser
-    function removeEvent( el, type, fn ) {
+    function removeEvent(el, type, fn) {
       if (el.detachEvent) {
-        el.detachEvent && el.detachEvent( 'on' + type, fn );
+        el.detachEvent && el.detachEvent('on' + type, fn);
       } else {
-        el.removeEventListener( type, fn, false );
+        el.removeEventListener(type, fn, false);
       }
     }
 
@@ -260,14 +260,22 @@ if (!window['Lazyload']) {
       }
 
       function poll() {
-        try { document.documentElement.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+        try {
+          document.documentElement.doScroll('left');
+        } catch (e) {
+          setTimeout(poll, 50);
+          return;
+        }
         init('poll');
       }
 
       if (document.readyState === 'complete') callback();
       else {
         if (document.createEventObject && document.documentElement.doScroll) {
-          try { top = !window.frameElement; } catch(e) { }
+          try {
+            top = !window.frameElement;
+          } catch (e) {
+          }
           if (top) poll();
         }
         addEvent(document, 'DOMContentLoaded', init);
@@ -286,11 +294,11 @@ if (!window['Lazyload']) {
       var pos = {
         x: rect.left - offset,
         y: rect.top - offset
-      }
+      };
       var viewport = {
         x: 0,
         y: 0
-      }
+      };
 
       if (container === document.body) {
         viewport.x += document.documentElement.clientWidth;
@@ -310,30 +318,30 @@ if (!window['Lazyload']) {
         x: Math.max(window.pageXOffset || 0, document.body.scrollLeft, document.documentElement.scrollLeft),
         y: Math.max(window.pageYOffset || 0, document.body.scrollTop, document.documentElement.scrollTop)
       }
-    }    
+    }
 
     // https://github.com/jquery/sizzle/blob/3136f48b90e3edc84cbaaa6f6f7734ef03775a07/sizzle.js#L708
     var contains = document.documentElement.compareDocumentPosition ?
-      function( a, b ) {
-        return !!(a.compareDocumentPosition( b ) & 16);
+      function(a, b) {
+        return !!(a.compareDocumentPosition(b) & 16);
       } :
       document.documentElement.contains ?
-      function( a, b ) {
-        return a !== b && ( a.contains ? a.contains( b ) : false );
-      } :
-      function( a, b ) {
-        while ( (b = b.parentNode) ) {
-          if ( b === a ) {
-            return true;
+        function(a, b) {
+          return a !== b && ( a.contains ? a.contains(b) : false );
+        } :
+        function(a, b) {
+          while ((b = b.parentNode)) {
+            if (b === a) {
+              return true;
+            }
           }
-        }
-        return false;
-      };
+          return false;
+        };
 
     // as suggested by http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
-    var indexOf = [].indexOf || function (value) {
-        for (var i = this.length; i-- && this[i] !== value;);
-        return i;
+    var indexOf = [].indexOf || function(value) {
+      for (var i = this.length; i-- && this[i] !== value;);
+      return i;
     };
 
   }(this, document))
