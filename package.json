@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "wd": "0.0.x",
-    "async": "0.1.x"
+    "async": "0.1.x",
+    "grunt-closure-compiler": "0.0.x",
+    "grunt-contrib-concat": "0.1.x"
   },
   "private": true,
   "keywords": [
