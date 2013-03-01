@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         jsOutputFile: 'lazyload.min.js',
         options:      {
           compilation_level:    'ADVANCED_OPTIMIZATIONS',
-          //language_in:          'ECMASCRIPT5_STRICT',
+          language_in:          'ECMASCRIPT5_STRICT',
           summary_detail_level: 3,
           warning_level:        'VERBOSE',
           debug:                false,

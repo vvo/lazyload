@@ -1,7 +1,8 @@
 // Prevent double lazyload script on same page
 // We NEED to use string as closure compiler would otherwise compile this statement badly
 if (!window['Lazyload']) {
-  (function(window, document){
+  (function(window, document) {
+    'use strict';
 
     var pageHasLoaded = false;
 
@@ -71,129 +72,131 @@ if (!window['Lazyload']) {
       }
     }
 
-    Lazyload.prototype.replaceGetAttribute = function replaceGetAttribute() {
-      var original = HTMLImageElement.prototype.getAttribute;
-      var lazyload = this;
-      HTMLImageElement.prototype.getAttribute = function(name) {
-        if(name === 'src') {
-          var realSrc = original.call(this, lazyload.opts.lazyAttr);
-          return realSrc || original.call(this, name);
+    Lazyload.prototype = {
+      replaceGetAttribute: function() {
+        var original = HTMLImageElement.prototype.getAttribute;
+        var lazyload = this;
+        HTMLImageElement.prototype.getAttribute = function(name) {
+          if (name === 'src') {
+            var realSrc = original.call(this, lazyload.opts.lazyAttr);
+            return realSrc || original.call(this, name);
+          } else {
+            // our own lazyloader will go through theses lines
+            // because we use getAttribute(opts.lazyAttr)
+            return original.call(this, name);
+          }
+        }
+      },
+
+      // document.body is not available when Lazyload is in the <head> of the document
+      // so fix it as asap: domready or first onload= event
+      setBodyContainer: function() {
+        this.opts['container'] = document.body;
+      },
+
+      // called by img onload= or onerror= for IE6/7
+      onDataSrcImgLoad: function(img) {
+        if (this.opts['container'] === document) {
+          this.setBodyContainer();
+        }
+        // if image is not already in the imgs array
+        // it can already be in it if domready was fast and img onload slow
+
+        // For the first image of the stack, it is possible we already shown it
+        // But we still got the onload event
+        if (img.getAttribute(this.opts['lazyAttr']) === null) {
+          return;
+        }
+
+        if (indexOf.call(this.imgs, img) === -1) {
+          // this case happens when the page had loaded but we inserted more lazyload images with
+          // javascript (ajax). We need to re-watch scroll/resize
+          if (!this.listening) {
+            this.subscribe();
+          }
+          this.showIfVisible(img, this.imgs.push(img) - 1);
+        }
+      },
+
+      // find and merge images on domready with possibly already present onload= onerror= imgs
+      findImages: function() {
+        var
+          domreadyImgs = document.getElementsByTagName('img'),
+          currentImg;
+
+        // merge them with already self onload registered imgs
+        for (var imgIndex = 0, max = domreadyImgs.length; imgIndex < max; imgIndex += 1) {
+          currentImg = domreadyImgs[imgIndex];
+          if (currentImg.getAttribute(this.opts['lazyAttr']) && indexOf.call(this.imgs, currentImg) === -1) {
+            this.imgs.push(currentImg);
+          }
+        }
+      },
+
+      // img = dom element
+      // index = imgs array index
+      showIfVisible: function(img, index) {
+        // We have to check that the current node is in the DOM
+        // It could be a detached() dom node
+        // http://bugs.jquery.com/ticket/4996
+        if (contains(document.documentElement, img)
+          && hasScrolled(this.opts['container'], img, this.opts['offset'])) {
+          // To avoid onload loop calls
+          // removeAttribute on IE is not enough to prevent the event to fire
+          img.onload = null;
+          img.removeAttribute('onload');
+
+          // on IE < 8 we get an onerror event instead of an onload event
+          img.onerror = null;
+          img.removeAttribute('onerror');
+
+          img.src = img.getAttribute(this.opts['lazyAttr']);
+          img.removeAttribute(this.opts['lazyAttr']);
+          this.imgs[index] = null;
+
+          return true; // img shown
         } else {
-          // our own lazyloader will go through theses lines
-          // because we use getAttribute(opts.lazyAttr)
-          return original.call(this, name);
+          return false; // img to be shown
         }
-      }
-    }
+      },
 
-    // document.body is not available when Lazyload is in the <head> of the document
-    // so fix it as asap: domready or first onload= event
-    Lazyload.prototype.setBodyContainer = function setBodyContainer() {
-      this.opts['container'] = document.body;
-    }
+      // Loop through an images array to find to-be-shown images
+      showImages: function() {
+        var
+          last = this.imgs.length,
+          current,
+          allImagesDone = true;
 
-    // called by img onload= or onerror= for IE6/7
-    Lazyload.prototype.onDataSrcImgLoad = function onDataSrcImgLoad(img) {
-      if (this.opts['container'] === document) {
-        this.setBodyContainer();
-      }
-      // if image is not already in the imgs array
-      // it can already be in it if domready was fast and img onload slow
-
-      // For the first image of the stack, it is possible we already shown it
-      // But we still got the onload event
-      if (img.getAttribute(this.opts['lazyAttr']) === null) {
-        return;
-      }
-
-      if (indexOf.call(this.imgs, img) === -1) {
-        // this case happens when the page had loaded but we inserted more lazyload images with
-        // javascript (ajax). We need to re-watch scroll/resize
-        if (!this.listening) {
-          this.subscribe();
+        for (current = 0; current < last; current++) {
+          var img = this.imgs[current];
+          // if showIfVisible is false, it means we have some waiting images to be
+          // shown
+          if (img !== null && !this.showIfVisible(img, current)) {
+            allImagesDone = false;
+          }
         }
-        this.showIfVisible(img, this.imgs.push(img) - 1);
-      }
-    }
 
-    // find and merge images on domready with possibly already present onload= onerror= imgs
-    Lazyload.prototype.findImages = function findImages() {
-      var
-        domreadyImgs = document.getElementsByTagName('img'),
-        currentImg;
-
-      // merge them with already self onload registered imgs
-      for (var imgIndex = 0, max = domreadyImgs.length; imgIndex < max; imgIndex += 1) {
-        currentImg = domreadyImgs[imgIndex];
-        if (currentImg.getAttribute(this.opts['lazyAttr']) && indexOf.call(this.imgs, currentImg) === -1) {
-          this.imgs.push(currentImg);
+        if (allImagesDone && pageHasLoaded) {
+          this.unsubscribe();
         }
+      },
+
+      unsubscribe: function() {
+        removeEvent(this.scrollContainer, 'scroll', this.showImagesT);
+        this.listening = false;
+        this.imgs = [];
+      },
+
+      subscribe: function() {
+        addEvent(this.scrollContainer, 'scroll', this.showImagesT);
+        this.listening = true;
       }
-    }
-
-    // img = dom element
-    // index = imgs array index
-    Lazyload.prototype.showIfVisible = function showIfVisible(img, index) {
-      // We have to check that the current node is in the DOM
-      // It could be a detached() dom node
-      // http://bugs.jquery.com/ticket/4996
-      if (contains(document.documentElement, img)
-        && hasScrolled(this.opts['container'], img, this.opts['offset'])) {
-        // To avoid onload loop calls
-        // removeAttribute on IE is not enough to prevent the event to fire
-        img.onload = null;
-        img.removeAttribute('onload');
-
-        // on IE < 8 we get an onerror event instead of an onload event
-        img.onerror = null;
-        img.removeAttribute('onerror');
-
-        img.src = img.getAttribute(this.opts['lazyAttr']);
-        img.removeAttribute(this.opts['lazyAttr']);
-        this.imgs[index] = null;
-
-        return true; // img shown
-      } else {
-        return false; // img to be shown
-      }
-    }
-
-    // Loop through an images array to find to-be-shown images
-    Lazyload.prototype.showImages = function showImages() {
-      var
-        last = this.imgs.length,
-        current,
-        allImagesDone = true;
-
-      for (current = 0; current < last; current++) {
-        var img = this.imgs[current];
-        // if showIfVisible is false, it means we have some waiting images to be
-        // shown
-        if(img !== null && !this.showIfVisible(img, current)) {
-          allImagesDone = false;
-        }
-      }
-
-      if (allImagesDone && pageHasLoaded) {
-        this.unsubscribe();
-      }
-    }
-
-    Lazyload.prototype.unsubscribe = function unsubscribe() {
-      removeEvent(this.scrollContainer, 'scroll', this.showImagesT);
-      this.listening = false;
-      this.imgs = [];
-    }
-
-    Lazyload.prototype.subscribe = function subscribe() {
-      addEvent(this.scrollContainer, 'scroll', this.showImagesT);
-      this.listening = true;
-    }
+    };
 
 
     /* Lazyload utility belt *\!/* SHINY *\!/* */
-    function bind (method, context){
-      return function(){
+    function bind(method, context) {
+      return function() {
         method.apply(context, arguments);
       }
     }
@@ -211,7 +214,7 @@ if (!window['Lazyload']) {
     function throttle(fn, minDelay) {
       var lastCall = 0;
       return function() {
-        var now = +new Date();
+        var now = getTimestamp();
         if (now - lastCall < minDelay) {
           return;
         }
@@ -223,20 +226,20 @@ if (!window['Lazyload']) {
     }
 
     // X-browser
-    function addEvent( el, type, fn ) {
+    function addEvent(el, type, fn) {
       if (el.attachEvent) {
-        el.attachEvent && el.attachEvent( 'on' + type, fn );
+        el.attachEvent && el.attachEvent('on' + type, fn);
       } else {
-        el.addEventListener( type, fn, false );
+        el.addEventListener(type, fn, false);
       }
     }
 
     // X-browser
-    function removeEvent( el, type, fn ) {
+    function removeEvent(el, type, fn) {
       if (el.detachEvent) {
-        el.detachEvent && el.detachEvent( 'on' + type, fn );
+        el.detachEvent && el.detachEvent('on' + type, fn);
       } else {
-        el.removeEventListener( type, fn, false );
+        el.removeEventListener(type, fn, false);
       }
     }
 
@@ -260,14 +263,22 @@ if (!window['Lazyload']) {
       }
 
       function poll() {
-        try { document.documentElement.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+        try {
+          document.documentElement.doScroll('left');
+        } catch (e) {
+          setTimeout(poll, 50);
+          return;
+        }
         init('poll');
       }
 
       if (document.readyState === 'complete') callback();
       else {
         if (document.createEventObject && document.documentElement.doScroll) {
-          try { top = !window.frameElement; } catch(e) { }
+          try {
+            top = !window.frameElement;
+          } catch (e) {
+          }
           if (top) poll();
         }
         addEvent(document, 'DOMContentLoaded', init);
@@ -286,11 +297,11 @@ if (!window['Lazyload']) {
       var pos = {
         x: rect.left - offset,
         y: rect.top - offset
-      }
+      };
       var viewport = {
         x: 0,
         y: 0
-      }
+      };
 
       if (container === document.body) {
         viewport.x += document.documentElement.clientWidth;
@@ -310,30 +321,36 @@ if (!window['Lazyload']) {
         x: Math.max(window.pageXOffset || 0, document.body.scrollLeft, document.documentElement.scrollLeft),
         y: Math.max(window.pageYOffset || 0, document.body.scrollTop, document.documentElement.scrollTop)
       }
-    }    
+    }
 
     // https://github.com/jquery/sizzle/blob/3136f48b90e3edc84cbaaa6f6f7734ef03775a07/sizzle.js#L708
     var contains = document.documentElement.compareDocumentPosition ?
-      function( a, b ) {
-        return !!(a.compareDocumentPosition( b ) & 16);
+      function(a, b) {
+        return !!(a.compareDocumentPosition(b) & 16);
       } :
       document.documentElement.contains ?
-      function( a, b ) {
-        return a !== b && ( a.contains ? a.contains( b ) : false );
-      } :
-      function( a, b ) {
-        while ( (b = b.parentNode) ) {
-          if ( b === a ) {
-            return true;
+        function(a, b) {
+          return a !== b && ( a.contains ? a.contains(b) : false );
+        } :
+        function(a, b) {
+          while ((b = b.parentNode)) {
+            if (b === a) {
+              return true;
+            }
           }
-        }
-        return false;
-      };
+          return false;
+        };
 
     // as suggested by http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
-    var indexOf = [].indexOf || function (value) {
-        for (var i = this.length; i-- && this[i] !== value;);
-        return i;
+    var indexOf = [].indexOf || function(value) {
+      for (var i = this.length; i-- && this[i] !== value;);
+      return i;
+    };
+
+    // Workaround for https://code.google.com/p/v8/issues/detail?id=2558
+    // See also http://jsperf.com/date-now-vs-new-date-gettime/8
+    var getTimestamp = Date.now || function() {
+      return new Date().getTime();
     };
 
   }(this, document))
