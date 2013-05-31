@@ -29,3 +29,21 @@ Provide callback to choose how to show the image (add fadeIn example)
 Show example using a spinner then fadeIn
 Update github pages, create beautifull one with all examples and features
 Double script fails sur IE
+
+--
+laredoute
+http://www.laredoute.co.uk/
+elpais.com
+http://www.vertbaudet.es/ch/pt/uk
+http://www.daxon.co.uk/
+
+-- remove slow images or use your own
+
+proposer module hasScrolled seul
+utiliser components?
+lazyload des iframes aussi.
+
+Gérer une liste d'instances, s'enregistrer sur le domready au plus vite, s'enregistrer sur le
+htmlImage le plus vite.
+
+Pour éviter les cas de chargement ajax.
