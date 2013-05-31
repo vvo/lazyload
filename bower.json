@@ -1,0 +1,11 @@
+{
+  "name": "lazyload",
+  "description": "Image lazy loading",
+  "version": "0.8.5",
+  "main": "build/lazyload.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
