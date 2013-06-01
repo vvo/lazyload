@@ -7,5 +7,8 @@
     "**/.*",
     "node_modules",
     "components"
-  ]
+  ],
+  "devDependencies": {
+    "in-viewport": "~0.1.1"
+  }
 }
