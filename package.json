@@ -6,21 +6,16 @@
     "type": "git",
     "url": "http://github.com/vvo/lazyload.git"
   },
-  "dependencies": {
-    "wd": "0.0.x",
-    "async": "0.1.x",
-    "grunt-closure-compiler": "0.0.x",
-    "grunt-contrib-concat": "0.1.x"
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-closure-compiler": "git://github.com/vvo/grunt-closure-compiler.git#v0.1.0",
+    "grunt-contrib-watch": "~0.4.3",
+    "grunt-contrib-jshint": "~0.4.3",
+    "mocha": "~1.9.0"
   },
-  "private": true,
-  "keywords": [
-    "performance",
-    "image",
-    "lazyload",
-    "webperf"
-  ],
   "scripts": {
-    "test": "node tests/functionnal.js"
+    "test": "mocha-phantomjs test/test.html"
   },
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT"
