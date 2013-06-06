@@ -33,6 +33,7 @@ Lazyload images, iframes, divs, widgets.
 
 Millions of pageviews are served using this project:
 
+* [fasterize.com](http://fasterize.com) `lazyload` was first developed at fasterize (WPO solution)
 * [lemonde.fr](http://www.lemonde.fr)
 * [pluzz.francetv.fr](http://pluzz.francetv.fr)
 * [pcinpact.com](http://www.pcinpact.com)
@@ -42,6 +43,8 @@ Millions of pageviews are served using this project:
 * [rue89.com](http://www.rue89.com)
 
 ## Licence
+
+Also see [LICENCE.fasterize](LICENCE.fasterize)
 
 (The MIT Licence)
 
