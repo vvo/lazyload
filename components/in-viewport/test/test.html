@@ -2,19 +2,18 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>lazyload tests</title>
+  <title>in-viewport tests</title>
 
   <link rel="stylesheet" href="../node_modules/mocha/mocha.css"/>
+
 </head>
 <body>
   <div id="mocha"></div>
 
-  <script src="../components/in-viewport/in-viewport.js"></script>
-  <script src="../lazyload.js"></script>
+  <script src="../in-viewport.js"></script>
 
-  <script src="../components/in-viewport/test/helpers/helper.js"></script>
-  <script src="helper.js"></script>
-  <script src="../components/in-viewport/test/helpers/assert.js"></script>
+  <script src="helpers/helper.js"></script>
+  <script src="helpers/assert.js"></script>
   <script src="../node_modules/mocha/mocha.js"></script>
 
   <script>
@@ -23,8 +22,12 @@
     reporter: Mocha.reporters.HTML
   })</script>
 
-  <script src="simple.js"></script>
+  <script src="not-visible.js"></script>
+  <script src="visible.js"></script>
+  <script src="no-watch.js"></script>
+  <script src="custom-container.js"></script>
   <script>if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
       else { mocha.run(); }</script>
+
 </body>
 </html>

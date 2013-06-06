@@ -28,7 +28,10 @@ function makeInsert(src) {
   return function insertImage(n, className, fn) {
     var newtpl = tpl;
     n = n || 1;
-    if (typeof className === 'function') fn = className;
+    if (typeof className === 'function') {
+      fn = className;
+      className = undefined;
+    }
     if (className !== undefined) newtpl = newtpl.replace('%class', ' class="'+className+'"');
     else newtpl = newtpl.replace('%class', '');
 

@@ -4,7 +4,9 @@
   <title>Immediate ajax-loaded images test</title>
   <link rel="stylesheet" type="text/css" href="test.css" />
   <script src="js/helper.js"></script>
+  <script src="../components/in-viewport/in-viewport.js"></script>
   <script src="../lazyload.js"></script>
+  <script>lzld = lazyload();</script>
   <script src="js/jquery-1.8.3.js"></script>  
 </head>
 <body>
@@ -51,8 +53,8 @@ function test() {
         error("Last ajax image should be shown");
 
       success();
-    }, 100);
-  }, 100);
+    }, 20);
+  }, 20);
 }
 </script>
 

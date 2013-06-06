@@ -4,7 +4,7 @@
   <title>Custom container test</title>
   <link rel="stylesheet" type="text/css" href="test.css" />
   <script src="js/helper.js"></script>
-  <script src="../lazyload.js"></script>
+  <script src="../build/lazyload.min.js"></script>
 </head>
 <body>
 
@@ -22,7 +22,7 @@ setup(test);
 
 function setup(cb) {
   container.scrollTop = 0;
-  window.lzld = (new Lazyload({container: document.getElementById('content')})).lzld;
+  window.lzld = lazyload({container: document.getElementById('content')});
   insertSlowImage(1);
   insertImage(15);
   insertSlowImage(1);
