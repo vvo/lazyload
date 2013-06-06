@@ -12,12 +12,18 @@ Lazyload images, iframes, divs, widgets.
 <!doctype html>
 <script src="lazyload.min.js"></script>
 <body>
+  <!-- You should not lazyload first images of your website -->
+  <img src="not/lazyloaded.jpg" />
+
   <img
     data-src="real/image/src.jpg"
     src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
     onload=lzld(this) onerror=lzld(this) />
 </body>
 ```
+
+On most websites, you better let the first images not bound to lzld method.
+So that they shows really fast.
 
 ## Features
 
