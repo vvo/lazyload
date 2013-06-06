@@ -5,7 +5,6 @@ describe('lazyloading an image ', function() {
   var playground = getPlayground();
 
   before(function() {
-    window.lzld = lazyload();
     insert(playground, getImage(0, 0, 'i0', realSrc, fakeSrc));
     elt = document.getElementById('i0');
   });

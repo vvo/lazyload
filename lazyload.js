@@ -1,9 +1,10 @@
 (function(window, document){
 
   var pageHasLoaded = false;
-  var lazyAttrs = [];
+  var lazyAttrs = ['data-src'];
 
   window['lazyload'] = lazyload;
+  window['lzld'] = lzld();
 
   addEvent(window, 'load', function() {
     pageHasLoaded = true;
@@ -17,6 +18,18 @@
   function registerLazyAttr(attr) {
     if (indexOf.call(lazyAttrs, attr) === -1) {
       lazyAttrs.push(attr);
+    }
+  }
+
+  function lzld() {
+    var instance;
+
+    return function(element) {
+      if (instance === undefined) {
+        instance = lazyload();
+      }
+
+      instance(element);
     }
   }
 

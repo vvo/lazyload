@@ -59,7 +59,6 @@
     addEvent(scrollContainer, 'scroll', debouncedScrollCheck);
 
     function inViewport(elt, offset, cb) {
-      debugger;
       var eltRect = elt.getBoundingClientRect();
       var containerRect = container.getBoundingClientRect();
 

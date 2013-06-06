@@ -6,14 +6,11 @@ Lazyload images, iframes, divs, widgets.
 
 ## Usage
 
-### lazyloading all images in the body
+### lazyloading all body images
 
 ```html
 <!doctype html>
 <script src="lazyload.min.js"></script>
-<script>
-  window.lzld = lazyload();
-</script>
 <body>
   <img
     data-src="real/image/src.jpg"
