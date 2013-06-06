@@ -1,11 +1,16 @@
-describe('lazyloading an image ', function() {
+describe('a simple usage with an image', function() {
   var fakeSrc = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   var realSrc = 'fixtures/tiny.gif?'+(+new Date());
   var elt;
   var playground = getPlayground();
 
   before(function() {
-    insert(playground, getImage(0, 0, 'i0', realSrc, fakeSrc));
+    insert(playground, getImage({
+      x: 0,
+      y: 0,
+      realSrc: realSrc,
+      fakeSrc: fakeSrc
+    }));
     elt = document.getElementById('i0');
   });
 
