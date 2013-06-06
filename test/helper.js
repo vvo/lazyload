@@ -8,7 +8,7 @@
     var img = '<img ' +
       'src="'+fakeSrc+'"' +
       'data-src="'+realSrc+'" ' +
-      'onload="lzld(this)" id="' + id + '" />';
+      'onload="lzld(this)" onerror="lzld(this)" id="' + id + '" />';
 
     return img;
   }
