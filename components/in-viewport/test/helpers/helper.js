@@ -5,7 +5,7 @@
   doc.body.insertBefore(playground, doc.body.childNodes[0]);
 
   var style = document.createElement('style');
-  var content = '.scrollTrigger {position:relative;width:5px;height:5px;background:#000;top:20000px;left:20000px;}';
+  var content = '#playground {position:absolute;top:0;left:0;line-height:0;font-size:0};.scrollTrigger {position:relative;width:5px;height:5px;background:#000;top:20000px;left:20000px;}';
   style.setAttribute("type", "text/css");
   if (style.styleSheet) {
       style.styleSheet.cssText = content;
@@ -31,13 +31,13 @@
     if (typeof cb === 'function') {
       setTimeout(function() {
         smartScroll(x, y, container);
-        setTimeout(cb, 20);
+        setTimeout(cb, 12);
       }, 4);
     } else {
       return function(cb) {
         setTimeout(function() {
           smartScroll(x, y, container);
-          setTimeout(cb, 20);
+          setTimeout(cb, 12);
         }, 4);
       }
     }

@@ -1,6 +1,6 @@
 {
   "name": "in-viewport",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Get a callback when an element enters the viewport (body) or a custom viewport",
   "main": "build/in-viewport.min.js",
   "scripts": {

@@ -54,7 +54,7 @@
   function createInViewport(container) {
     var watches = [];
     var scrollContainer = container === doc.body ? win : container;
-    var debouncedScrollCheck = debounce(scrollCheck, 12);
+    var debouncedScrollCheck = debounce(scrollCheck, 25);
 
     addEvent(scrollContainer, 'scroll', debouncedScrollCheck);
 
@@ -68,8 +68,8 @@
       };
 
       var viewport = {
-        width: 0,
-        height: 0
+        width: offset,
+        height: offset
       };
 
       if (container === doc.body) {
@@ -84,9 +84,9 @@
 
       var visible =
         pos.left >= -offset &&
-        pos.left <= viewport.width + offset &&
+        pos.left <= viewport.width &&
         pos.top >= -offset &&
-        pos.top <= viewport.height + offset;
+        pos.top <= viewport.height;
 
       if (visible) {
         if (cb) {
