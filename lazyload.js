@@ -45,8 +45,7 @@
 
     var imgs = [];
 
-    function showImage(id) {
-      var img = imgs[id];
+    function showImage(img) {
       img.onload = null;
       img.removeAttribute('onload');
 
@@ -56,15 +55,12 @@
 
       img.src = img.getAttribute(opts['lazyAttr']);
       img.removeAttribute(opts['lazyAttr']);
-      imgs[id] = null;
+      imgs[imgs.indexOf(img)] = null;
     }
 
     function registerImage(img) {
       if (indexOf.call(imgs, img) === -1) {
-        var id = imgs.push(img) - 1;
-        inViewport(img, opts, function() {
-          showImage(id);
-        });
+        inViewport(img, opts, showImage);
       }
     }
 
