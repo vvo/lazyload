@@ -1,28 +1,56 @@
+// Some notes on testing, we are using detached dom nodes.
+// On IE, detached DOM nodes are not well handed:
+// - img `onload` is triggered as soon as element is created
+//    - but when src is a dataURI, no onload is triggered
+// - img.getBoundingClientRect is not available when detached (in-viewport handles it)
+
 describe('a simple usage with an image', function() {
-  var fakeSrc = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
+  // not using a dataURI for IE
+  var fakeSrc = '/b.gif?'+(+new Date());
   var realSrc = 'fixtures/tiny.gif?'+(+new Date());
-  var elt;
+
+  var test = createTest({
+    tagName: 'img',
+    attributes: {
+      src: fakeSrc,
+      'data-src': realSrc,
+      width: 1,
+      height: 1,
+
+      // Will be triggered on IE as soon as the image is created
+      onload: 'lzld(this)',
+      onerror: 'lzld(this)'
+    },
+    style: {
+      position: 'relative',
+      top: 0,
+      left: 0
+    }
+  });
 
   before(function() {
-    insert(getPlayground(), getImage({
-      x: 0,
-      y: 0,
-      realSrc: realSrc,
-      fakeSrc: fakeSrc
-    }));
-
-    elt = document.getElementById('i0');
-  })
+    insertTest(test);
+  });
 
   it('src currently fake', function() {
-    assert.equal(fakeSrc, elt.src);
+    assert(test.src.indexOf(fakeSrc) !== -1);
   });
 
   it('getAttribute still gives real src', function() {
-    assert.equal(realSrc, elt.getAttribute('src'));
+    assert.equal(realSrc, test.getAttribute('src'));
   });
 
-  it('loads the image when visible for a while', eltLoaded('i0'));
+  // ON IE, since the onload was triggered too early, we need to force in-viewport to check
+  // again for visibility
+  describe('after some scrolling', function() {
 
-  after(clean);
+    // on anything but IE, this scroll is not needed
+    before(scroller(1, 1));
+
+    it('loads the image when visible for a while', eltLoaded(test));
+
+    after(clean(test));
+  });
+
 });
