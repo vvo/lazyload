@@ -116,7 +116,7 @@
 
       if (visible) {
         if (cb) {
-          cb();
+          cb(elt);
         } else {
           return true;
         }

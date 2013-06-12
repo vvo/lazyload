@@ -25,10 +25,11 @@ var elem = document.getElementById('myFancyDiv');
 
 inViewport(elem, visible);
 
-function visible() {
-  alert('myFancyDiv is visible in the window !');
+function visible(elt) {
+  alert(elt.id + ' is visible in the window !');
 }
 ```
+The first callback argument is always the elt that entered the viewport.
 
 ### A custom container
 
