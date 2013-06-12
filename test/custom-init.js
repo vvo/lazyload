@@ -1,4 +1,4 @@
-describe('an image at y + 10000 pixels, lazyloading with 1000px offset', function() {
+describe('an image at x0, y10000, lazyload stored as `customlzld`, 1000px offset, youpikai as data-src ', function() {
 
   var lazyAttr = 'youpikai';
   var lazyFunc = 'customlzld';
@@ -6,11 +6,16 @@ describe('an image at y + 10000 pixels, lazyloading with 1000px offset', functio
   // not using a dataURI for IE
   var fakeSrc = '/b.gif?'+(+new Date());
   var realSrc = 'fixtures/tiny.gif?'+(+new Date());
+  var offset = 1000;
+
+  var scrollTo = 10000 -
+    document.documentElement.clientHeight -
+    offset;
 
   // on IE, onload will immediately be called so init lazyload before inserting
   // the image into the DOM
   window[lazyFunc] = lazyload({
-    offset: 1000,
+    offset: offset,
     lazyAttr: lazyAttr
   });
 
@@ -42,15 +47,20 @@ describe('an image at y + 10000 pixels, lazyloading with 1000px offset', functio
   describe('when scrolling 8000 pixels', function() {
     before(scroller(0, 8000));
 
+    it('does not loads the image', eltNotLoaded(test, lazyAttr));
+  });
+
+  describe('when scrolling 1px the triggering scroll position ('+(scrollTo-1)+'px)', function() {
+    before(scroller(0, scrollTo - 1));
+
     it('still does not loads the image', eltNotLoaded(test, lazyAttr));
   });
 
-  describe('when scrolling near the offset', function() {
-    before(scroller(0, 9000));
+  describe('when scrolling at the triggering scroll position ('+scrollTo+'px)', function() {
+    before(scroller(0, scrollTo));
 
     it('loads the image', eltLoaded(test, lazyAttr));
-
-    after(clean(test));
   });
 
+  after(clean(test));
 });
