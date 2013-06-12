@@ -6,7 +6,7 @@
 
     return function(done) {
       setTimeout(function() {
-        assert(elt.getAttribute(lazyAttr) !== null);
+        assert(elt.getAttribute('onload') !== null);
         done();
       }, 25);
     }
@@ -17,7 +17,7 @@
 
     return function(done) {
       setTimeout(function() {
-        assert(elt.getAttribute(lazyAttr) === null);
+        assert(elt.getAttribute('onload') === null);
         done();
       }, 25);
     }

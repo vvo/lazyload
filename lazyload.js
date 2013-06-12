@@ -38,7 +38,8 @@
     opts = merge({
       'offset': 200,
       'lazyAttr': 'data-src',
-      'container': false
+      'container': false,
+      'cb': false
     }, opts || {});
 
     registerLazyAttr(opts['lazyAttr']);
@@ -46,6 +47,9 @@
     var imgs = [];
 
     function showImage(img) {
+      var realSrc = findRealSrc(img);
+
+      // needed by IE < 9, otherwise we get another onload when changing the src
       img.onload = null;
       img.removeAttribute('onload');
 
@@ -53,9 +57,17 @@
       img.onerror = null;
       img.removeAttribute('onerror');
 
-      img.src = img.getAttribute(opts['lazyAttr']);
-      img.removeAttribute(opts['lazyAttr']);
-      imgs[imgs.indexOf(img)] = null;
+      img.src = realSrc;
+      // img.removeAttribute(opts['lazyAttr']);
+      imgs[indexOf.call(imgs, img)] = null;
+    }
+
+    function findRealSrc(img) {
+      if (typeof opts['cb'] === 'function') {
+        return opts['cb'](img);
+      } else {
+        return img.getAttribute(opts['lazyAttr']);
+      }
     }
 
     function registerImage(img) {
