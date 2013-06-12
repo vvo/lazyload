@@ -76,8 +76,8 @@
     addEvent(scrollContainer, 'scroll', debouncedScrollCheck);
 
     function inViewport(elt, offset, cb) {
-      if (!contains(doc.documentElement, elt)
-        || !contains(doc.documentElement, container)) {
+      if (!contains(doc.documentElement, elt) ||
+          !contains(doc.documentElement, container)) {
           return setTimeout(addWatch(elt, offset, cb), 0);
       }
 
