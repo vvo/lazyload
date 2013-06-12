@@ -61,7 +61,7 @@ describe('using a div as a reference container', function() {
 
   describe('when we scroll down inside the container to the element', function() {
     before(function(cb) {
-      scroller(1000, 1000, container, cb);
+      scroller(1050, 1050, container, cb);
     });
 
     it('loads the image', eltLoaded(test));

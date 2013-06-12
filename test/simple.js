@@ -47,6 +47,7 @@ describe('a simple usage with an image', function() {
 
     // on anything but IE, this scroll is not needed
     before(scroller(1, 1));
+    before(scroller(1, 1));
 
     it('loads the image when visible for a while', eltLoaded(test));
 
