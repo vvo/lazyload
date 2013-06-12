@@ -71,9 +71,13 @@
   function createInViewport(container) {
     var watches = [];
     var scrollContainer = container === doc.body ? win : container;
-    var debouncedScrollCheck = debounce(scrollCheck, 15);
+    var debouncedCheck = debounce(checkImages, 15);
 
-    addEvent(scrollContainer, 'scroll', debouncedScrollCheck);
+    addEvent(scrollContainer, 'scroll', debouncedCheck);
+
+    if (scrollContainer === win) {
+      addEvent(win, 'resize', debouncedCheck);
+    }
 
     function inViewport(elt, offset, cb) {
       if (!contains(doc.documentElement, elt) ||
@@ -133,7 +137,7 @@
       }
     }
 
-    function scrollCheck() {
+    function checkImages() {
       var cb;
       while(cb = watches.shift()) {
         cb();
