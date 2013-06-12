@@ -58,7 +58,6 @@
       img.removeAttribute('onerror');
 
       img.src = realSrc;
-      // img.removeAttribute(opts['lazyAttr']);
       imgs[indexOf.call(imgs, img)] = null;
     }
 
