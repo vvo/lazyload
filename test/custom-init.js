@@ -44,8 +44,8 @@ describe('an image at x0, y10000, lazyload stored as `customlzld`, 1000px offset
 
   it('does not loads the image at first', eltNotLoaded(test, lazyAttr));
 
-  describe('when scrolling 8000 pixels', function() {
-    before(scroller(0, 8000));
+  describe('when scrolling 1000 pixels', function() {
+    before(scroller(0, 1000));
 
     it('does not loads the image', eltNotLoaded(test, lazyAttr));
   });
