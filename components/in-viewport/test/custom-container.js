@@ -1,23 +1,31 @@
 describe('using a div as a reference container', function() {
-  var $playground = getPlayground();
-  var $test;
-  var $container;
+  var test = createTest({
+    style: {
+      width: '10px',
+      height: '100px',
+      position: 'relative',
+      left: '1000px',
+      top: '1000px'
+    }
+  });
+
+  var container = createTest({
+    style: {
+      width: '500px',
+      height: '500px',
+      overflow: 'scroll'
+    }
+  });
+  container.innerHTML = '<div class="scrollTrigger"></div>';
+
   var calls = [];
 
   before(function() {
-    var tofind =
-      '<div id=testCustom style=position:relative;width:10px;height:10px;top:1000px;left:1000px>coucou</div><div class="scrollTrigger"></div>';
-    var container =
-      '<div id=container style=width:500px;height:500px;overflow:scroll> ' + tofind + '</div>';
-    var fakeBodyScroller =
-      '<div style=position:relative;top:3000px;left:3000px;>' + container + '</div>'
+    insertTest(test, container);
+    insertTest(container);
 
-    insert($playground, fakeBodyScroller);
-
-    $test = document.getElementById('testCustom');
-    $container = document.getElementById('container');
-    inViewport($test, {
-      container: $container
+    inViewport(test, {
+      container: container
     }, scrolledCb);
   });
 
@@ -36,7 +44,7 @@ describe('using a div as a reference container', function() {
 
   describe('when we scroll down inside the container', function() {
     before(function(cb) {
-      scroller(100, 100, $container, cb)
+      scroller(100, 100, container, cb)
     });
 
     it('callback was not called', function() {
@@ -49,7 +57,7 @@ describe('using a div as a reference container', function() {
 
   describe('when we scroll down too far in the container', function() {
     before(function(cb) {
-      scroller(10000, 10000, $container, cb);
+      scroller(10000, 10000, container, cb);
     });
 
     it('callback was not called', function() {
@@ -62,7 +70,7 @@ describe('using a div as a reference container', function() {
 
   describe('when we scroll down inside the container to the element', function() {
     before(function(cb) {
-      scroller(1000, 1000, $container, cb);
+      scroller(1000, 1000, container, cb);
     });
 
     it('callback was called', function() {
@@ -72,10 +80,10 @@ describe('using a div as a reference container', function() {
 
   describe('when we scroll down, up, like crazy', function() {
     before(function(cb) {
-      scroller(0, 200, $container, cb);
+      scroller(0, 200, container, cb);
     });
     before(function(cb) {
-      scroller(0, 20000, $container, cb);
+      scroller(0, 20000, container, cb);
     });
     before(scroller(0, 0));
 
@@ -88,5 +96,5 @@ describe('using a div as a reference container', function() {
     calls.push(result);
   }
 
-  after(clean);
+  after(clean(container));
 });

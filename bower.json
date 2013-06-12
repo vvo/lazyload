@@ -9,6 +9,6 @@
     "components"
   ],
   "devDependencies": {
-    "in-viewport": "~0.2.1"
+    "in-viewport": "~0.2.2"
   }
 }

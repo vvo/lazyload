@@ -1,5 +1,4 @@
 (function(win, doc){
-
   var instances = [];
   win["inViewport"] = inViewport;
 
@@ -51,14 +50,37 @@
     }
   }
 
+  // https://github.com/jquery/sizzle/blob/3136f48b90e3edc84cbaaa6f6f7734ef03775a07/sizzle.js#L708
+  var contains = document.documentElement.compareDocumentPosition ?
+    function( a, b ) {
+      return !!(a.compareDocumentPosition( b ) & 16);
+    } :
+    document.documentElement.contains ?
+    function( a, b ) {
+      return a !== b && ( a.contains ? a.contains( b ) : false );
+    } :
+    function( a, b ) {
+      while ( (b = b.parentNode) ) {
+        if ( b === a ) {
+          return true;
+        }
+      }
+      return false;
+    };
+
   function createInViewport(container) {
     var watches = [];
     var scrollContainer = container === doc.body ? win : container;
-    var debouncedScrollCheck = debounce(scrollCheck, 25);
+    var debouncedScrollCheck = debounce(scrollCheck, 15);
 
     addEvent(scrollContainer, 'scroll', debouncedScrollCheck);
 
     function inViewport(elt, offset, cb) {
+      if (!contains(doc.documentElement, elt)
+        || !contains(doc.documentElement, container)) {
+          return setTimeout(addWatch(elt, offset, cb), 0);
+      }
+
       var eltRect = elt.getBoundingClientRect();
       var containerRect = container.getBoundingClientRect();
 
@@ -96,13 +118,15 @@
         }
       } else {
         if (cb) {
-          setTimeout(addWatch, 0);
+          setTimeout(addWatch(elt, offset, cb), 0);
         } else {
           return false;
         }
       }
+    }
 
-      function addWatch() {
+    function addWatch(elt, offset, cb) {
+      return function() {
         watches.push(function() {
           inViewport(elt, offset, cb, true);
         });

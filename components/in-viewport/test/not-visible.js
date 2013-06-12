@@ -1,14 +1,20 @@
 function testElem(x, y) {
   describe('dealing with an element located at '+x+','+y, function() {
-    var $playground = getPlayground();
-    var $test;
+    var test = createTest({
+      style: {
+        width: '10px',
+        height: '100px',
+        position: 'relative',
+        left: x +  'px',
+        top: y + 'px'
+      }
+    });
+
     var calls = [];
 
     before(function() {
-      var position = 'position:relative;top:' + y + 'px;left:' + x + 'px';
-      insert($playground, '<div id=testNotVisible style=' + position + ';width:10px;height:100px>t</div><div class="scrollTrigger"></div>');
-      $test = document.getElementById('testNotVisible');
-      inViewport($test, cb);
+      insertTest(test);
+      inViewport(test, cb);
     });
 
     describe('when we scroll down a little', function() {
@@ -52,9 +58,9 @@ function testElem(x, y) {
       calls.push(result);
     }
 
+    after(clean(test));
   });
 
-  after(clean);
 }
 
 testElem(0, 10000);
