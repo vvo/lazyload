@@ -1,12 +1,13 @@
 {
   "name": "lazyload",
   "description": "Image lazy loading",
-  "version": "0.8.5",
+  "version": "2.0.1",
   "main": "build/lazyload.min.js",
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
+    "components",
+    "test"
   ],
   "devDependencies": {
     "in-viewport": "~0.2.2"
