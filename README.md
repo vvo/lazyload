@@ -1,6 +1,8 @@
 # lazyload
-
 Lazyload images, iframes, divs, widgets.
+
+Pretty stable but still in alpha.
+Battle tested against IE8+ Android Ch FF.
 
 [![browser support](https://ci.testling.com/vvo/lazyload.png)](https://ci.testling.com/vvo/lazyload)
 
@@ -22,15 +24,62 @@ Lazyload images, iframes, divs, widgets.
 </body>
 ```
 
-On most websites, you better let the first images not bound to lzld method.
+On most websites, you better let the first top images not bound to lzld method.
 So that they shows really fast.
 
-## Features
+### options
 
-* custom containers (not just body)
-* multiple instances
-* watches the viewport to determine if an object is visible
-* register custom callbacks when element is visible
+Here are the options and defaults.
+
+```js
+var myLzld = lazyload({
+  container: document.body,
+  offset: 200,
+  lazyAttr: 'data-src',
+  cb: false
+});
+```
+
+* **container**: Which element to be used as the `viewport`
+* **offset**: When watched element is `offset`px near the viewport bounds, show it (horizontal, vertical)
+* **lazyAttr**: Where to find the real src of your element
+* **cb**: A custom callback to return the src YOU want. Defaults to elt['data-src']
+
+### retina images
+
+With the `cb` param, you can implement a custom src selector and so handle retina images.
+
+```html
+
+<!doctype html>
+<script src="lazyload.min.js"></script>
+<script>
+var lazyRetina = lazyload({ cb: chooseSrc });
+
+function chooseSrc(img) {
+  if(youWantTheRetinaImage) {
+    return img['data-src-hd'];
+  } else {
+    return img['data-src'];
+  }
+}
+</script>
+<body>
+  <img
+    data-src="real/image/src.jpg"
+    data-src-hd="real/image/src-hd.jpg"
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    onload=lazyRetina(this) onerror=lazyRetina(this) />
+</body>
+```
+
+### lazyload all the things
+
+#### iframes
+
+#### widgets
+
+#### your mum
 
 ## Sites using lazyload
 
