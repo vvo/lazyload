@@ -50,7 +50,6 @@ var myLzld = lazyload({
 With the `cb` param, you can implement a custom src selector and so handle retina images.
 
 ```html
-
 <!doctype html>
 <script src="lazyload.min.js"></script>
 <script>
@@ -76,6 +75,22 @@ function chooseSrc(img) {
 ### lazyload all the things
 
 #### iframes
+
+Yes! You can also lazyload iframes untill they are visible in the viewport:
+
+```html
+<!doctype html>
+<script src="lazyload.min.js"></script>
+<body>
+  <div>A lot of content</div>
+
+  <iframe
+    data-src="yourpage.html"
+    src="about:blank"
+    onload=lzld(this)
+    onerror=lzld(this)></iframe>
+</body>
+```
 
 #### widgets
 

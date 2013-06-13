@@ -11,9 +11,9 @@
   });
 
   // Provide libs using getAttribute early to get the good src
-  if ('HTMLImageElement' in window) {
-    replaceGetAttribute();
-  }
+  // and not the fake data-src
+  replaceGetAttribute('Image');
+  replaceGetAttribute('IFrame');
 
   function registerLazyAttr(attr) {
     if (indexOf.call(lazyAttrs, attr) === -1) {
@@ -44,44 +44,48 @@
 
     registerLazyAttr(opts['lazyAttr']);
 
-    var imgs = [];
+    var elts = [];
 
-    function showImage(img) {
-      var realSrc = findRealSrc(img);
+    function show(elt) {
+      var realSrc = findRealSrc(elt);
 
       // needed by IE < 9, otherwise we get another onload when changing the src
-      img.onload = null;
-      img.removeAttribute('onload');
+      elt.onload = null;
+      elt.removeAttribute('onload');
 
       // on IE < 8 we get an onerror event instead of an onload event
-      img.onerror = null;
-      img.removeAttribute('onerror');
+      elt.onerror = null;
+      elt.removeAttribute('onerror');
 
-      img.src = realSrc;
-      imgs[indexOf.call(imgs, img)] = null;
+      elt.src = realSrc;
+      elts[indexOf.call(elts, elt)] = null;
     }
 
-    function findRealSrc(img) {
+    function findRealSrc(elt) {
       if (typeof opts['cb'] === 'function') {
-        return opts['cb'](img);
+        return opts['cb'](elt);
       } else {
-        return img.getAttribute(opts['lazyAttr']);
+        return elt.getAttribute(opts['lazyAttr']);
       }
     }
 
-    function registerImage(img) {
-      if (indexOf.call(imgs, img) === -1) {
-        inViewport(img, opts, showImage);
+    function register(elt) {
+      if (indexOf.call(elts, elt) === -1) {
+        inViewport(elt, opts, show);
       }
     }
 
-    return registerImage;
+    return register;
   }
 
-  function replaceGetAttribute() {
-    var original = HTMLImageElement.prototype.getAttribute;
+  function replaceGetAttribute(elementName) {
+    var fullname = 'HTML' + elementName + 'Element';
+    if (!fullname in window) {
+      return;
+    }
 
-    HTMLImageElement.prototype.getAttribute = function(name) {
+    var original = window[fullname].prototype.getAttribute;
+    window[fullname].prototype.getAttribute = function(name) {
       if(name === 'src') {
         var realSrc;
         for (var i = 0, max = lazyAttrs.length; i < max; i++) {
