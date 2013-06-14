@@ -24,53 +24,61 @@ Battle tested against IE8+ Android Ch FF.
 </body>
 ```
 
+If you do not want to use a data-uri as your src, you can also use the provided [b.gif](b.gif) which is
+the [tiniest gif ever](http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever).
+
 On most websites, you better let the first top images not bound to lzld method.
 So that they shows really fast.
 
 ### options
 
 Here are the options and defaults.
+All parameters are optional.
 
 ```js
 var myLzld = lazyload({
   container: document.body,
   offset: 200,
-  lazyAttr: 'data-src',
-  cb: false
+  src: 'data-src' // or function(elt) { return customSrc }
 });
 ```
 
 * **container**: Which element to be used as the `viewport`
 * **offset**: When watched element is `offset`px near the viewport bounds, show it (horizontal, vertical)
-* **lazyAttr**: Where to find the real src of your element
-* **cb**: A custom callback to return the src YOU want. Defaults to elt['data-src']
+* **src**: Where to find the real src of your element, either in another attribute (data-src) or
+    using a custom function
 
 ### retina images
 
-With the `cb` param, you can implement a custom src selector and so handle retina images.
+When giving a function to the `src` param, you can implement a custom src selector.
+So you can handle retina/hd images.
 
 ```html
 <!doctype html>
 <script src="lazyload.min.js"></script>
 <script>
-var lazyRetina = lazyload({ cb: chooseSrc });
+var lazyRetina = lazyload({ src: chooseSrc });
 
 function chooseSrc(img) {
   if(youWantTheRetinaImage) {
     return img['data-src-hd'];
-  } else {
-    return img['data-src'];
   }
 }
 </script>
 <body>
   <img
-    data-src="real/image/src.jpg"
-    data-src-hd="real/image/src-hd.jpg"
-    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src-hd="images/src-hd.jpg"
+    src="images/src-desktop.jpg"
     onload=lazyRetina(this) />
 </body>
 ```
+
+Here you go! You are now loading a standard desktop image and loading the hd version when needed.
+You could also load a blank image at start and choose either the desktop or hd version.
+
+Because you have full control on the code that choose the image's src.
+
+If `chooseSrc` does not returns anything then the initial image will stay.
 
 ### lazyload all the things
 
