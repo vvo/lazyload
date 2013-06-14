@@ -47,17 +47,7 @@
     var elts = [];
 
     function show(elt) {
-      var realSrc = findRealSrc(elt);
-
-      // needed by IE < 9, otherwise we get another onload when changing the src
-      elt.onload = null;
-      elt.removeAttribute('onload');
-
-      // on IE < 8 we get an onerror event instead of an onload event
-      elt.onerror = null;
-      elt.removeAttribute('onerror');
-
-      elt.src = realSrc;
+      elt.src = findRealSrc(elt);
       elts[indexOf.call(elts, elt)] = null;
     }
 
@@ -70,6 +60,11 @@
     }
 
     function register(elt) {
+      // unsubscribe onload
+      // needed by IE < 9, otherwise we get another onload when changing the src
+      elt.onload = null;
+      elt.removeAttribute('onload');
+
       if (indexOf.call(elts, elt) === -1) {
         inViewport(elt, opts, show);
       }

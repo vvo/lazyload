@@ -10,8 +10,7 @@ describe('using data-uris as image sources', function() {
       'data-src': realSrc,
       width: 1,
       height: 1,
-      onload: 'lzld(this)',
-      onerror: 'lzld(this)'
+      onload: 'lzld(this)'
     },
     style: {
       position: 'relative',

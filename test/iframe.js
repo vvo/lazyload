@@ -13,8 +13,7 @@ describe('lazyloading an iframe', function() {
       height: 1,
 
       // Will be triggered on IE as soon as the image is created
-      onload: 'lzld(this)',
-      onerror: 'lzld(this)'
+      onload: 'lzld(this)'
     },
     style: {
       position: 'relative',

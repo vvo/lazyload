@@ -7,7 +7,7 @@
 describe('a simple usage with an image', function() {
 
   // not using a dataURI for IE
-  var fakeSrc = '/b.gif?'+(+new Date());
+  var fakeSrc = '../b.gif?'+(+new Date());
   var realSrc = 'fixtures/tiny.gif?'+(+new Date());
 
   var test = createTest({
@@ -19,8 +19,7 @@ describe('a simple usage with an image', function() {
       height: 1,
 
       // Will be triggered on IE as soon as the image is created
-      onload: 'lzld(this)',
-      onerror: 'lzld(this)'
+      onload: 'lzld(this)'
     },
     style: {
       position: 'relative',
@@ -34,7 +33,7 @@ describe('a simple usage with an image', function() {
   });
 
   it('src currently fake', function() {
-    assert(test.src.indexOf(fakeSrc) !== -1);
+    assert(test.src.indexOf('b.gif') !== -1);
   });
 
   it('getAttribute still gives real src', function() {

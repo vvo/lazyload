@@ -1,7 +1,7 @@
 describe('giving a specific callback', function() {
 
   // not using a dataURI for IE
-  var fakeSrc = '/b.gif?'+(+new Date());
+  var fakeSrc = '../b.gif?'+(+new Date());
   var standardSrc = 'fixtures/tiny.gif?'+(+new Date());
   var hdSrc = 'fixtures/tiny.gif?HD&'+(+new Date());
   var lazyFunc = 'customCallback';
@@ -22,8 +22,7 @@ describe('giving a specific callback', function() {
       'data-hdSrc': hdSrc,
       width: 1,
       height: 1,
-      onload: lazyFunc+'(this)',
-      onerror: lazyFunc+'(this)'
+      onload: lazyFunc+'(this)'
     },
     style: {
       position: 'relative',

@@ -1,6 +1,6 @@
 describe('using a div as a reference container', function() {
   // not using a dataURI for IE
-  var fakeSrc = '/b.gif?'+(+new Date());
+  var fakeSrc = '../b.gif?'+(+new Date());
   var realSrc = 'fixtures/tiny.gif?'+(+new Date());
 
   var container = createTest({
@@ -20,8 +20,7 @@ describe('using a div as a reference container', function() {
       'data-src': realSrc,
       width: 10,
       height: 100,
-      onload: 'customContainerLzld(this)',
-      onerror: 'customContainerLzld(this)'
+      onload: 'customContainerLzld(this)'
     },
     style: {
       position: 'relative',

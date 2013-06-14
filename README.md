@@ -20,7 +20,7 @@ Battle tested against IE8+ Android Ch FF.
   <img
     data-src="real/image/src.jpg"
     src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-    onload=lzld(this) onerror=lzld(this) />
+    onload=lzld(this) />
 </body>
 ```
 
@@ -68,7 +68,7 @@ function chooseSrc(img) {
     data-src="real/image/src.jpg"
     data-src-hd="real/image/src-hd.jpg"
     src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-    onload=lazyRetina(this) onerror=lazyRetina(this) />
+    onload=lazyRetina(this) />
 </body>
 ```
 
@@ -87,8 +87,7 @@ Yes! You can also lazyload iframes untill they are visible in the viewport:
   <iframe
     data-src="yourpage.html"
     src="about:blank"
-    onload=lzld(this)
-    onerror=lzld(this)></iframe>
+    onload=lzld(this)></iframe>
 </body>
 ```
 
