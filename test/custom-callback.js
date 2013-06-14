@@ -8,7 +8,7 @@ describe('giving a specific callback', function() {
   var called;
 
   window[lazyFunc] = lazyload({
-    cb: function(elt) {
+    src: function(elt) {
       called = true;
       return elt.getAttribute('data-hdSrc');
     }

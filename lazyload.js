@@ -37,12 +37,13 @@
 
     opts = merge({
       'offset': 200,
-      'lazyAttr': 'data-src',
-      'container': false,
-      'cb': false
+      'src': 'data-src',
+      'container': false
     }, opts || {});
 
-    registerLazyAttr(opts['lazyAttr']);
+    if (typeof opts['src'] === 'string') {
+      registerLazyAttr(opts['src']);
+    }
 
     var elts = [];
 
@@ -53,10 +54,10 @@
     }
 
     function findRealSrc(elt) {
-      if (typeof opts['cb'] === 'function') {
-        return opts['cb'](elt);
+      if (typeof opts['src'] === 'function') {
+        return opts['src'](elt);
       } else {
-        return elt.getAttribute(opts['lazyAttr']);
+        return elt.getAttribute(opts['src']);
       }
     }
 
@@ -93,7 +94,7 @@
         return realSrc || original.call(this, name);
       } else {
         // our own lazyloader will go through theses lines
-        // because we use getAttribute(opts.lazyAttr)
+        // because we use getAttribute(opts.src)
         return original.call(this, name);
       }
     }

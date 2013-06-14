@@ -16,7 +16,7 @@ describe('an image at x0, y10000, lazyload stored as `customlzld`, 1000px offset
   // the image into the DOM
   window[lazyFunc] = lazyload({
     offset: offset,
-    lazyAttr: lazyAttr
+    src: lazyAttr
   });
 
   var test = createTest({
