@@ -77,7 +77,7 @@
 
   function replaceGetAttribute(elementName) {
     var fullname = 'HTML' + elementName + 'Element';
-    if (!fullname in window) {
+    if (fullname in window === false) {
       return;
     }
 
