@@ -6,7 +6,7 @@
 
     return function(done) {
       setTimeout(function() {
-        assert(elt.getAttribute('onload') !== null);
+        assert(elt['data-lzled'] === undefined);
         done();
       }, 25);
     }
@@ -17,7 +17,7 @@
 
     return function(done) {
       setTimeout(function() {
-        assert(elt.getAttribute('onload') === null);
+        assert(elt['data-lzled'] === true);
         done();
       }, 25);
     }
