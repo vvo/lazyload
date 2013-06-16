@@ -1,5 +1,6 @@
 # lazyload
-Lazyload images, iframes, divs, widgets.
+
+Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
 Pretty stable but still in alpha.
 Battle tested against IE8+ Android Ch FF.
@@ -7,8 +8,6 @@ Battle tested against IE8+ Android Ch FF.
 [![browser support](https://ci.testling.com/vvo/lazyload.png)](https://ci.testling.com/vvo/lazyload)
 
 ## Usage
-
-### lazyloading all body images
 
 ```html
 <!doctype html>
@@ -21,6 +20,11 @@ Battle tested against IE8+ Android Ch FF.
     data-src="real/image/src.jpg"
     src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
     onload=lzld(this) />
+
+  <iframe
+    data-src="yourpage.html"
+    src="about:blank"
+    onload=lzld(this)></iframe>
 </body>
 ```
 
@@ -30,7 +34,7 @@ the [tiniest gif ever](http://probablyprogramming.com/2009/03/15/the-tiniest-gif
 On most websites, you better let the first top images not bound to lzld method.
 So that they shows really fast.
 
-### options
+## Options
 
 Here are the options and defaults.
 All parameters are optional.
@@ -48,7 +52,7 @@ var myLzld = lazyload({
 * **src**: Where to find the real src of your element, either in another attribute (data-src) or
     using a custom function
 
-### hidpi images
+## hidpi images
 
 When giving a function to the `src` param, you can implement a custom src selector.
 So you can handle resolution dependent
@@ -78,28 +82,46 @@ You could also load a blank image at start and choose either the desktop or hd v
 
 If your function does not returns anything special then the initial `src=` image will not be changed.
 
-### lazyload all the things
+## Testing
 
-#### iframes
+Open `test/test.html` or use a headless browser:
 
-Yes! You can also lazyload iframes untill they are visible in the viewport:
-
-```html
-<!doctype html>
-<script src="lazyload.min.js"></script>
-<body>
-  <div>A lot of content</div>
-
-  <iframe
-    data-src="yourpage.html"
-    src="about:blank"
-    onload=lzld(this)></iframe>
-</body>
+```bash
+# you may need to install phantomjs manually if you are on osx or windows
+npm install -g mocha-phantomjs phantomjs
+npm test
 ```
 
-#### widgets
+## Hacking
 
-#### your mum
+You need package.json dependencies and grunt.
+
+```bash
+npm install
+npm install -g grunt-cli
+grunt watch
+```
+
+Start an http-server in root dir:
+
+```bash
+npm install http-server -g
+http-server
+```
+
+Open `test/test.html`, code, test.
+
+## Building
+
+We use closure compiler.
+
+```bash
+CLOSURE_PATH="~/path/to/compiler.jar" grunt
+```
+
+You get a `build/lazyload.min.js` file.
+
+`compiler.jar` is [google closure compiler](https://code.google.com/p/closure-compiler/downloads/list) .jar location.
 
 ## Sites using lazyload
 
