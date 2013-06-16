@@ -48,7 +48,12 @@
     var elts = [];
 
     function show(elt) {
-      elt.src = findRealSrc(elt);
+      var src = findRealSrc(elt);
+
+      if (src) {
+        elt.src = src;
+      }
+
       elt['data-lzled'] = true;
       elts[indexOf.call(elts, elt)] = null;
     }
