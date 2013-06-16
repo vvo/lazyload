@@ -133,4 +133,4 @@
       return i;
   };
 
-}(this, document))
+}(window, document))
