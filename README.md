@@ -48,20 +48,20 @@ var myLzld = lazyload({
 * **src**: Where to find the real src of your element, either in another attribute (data-src) or
     using a custom function
 
-### retina images
+### hidpi images
 
 When giving a function to the `src` param, you can implement a custom src selector.
-So you can handle retina/hd images.
+So you can handle resolution dependent
 
 ```html
 <!doctype html>
 <script src="lazyload.min.js"></script>
 <script>
-var lazyRetina = lazyload({ src: chooseSrc });
+var lazyHd = lazyload({ src: hidpi });
 
-function chooseSrc(img) {
-  if(youWantTheRetinaImage) {
-    return img['data-src-hd'];
+function hidpi(img) {
+  if(window.devicePixelRatio > 1) {
+    return img.getAttribute('data-src-hd');
   }
 }
 </script>
@@ -69,16 +69,14 @@ function chooseSrc(img) {
   <img
     data-src-hd="images/src-hd.jpg"
     src="images/src-desktop.jpg"
-    onload=lazyRetina(this) />
+    onload=lazyHd(this) />
 </body>
 ```
 
 Here you go! You are now loading a standard desktop image and loading the hd version when needed.
 You could also load a blank image at start and choose either the desktop or hd version.
 
-Because you have full control on the code that choose the image's src.
-
-If `chooseSrc` does not returns anything then the initial image will stay.
+If your function does not returns anything special then the initial `src=` image will not be changed.
 
 ### lazyload all the things
 
