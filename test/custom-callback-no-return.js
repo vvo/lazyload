@@ -1,6 +1,4 @@
 describe('giving a specific callback with no default return', function() {
-
-  // not using a dataURI for IE
   var standardSrc = 'fixtures/tiny.gif?'+(+new Date());
   var hdSrc = 'fixtures/tiny.gif?HD&'+(+new Date());
   var lazyFunc = 'customCallbackNoReturn';

@@ -1,6 +1,4 @@
 describe('giving a specific callback', function() {
-
-  // not using a dataURI for IE
   var fakeSrc = '../b.gif?'+(+new Date());
   var standardSrc = 'fixtures/tiny.gif?'+(+new Date());
   var hdSrc = 'fixtures/tiny.gif?HD&'+(+new Date());

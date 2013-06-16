@@ -1,5 +1,4 @@
 describe('using a div as a reference container', function() {
-  // not using a dataURI for IE
   var fakeSrc = '../b.gif?'+(+new Date());
   var realSrc = 'fixtures/tiny.gif?'+(+new Date());
 
