@@ -37,6 +37,6 @@ describe('lazyload(elt, cb) is an alias for in-viewport ', function() {
     });
   });
 
-  // after(clean(test));
+  after(clean(test));
 
 });
