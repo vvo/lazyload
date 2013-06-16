@@ -1,7 +1,7 @@
 {
   "name": "lazyload",
   "description": "Image lazy loading",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "main": "build/lazyload.min.js",
   "ignore": [
     "**/.*",
