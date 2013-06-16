@@ -35,6 +35,10 @@
 
   function lazyload(opts) {
 
+    if (arguments.length > 1) {
+      return inViewport.apply(undefined, arguments);
+    }
+
     opts = merge({
       'offset': 200,
       'src': 'data-src',

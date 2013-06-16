@@ -1,6 +1,5 @@
 describe('lazyloading an iframe', function() {
 
-  // not using a dataURI for IE
   var fakeSrc = 'about:blank';
   var realSrc = 'fixtures/page.html';
 
@@ -11,8 +10,6 @@ describe('lazyloading an iframe', function() {
       'data-src': realSrc,
       width: 1,
       height: 1,
-
-      // Will be triggered on IE as soon as the image is created
       onload: 'lzld(this)'
     },
     style: {
