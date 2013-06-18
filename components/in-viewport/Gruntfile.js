@@ -5,21 +5,12 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     concat: {
-      dist: {
+      license: {
         options: {
-          banner: '/*! <%= pkg.name %> v<%= pkg.version %> | github.com/vvo/lazyload#license */\n',
-          separator: ''
+          banner: '/*! <%= pkg.name %> v<%= pkg.version %> | github.com/vvo/in-viewport#license */\n'
         },
-        src:  [
-          'components/in-viewport/build/in-viewport.min.js',
-          'build/<%= pkg.name %>.min.js'],
+        src:  ['build/<%= pkg.name %>.min.js'],
         dest: 'build/<%= pkg.name %>.min.js'
-      },
-      unminified: {
-        src:  [
-          'components/in-viewport/in-viewport.js',
-          '<%= pkg.name %>.js'],
-        dest: 'build/<%= pkg.name %>.js'
       }
     },
 
@@ -32,7 +23,6 @@ module.exports = function(grunt) {
         }
       }
     },
-
     jshint: {
       files: ['<%= pkg.name %>.js', 'package.json'],
       options: {
@@ -54,7 +44,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'jshint',
     'closure-compiler',
-    'concat',
+    'concat:license'
   ]);
 
 };
