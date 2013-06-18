@@ -1,18 +1,13 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Lazyload by vvo</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script src="build/lazyload.min.js"></script
-  </head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <title>Lazyload by vvo</title>
+  <link rel="stylesheet" href="stylesheets/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <script src="build/lazyload.min.js"></script
   <body>
     <div class="wrapper">
       <header>
@@ -51,6 +46,8 @@ issued by browsers when parsing your pages.</p>
 
 <p>Now scroll down.</p>
 
+<p><u>Some images:</u></p>
+
 <img
   src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
   data-src=img/01.jpg
@@ -86,33 +83,89 @@ issued by browsers when parsing your pages.</p>
 
 <p>A lot of iframes are crap we want to put at the bottom, so now we can also delay their loading untill our visitors really needs them.</p>
 
-<p>Scroll for some iframes demos.</p>
+<p>Scroll for some iframes demos that were lazyloaded while you are reading this.</p>
 
+<p><u>Lazyload test suite:</u></p>
 <iframe
   src=about:blank
-  data-src=""
+  data-src=test/test.html
+  width=100%
   onload=lzld(this)></iframe>
 
-<h3>Widgets</h3>
+<p><u>Random iframe:</u></p>
+<iframe
+  src=about:blank
+  data-src=iframe.html
+  width=100%
+  onload=lzld(this)></iframe>
+
+<p><strong>Code</strong>:</p>
+<script src="https://gist.github.com/vvo/c4742ad6593c142df363.js"></script>
+
+<p>As you can see, syntax is similar to the image example, easy!</p>
+
+<h3>3rd party Widgets</h3>
+
+<p>OMG 3rd party content is slow, there's even a <a href="http://www.stevesouders.com/p3pc/">blogpost</a> from Steve Souders.</p>
+
+<p>How many times are they really used? You don't know, lazyload them!</p>
+
+<p><u>Twitter widget:</u></p>
+
+<a class="twitter-timeline" href="https://twitter.com/search?q=lazyload" data-widget-id="347103121933234176">Tweets about "lazyload"</a>
+<script>
+lazyload(document.querySelectorAll('.twitter-timeline')[0], function() {
+  initTwitter(document,"script","twitter-wjs");
+});
+
+function initTwitter(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}};
+</script>
+
+<p><strong>Code</strong>:</p>
+
+<script src="https://gist.github.com/vvo/942ee17395a20ae275b9.js"></script>
+
+<p>You can use lazyload in the same ways you would use his daddy: <a href="https://github.com/vvo/in-viewport#inviewport">vvo/in-viewport</a>.</p>
+
+<p>Lazyload is based on <a href="https://github.com/vvo/in-viewport#inviewport">vvo/in-viewport</a> because lazyloading an element is only a few steps more than
+knowing when an element is visible in the viewport.</p>
 
 <h3>hidpi images</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Depending on your devicePixelRatio, you get a funny cat or an even funny cat.</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<p>Open <a href=http://bit.ly/vvo-lazyload>http://bit.ly/vvo-lazyload</a> on your
+IPAD/Android to see the difference.</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p><u>hidpi example:</u></p>
+<script>
+window.lzldHidpi = lazyload({
+  src: chooseSrc
+});
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+function chooseSrc(elt) {
+  if(window.devicePixelRatio > 1) {
+    return elt.getAttribute('data-src-hd');
+  }
+}
+</script>
+<img
+  src=img/lowhd.jpg
+  data-src-hd=img/hd.jpg
+  onload=lzldHidpi(this) />
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p><strong>Code</strong>:</p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<script src="https://gist.github.com/vvo/3dbd113dfc43522102b4.js"></script>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h3>That's all folks!</h3>
+
+<p>Now you get a good idea of different ways to use <a href="https://github.com/vvo/lazyload">vvo/lazyload</a>.</p>
+
+<p>For even more ways, read the docs, post issues, contribute.</p>
+
+<p>Lazyload is fully unit-tested using Mocha as you have seen.</p>
+
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/vvo">vvo</a></p>
@@ -120,16 +173,14 @@ issued by browsers when parsing your pages.</p>
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-246396-13");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-246396-13");
+      pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
   </body>
-</html>
