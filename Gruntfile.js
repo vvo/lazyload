@@ -14,6 +14,12 @@ module.exports = function(grunt) {
           'components/in-viewport/build/in-viewport.min.js',
           'build/<%= pkg.name %>.min.js'],
         dest: 'build/<%= pkg.name %>.min.js'
+      },
+      unminified: {
+        src:  [
+          'components/in-viewport/in-viewport.js',
+          '<%= pkg.name %>.js'],
+        dest: 'build/<%= pkg.name %>.js'
       }
     },
 
