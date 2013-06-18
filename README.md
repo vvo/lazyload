@@ -1,94 +1,148 @@
-# Lazyload
+# lazyload
 
-An image lazyloader is designed to save requests on page loading (#webperf)
+Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
-Most of the time, when you have 100 images on a page, your user doesn't need them all.
+Pretty stable but still in alpha.
+Battle tested against IE8+ Android Ch FF.
 
-This lazyloader will only load what is necessary.
+[![browser support](https://ci.testling.com/vvo/lazyload.png)](https://ci.testling.com/vvo/lazyload)
 
-It's a standalone script that weights 1398 bytes minified gzipped.
-
-## How to use
+## Usage
 
 ```html
 <!doctype html>
-<html>
-  <head>
-    <title></title>
-    <!-- in your concatenated bundle, inlined, alone and external -->
-    <script src="lazyload.min.js"></script>
-    <script>
-      // For best results, initialize now
-      window.lzld = (new Lazyload).lzld;
-    </script>
-    <!-- your scripts goes here -->
-  </head>
-  <body>
-    <img
-      data-src="real/image/src.jpg"
-      src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-      onload=lzld(this) onerror=lzld(this) />  
-  </body>
-</html>
+<script src="lazyload.min.js"></script>
+<body>
+  <!-- You should not lazyload first images of your website -->
+  <img src="not/lazyloaded.jpg" />
+
+  <img
+    data-src="real/image/src.jpg"
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    onload=lzld(this) />
+
+  <iframe
+    data-src="yourpage.html"
+    src="about:blank"
+    onload=lzld(this)></iframe>
+</body>
 ```
 
-## Features
+If you do not want to use a data-uri as your src, you can also use the provided [b.gif](b.gif) which is
+the [tiniest gif ever](http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever).
 
-* Cut onload time, page size, number of request by 2x, 3x? Depends on your website
-* Horizontal and vertical (scroll) lazy loading of images
-* Custom container (default to document.body)
-* Many edge cases covered (like slow domready)
-* Has tests/
-* Production ready: YES. Used on major websites like [lemonde](http://www.lemonde.fr), [rue89](http://www.rue89.com), [playtv](http://playtv.fr), [voyages-sncf](http://www.voyages-sncf.com)
+On most websites, you better let the first top images not bound to lzld method.
+So that they shows really fast.
 
-## Why another lazyload plugin
+## Options
 
-We could not find any standalone lazyloader but [the one on stackoverflow](http://stackoverflow.com/questions/3228521/stand-alone-lazy-loading-images-no-framework-based).
+Here are the options and defaults.
+All parameters are optional.
 
-We first used that one, then we re-wrote it entirely with ideas from [mod_pagespeed lazyloader](http://www.modpagespeed.com/lazyload_images.html?ModPagespeed=on&ModPagespeedFilters=lazyload_images).
+```js
+var myLzld = lazyload({
+  container: document.body,
+  offset: 200,
+  src: 'data-src' // or function(elt) { return customSrc }
+});
+```
 
-We're now upgrading our lazyload from time to time to make it more robust.
+* **container**: Which element to be used as the `viewport`
+* **offset**: When watched element is `offset`px near the viewport bounds, show it (horizontal, vertical)
+* **src**: Where to find the real src of your element, either in another attribute (data-src) or
+    using a custom function
 
-## Browser support
+## hidpi images
 
-*IE6+ or modern browser.*
+When giving a function to the `src` param, you can implement a custom src selector.
+So you can handle resolution dependent
 
-IE6/7 originally does not support data uri:s images but using the onerror event on to-be-lazyloaded images, we're able to register the current image in the lazyloader.
-The only drawback is that you can have red crosses showing that original data uri:s image cannot be loaded. But well, it's old IE so no big deal.
+```html
+<!doctype html>
+<script src="lazyload.min.js"></script>
+<script>
+var lazyHd = lazyload({ src: hidpi });
 
-You can have IE6/7 support without the hack, use the `b.gif` image instead of the data uri:s and remove `onerror`.
+function hidpi(img) {
+  if(window.devicePixelRatio > 1) {
+    return img.getAttribute('data-src-hd');
+  }
+}
+</script>
+<body>
+  <img
+    data-src-hd="images/src-hd.jpg"
+    src="images/src-desktop.jpg"
+    onload=lazyHd(this) />
+</body>
+```
 
-## How does it works
+Here you go! You are now loading a standard desktop image and loading the hd version when needed.
+You could also load a blank image at start and choose either the desktop or hd version.
 
-We watch the domready event.
+If your function does not returns anything special then the initial `src=` image will not be changed.
 
-But if it takes too much time to fire, we use the `<img onload=lzld(this)` fallback that will fire before the domready event.
+## Testing
 
-Scroll and resize events are throttled so that we do not run too often.
+Open `test/test.html` or use a headless browser:
 
-Adding to the `<head>` is mandatory otherwise we could not show images as fast as we want.
-And we would not be the first script to register to the domready event.
+```bash
+# you may need to install phantomjs manually if you are on osx or windows
+npm install -g mocha-phantomjs phantomjs
+npm test
+```
 
-The base 64 src should be the smallest possible.
-Reference: http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever
+## Hacking
 
-Don't worry about the size overhead of adding a lot of base 64 src images to your page :
- GZIP is here to help (http://www.gzip.org/deflate.html).
+You need package.json dependencies and grunt.
 
-## CMS integration
+```bash
+npm install
+npm install -g grunt-cli
+grunt watch
+```
 
-* [Drupal](http://drupal.org/project/lazyload), thanks to https://twitter.com/#!/cirotix
-* your favorite CMS: do it!
+Start an http-server in root dir:
 
-## Automate
+```bash
+npm install http-server -g
+http-server
+```
 
-If you want to automatically add lazyload to your website, contact http://fasterize.com
+Open `test/test.html`, code, test.
+
+## Building
+
+We use closure compiler.
+
+```bash
+CLOSURE_PATH="~/path/to/compiler.jar" grunt
+```
+
+You get a `build/lazyload.min.js` file.
+
+`compiler.jar` is [google closure compiler](https://code.google.com/p/closure-compiler/downloads/list) .jar location.
+
+## Sites using lazyload
+
+Millions of pageviews are served using this project:
+
+* [fasterize.com](http://fasterize.com) `lazyload` was first developed at fasterize (WPO solution)
+* [lemonde.fr](http://www.lemonde.fr)
+* [pluzz.francetv.fr](http://pluzz.francetv.fr)
+* [pcinpact.com](http://www.pcinpact.com)
+* [elpais.com](http://www.elpais.com)
+* [playtv.fr](http://playtv.fr)
+* [voyages-sncf.com](http://www.voyages-sncf.com)
+* [rue89.com](http://www.rue89.com)
 
 ## Licence
 
+Also see [LICENCE.fasterize](LICENCE.fasterize)
+
 (The MIT Licence)
 
-Copyright (c) 2012 Vincent Voyer, http://zeroload.net http://fasterize.com
+Copyright (c) 2012-2013 Vincent Voyer
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -1,0 +1,22 @@
+{
+  "asi": true,
+  "sub": true,
+  "boss": true,
+  "browser": true,
+  "shadow": true,
+  "strict": false,
+  "debug": false,
+  "undef": true,
+  "unused": "vars",
+  "trailing": true,
+  "predef": [
+    "inViewport",
+    "describe",
+    "after",
+    "afterEach",
+    "before",
+    "beforeEach",
+    "describes",
+    "it"
+  ]
+}
