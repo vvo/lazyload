@@ -2,7 +2,6 @@
 
 Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
-Pretty stable but still in alpha.
 Battle tested against IE8+ Android Ch FF.
 
 [![browser support](https://ci.testling.com/vvo/lazyload.png)](https://ci.testling.com/vvo/lazyload)
