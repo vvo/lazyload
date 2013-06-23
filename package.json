@@ -6,6 +6,7 @@
     "type": "git",
     "url": "http://github.com/vvo/lazyload.git"
   },
+  "main": "build/lazyload.min.js",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
