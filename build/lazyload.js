@@ -1,3 +1,7 @@
+/**
+* @license in-viewport v0.2.6 | github.com/vvo/in-viewport#license
+*/
+
 (function(win, doc){
   var instances = [];
   win["inViewport"] = inViewport;
@@ -151,6 +155,10 @@
   }
 
 })(window, document);
+/**
+* @license lazyload v2.0.4 | github.com/vvo/lazyload#license
+*/
+
 (function(window, document){
 
   var pageHasLoaded = false;

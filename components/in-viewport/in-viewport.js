@@ -1,3 +1,7 @@
+/**
+* @license in-viewport v0.2.6 | github.com/vvo/in-viewport#license
+*/
+
 (function(win, doc){
   var instances = [];
   win["inViewport"] = inViewport;
