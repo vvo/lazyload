@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/vvo/lazyload.git"
+    "url": "git://github.com/vvo/lazyload.git"
   },
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT",
