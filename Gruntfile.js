@@ -1,25 +1,19 @@
 module.exports = function(grunt) {
-
-  // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
     concat: {
-      dist: {
-        options: {
-          banner: '/*! <%= pkg.name %> v<%= pkg.version %> | github.com/vvo/lazyload#license */\n',
-          separator: ''
-        },
+      build: {
         src:  [
-          'components/in-viewport/build/in-viewport.min.js',
-          'build/<%= pkg.name %>.min.js'],
-        dest: 'build/<%= pkg.name %>.min.js'
+          'components/in-viewport/in-viewport.js',
+          '<%= pkg.name %>.js'],
+        dest: 'build/<%= pkg.name %>.js'
       }
     },
 
     'closure-compiler': {
       min: {
-        js: '<%= pkg.name %>.js',
+        js: 'build/<%= pkg.name %>.js',
         jsOutputFile: 'build/<%= pkg.name %>.min.js',
         options: {
           compilation_level: 'ADVANCED_OPTIMIZATIONS'
@@ -44,11 +38,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // Default task.
   grunt.registerTask('default', [
     'jshint',
-    'closure-compiler',
     'concat',
+    'closure-compiler',
   ]);
 
 };

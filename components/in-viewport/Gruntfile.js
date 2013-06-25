@@ -4,16 +4,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    concat: {
-      license: {
-        options: {
-          banner: '/*! <%= pkg.name %> v<%= pkg.version %> | github.com/vvo/in-viewport#license */\n'
-        },
-        src:  ['build/<%= pkg.name %>.min.js'],
-        dest: 'build/<%= pkg.name %>.min.js'
-      }
-    },
-
     'closure-compiler': {
       min: {
         js: '<%= pkg.name %>.js',
@@ -43,8 +33,7 @@ module.exports = function(grunt) {
   // Default task.
   grunt.registerTask('default', [
     'jshint',
-    'closure-compiler',
-    'concat:license'
+    'closure-compiler'
   ]);
 
 };

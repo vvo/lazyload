@@ -1,3 +1,7 @@
+/**
+* @license lazyload v2.0.4 | github.com/vvo/lazyload#license
+*/
+
 (function(window, document){
 
   var pageHasLoaded = false;
