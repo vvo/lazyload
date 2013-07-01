@@ -54,7 +54,7 @@ var myLzld = lazyload({
 ## hidpi images
 
 When giving a function to the `src` param, you can implement a custom src selector.
-So you can handle resolution dependent
+So you can handle resolution dependent images.
 
 ```html
 <!doctype html>
