@@ -8,7 +8,7 @@ describe('a simple usage with an image', function() {
 
   // not using a dataURI for IE
   var fakeSrc = '../b.gif?'+(+new Date());
-  var realSrc = 'fixtures/tiny.gif?'+(+new Date());
+  var realSrc = '/test/fixtures/tiny.gif?'+(+new Date());
 
   var test = createTest({
     tagName: 'img',

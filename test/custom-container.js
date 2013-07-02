@@ -1,6 +1,6 @@
 describe('using a div as a reference container', function() {
   var fakeSrc = '../b.gif?'+(+new Date());
-  var realSrc = 'fixtures/tiny.gif?'+(+new Date());
+  var realSrc = '/test/fixtures/tiny.gif?'+(+new Date());
 
   var container = createTest({
     style: {

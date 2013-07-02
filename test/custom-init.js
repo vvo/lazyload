@@ -4,7 +4,7 @@ describe('an image at x0, y10000, lazyload stored as `customlzld`, 1000px offset
   var lazyFunc = 'customlzld';
 
   var fakeSrc = '../b.gif?'+(+new Date());
-  var realSrc = 'fixtures/tiny.gif?'+(+new Date());
+  var realSrc = '/test/fixtures/tiny.gif?'+(+new Date());
   var offset = 1000;
 
   var scrollTo = 10000 -
