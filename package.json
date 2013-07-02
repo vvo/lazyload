@@ -24,6 +24,7 @@
     "scripts": [
       "build/lazyload.min.js",
       "components/in-viewport/test/helpers/*.js",
+      "test/helpers/*.js",
       "test/*.js"
     ],
     "harness": "mocha-bdd",
