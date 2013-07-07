@@ -27,7 +27,7 @@
     }
 
     opts = merge({
-      'offset': 200,
+      'offset': 333,
       'src': 'data-src',
       'container': false
     }, opts || {});
