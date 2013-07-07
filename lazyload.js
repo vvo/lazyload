@@ -4,15 +4,10 @@
 
 (function(window, document){
 
-  var pageHasLoaded = false;
   var lazyAttrs = ['data-src'];
 
   window['lazyload'] = lazyload;
   window['lzld'] = lzld();
-
-  addEvent(window, 'load', function() {
-    pageHasLoaded = true;
-  });
 
   // Provide libs using getAttribute early to get the good src
   // and not the fake data-src
@@ -121,14 +116,6 @@
     }
 
     return opts;
-  }
-
-  function addEvent( el, type, fn ) {
-    if (el.attachEvent) {
-      el.attachEvent( 'on' + type, fn );
-    } else {
-      el.addEventListener( type, fn, false );
-    }
   }
 
   // http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
