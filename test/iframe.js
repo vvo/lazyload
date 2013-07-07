@@ -1,7 +1,7 @@
 describe('lazyloading an iframe', function() {
 
   var fakeSrc = 'about:blank';
-  var realSrc = '/test/fixtures/page.html';
+  var realSrc = 'fixtures/page.html';
 
   var test = createTest({
     tagName: 'iframe',
