@@ -7,7 +7,7 @@
   var lazyAttrs = ['data-src'];
 
   window['lazyload'] = lazyload;
-  window['lzld'] = lzld();
+  window['lzld'] = lazyload();
 
   // Provide libs using getAttribute early to get the good src
   // and not the fake data-src
@@ -17,18 +17,6 @@
   function registerLazyAttr(attr) {
     if (indexOf.call(lazyAttrs, attr) === -1) {
       lazyAttrs.push(attr);
-    }
-  }
-
-  function lzld() {
-    var instance;
-
-    return function(element) {
-      if (instance === undefined) {
-        instance = lazyload();
-      }
-
-      instance(element);
     }
   }
 
