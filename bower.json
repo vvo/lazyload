@@ -10,6 +10,6 @@
     "test"
   ],
   "dependencies": {
-    "in-viewport": "~0.2.6"
+    "in-viewport": "~0.3.0"
   }
 }
