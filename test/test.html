@@ -1,16 +1,12 @@
 <!doctype html>
-<html>
-<head>
   <meta charset="utf-8">
   <title>lazyload tests</title>
 
   <link rel="stylesheet" href="../node_modules/mocha/mocha.css"/>
-</head>
-<body>
-  <div id="mocha"></div>
-
   <script src="../components/in-viewport/in-viewport.js"></script>
   <script src="../lazyload.js"></script>
+<body>
+  <div id="mocha"></div>
 
   <script src="../components/in-viewport/test/helpers/helper.js"></script>
   <script src="helpers/helper.js"></script>
@@ -34,4 +30,3 @@
   <script>if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
       else { mocha.run(); }</script>
 </body>
-</html>
