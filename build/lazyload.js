@@ -1,10 +1,11 @@
 /**
-* @license in-viewport v0.2.6 | github.com/vvo/in-viewport#license
+* @license in-viewport v0.3.0 | github.com/vvo/in-viewport#license
 */
 
 (function(win, doc){
   var instances = [];
-  win["inViewport"] = inViewport;
+
+  win['inViewport'] = inViewport;
 
   function inViewport(elt, params, cb) {
     var opts = {
@@ -26,9 +27,9 @@
       }
     }
 
-    var newInstance = createInViewport(container);
-    instances.push(newInstance);
-    return newInstance.inViewport(elt, offset, cb);
+    return instances[
+      instances.push(createInViewport(container)) - 1
+    ].inViewport(elt, offset, cb)
   }
 
   function addEvent( el, type, fn ) {
@@ -75,7 +76,7 @@
   function createInViewport(container) {
     var watches = [];
     var scrollContainer = container === doc.body ? win : container;
-    var debouncedCheck = debounce(checkImages, 15);
+    var debouncedCheck = debounce(checkElements, 15);
 
     addEvent(scrollContainer, 'scroll', debouncedCheck);
 
@@ -141,7 +142,7 @@
       }
     }
 
-    function checkImages() {
+    function checkElements() {
       var cb;
       while(cb = watches.shift()) {
         cb();
@@ -156,20 +157,15 @@
 
 })(window, document);
 /**
-* @license lazyload v2.0.4 | github.com/vvo/lazyload#license
+* @license lazyload v2.0.5 | github.com/vvo/lazyload#license
 */
 
 (function(window, document){
 
-  var pageHasLoaded = false;
   var lazyAttrs = ['data-src'];
 
   window['lazyload'] = lazyload;
-  window['lzld'] = lzld();
-
-  addEvent(window, 'load', function() {
-    pageHasLoaded = true;
-  });
+  window['lzld'] = lazyload();
 
   // Provide libs using getAttribute early to get the good src
   // and not the fake data-src
@@ -182,18 +178,6 @@
     }
   }
 
-  function lzld() {
-    var instance;
-
-    return function(element) {
-      if (instance === undefined) {
-        instance = lazyload();
-      }
-
-      instance(element);
-    }
-  }
-
   function lazyload(opts) {
 
     if (arguments.length > 1) {
@@ -201,7 +185,7 @@
     }
 
     opts = merge({
-      'offset': 200,
+      'offset': 333,
       'src': 'data-src',
       'container': false
     }, opts || {});
@@ -280,18 +264,10 @@
     return opts;
   }
 
-  function addEvent( el, type, fn ) {
-    if (el.attachEvent) {
-      el.attachEvent( 'on' + type, fn );
-    } else {
-      el.addEventListener( type, fn, false );
-    }
-  }
-
   // http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
-  var indexOf = [].indexOf || function (value) {
+  function indexOf(value) {
       for (var i = this.length; i-- && this[i] !== value;);
       return i;
-  };
+  }
 
 }(window, document))
