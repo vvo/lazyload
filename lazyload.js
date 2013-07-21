@@ -1,18 +1,13 @@
 /**
-* @license lazyload v2.0.4 | github.com/vvo/lazyload#license
+* @license lazyload v2.0.5 | github.com/vvo/lazyload#license
 */
 
 (function(window, document){
 
-  var pageHasLoaded = false;
   var lazyAttrs = ['data-src'];
 
   window['lazyload'] = lazyload;
-  window['lzld'] = lzld();
-
-  addEvent(window, 'load', function() {
-    pageHasLoaded = true;
-  });
+  window['lzld'] = lazyload();
 
   // Provide libs using getAttribute early to get the good src
   // and not the fake data-src
@@ -25,18 +20,6 @@
     }
   }
 
-  function lzld() {
-    var instance;
-
-    return function(element) {
-      if (instance === undefined) {
-        instance = lazyload();
-      }
-
-      instance(element);
-    }
-  }
-
   function lazyload(opts) {
 
     if (arguments.length > 1) {
@@ -44,7 +27,7 @@
     }
 
     opts = merge({
-      'offset': 200,
+      'offset': 333,
       'src': 'data-src',
       'container': false
     }, opts || {});
@@ -123,18 +106,10 @@
     return opts;
   }
 
-  function addEvent( el, type, fn ) {
-    if (el.attachEvent) {
-      el.attachEvent( 'on' + type, fn );
-    } else {
-      el.addEventListener( type, fn, false );
-    }
-  }
-
   // http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
-  var indexOf = [].indexOf || function (value) {
+  function indexOf(value) {
       for (var i = this.length; i-- && this[i] !== value;);
       return i;
-  };
+  }
 
 }(window, document))

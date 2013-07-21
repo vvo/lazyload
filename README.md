@@ -8,12 +8,14 @@ Battle tested against IE8+ Android Ch FF.
 
 ## Usage
 
+Make sure you are in [standards mode](http://en.wikipedia.org/wiki/Document_Type_Declaration#HTML5_DTD-less_DOCTYPE).
+
+Viewport computing is badly handled by browsers when in [quirksmode](http://en.wikipedia.org/wiki/Quirks_mode).
+
 ```html
 <!doctype html>
 <script src="lazyload.min.js"></script>
 <body>
-  <!-- You should not lazyload first images of your website -->
-  <img src="not/lazyloaded.jpg" />
 
   <img
     data-src="real/image/src.jpg"
@@ -54,7 +56,7 @@ var myLzld = lazyload({
 ## hidpi images
 
 When giving a function to the `src` param, you can implement a custom src selector.
-So you can handle resolution dependent
+So you can handle resolution dependent images.
 
 ```html
 <!doctype html>
@@ -80,6 +82,15 @@ Here you go! You are now loading a standard desktop image and loading the hd ver
 You could also load a blank image at start and choose either the desktop or hd version.
 
 If your function does not returns anything special then the initial `src=` image will not be changed.
+
+## Dynamically created images/elements
+
+If you are using `document.createElement` on elements you want to lazyload,
+you should call lzld(elt) manually as soon as your element is inserted into
+the DOM.
+
+Do no try to call lzld(elt) before inserting it into the DOM, otherwise
+your elements [could not be shown](https://github.com/vvo/in-viewport/commit/2234efae0a07a765aa1f90bdd8c3ea5705d1c68a) by the lazyloader.
 
 ## Testing
 

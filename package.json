@@ -1,6 +1,6 @@
 {
   "name": "lazyload",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Image lazy loading",
   "main": "build/lazyload.min.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/vvo/lazyload.git"
+    "url": "git://github.com/vvo/lazyload.git"
   },
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT",
@@ -18,12 +18,13 @@
     "grunt-closure-compiler": "git://github.com/vvo/grunt-closure-compiler.git#v0.1.0",
     "grunt-contrib-watch": "~0.4.3",
     "grunt-contrib-jshint": "~0.4.3",
-    "mocha": "~1.9.0"
+    "mocha": "~1.12.0"
   },
   "testling": {
     "scripts": [
       "build/lazyload.min.js",
       "components/in-viewport/test/helpers/*.js",
+      "test/helpers/*.js",
       "test/*.js"
     ],
     "harness": "mocha-bdd",

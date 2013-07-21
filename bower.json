@@ -1,7 +1,7 @@
 {
   "name": "lazyload",
   "description": "Image lazy loading",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "main": "lazyload.js",
   "ignore": [
     "**/.*",
@@ -10,6 +10,6 @@
     "test"
   ],
   "dependencies": {
-    "in-viewport": "~0.2.6"
+    "in-viewport": "~0.3.0"
   }
 }

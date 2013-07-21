@@ -1,10 +1,11 @@
 /**
-* @license in-viewport v0.2.6 | github.com/vvo/in-viewport#license
+* @license in-viewport v0.3.0 | github.com/vvo/in-viewport#license
 */
 
 (function(win, doc){
   var instances = [];
-  win["inViewport"] = inViewport;
+
+  win['inViewport'] = inViewport;
 
   function inViewport(elt, params, cb) {
     var opts = {
@@ -26,9 +27,9 @@
       }
     }
 
-    var newInstance = createInViewport(container);
-    instances.push(newInstance);
-    return newInstance.inViewport(elt, offset, cb);
+    return instances[
+      instances.push(createInViewport(container)) - 1
+    ].inViewport(elt, offset, cb)
   }
 
   function addEvent( el, type, fn ) {
@@ -75,7 +76,7 @@
   function createInViewport(container) {
     var watches = [];
     var scrollContainer = container === doc.body ? win : container;
-    var debouncedCheck = debounce(checkImages, 15);
+    var debouncedCheck = debounce(checkElements, 15);
 
     addEvent(scrollContainer, 'scroll', debouncedCheck);
 
@@ -141,7 +142,7 @@
       }
     }
 
-    function checkImages() {
+    function checkElements() {
       var cb;
       while(cb = watches.shift()) {
         cb();

@@ -6,6 +6,9 @@ Know when an element is in the window viewport or a custom viewport.
 
 ## Usage
 
+Be sure to be in standard mode, quirksmode is not supported since most browsers
+will report invalid values for window viewport.
+
 ### Immediate result
 
 ```js
@@ -65,9 +68,23 @@ function visible() {
 
 When your element is near `300px` of the viewport, you get your callback / true result.
 
+### Dynamic element creation (document.createElement)
+
+If you are creating elements dynamically, be sure to call `inViewport` when the
+element is in the DOM. Otherwise it will fail badly.
+
+Because we check for newly visible elements on `scroll` or `resize`.
+Because we have no easy way, right now, to know when your element gets inserted
+into the DOM.
+
+We don't know when to ask for viewport visibility on your element.
+
+We previously added a "force-check" method but it is unneeded.
+Do not call `inViewport` on a detached, to-be-visible-without-scroll dom node.
+
 ## Use cases
 
-* lazyloader (images, iframes)
+* Images, iframes, widgets [lazyloader](/vvo/lazyload)
 * infinite scroll
 * loading widgets only when needed
 * your ideas
