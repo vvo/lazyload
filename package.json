@@ -19,6 +19,7 @@
     "grunt-contrib-watch": "~0.4.3",
     "grunt-contrib-jshint": "~0.4.3",
     "mocha": "~1.14.0",
-    "express": "~3.4.4"
+    "express": "~3.4.4",
+    "zuul": "~1.0.3"
   }
 }
