@@ -1,6 +1,6 @@
 describe('giving a specific callback with no default return', function() {
-  var standardSrc = 'fixtures/tiny.gif?'+(+new Date());
-  var hdSrc = 'fixtures/tiny.gif?HD&'+(+new Date());
+  var standardSrc = '/test/fixtures/tiny.gif?'+(+new Date());
+  var hdSrc = '/test/fixtures/tiny.gif?HD&'+(+new Date());
   var lazyFunc = 'customCallbackNoReturn';
   var called;
 
@@ -32,7 +32,9 @@ describe('giving a specific callback with no default return', function() {
 
   describe('after some scrolling', function() {
     before(scroller(1, 1));
+    before(wait(600));
     before(scroller(1, 1));
+    before(wait(600));
 
     it('custom callback was called', function() {
       assert(called === true);

@@ -1,7 +1,7 @@
 describe('giving a specific callback', function() {
   var fakeSrc = '../b.gif?'+(+new Date());
-  var standardSrc = 'fixtures/tiny.gif?'+(+new Date());
-  var hdSrc = 'fixtures/tiny.gif?HD&'+(+new Date());
+  var standardSrc = '/test/fixtures/tiny.gif?'+(+new Date());
+  var hdSrc = '/test/fixtures/tiny.gif?HD&'+(+new Date());
   var lazyFunc = 'customCallback';
   var called;
 
@@ -35,7 +35,9 @@ describe('giving a specific callback', function() {
 
   describe('after some scrolling', function() {
     before(scroller(1, 1));
+    before(wait(600));
     before(scroller(1, 1));
+    before(wait(600));
 
     it('custom callback was called', function() {
       assert(called === true);

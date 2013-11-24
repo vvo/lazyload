@@ -1,7 +1,7 @@
 describe('lazyloading an iframe', function() {
 
   var fakeSrc = 'about:blank';
-  var realSrc = 'fixtures/page.html';
+  var realSrc = '/test/fixtures/page.html';
 
   var test = createTest({
     tagName: 'iframe',
@@ -32,22 +32,18 @@ describe('lazyloading an iframe', function() {
   });
 
   describe('scrolling to its position', function() {
+    this.timeout(10000);
+    mocha.globals(['iframeLoaded']);
     before(scroller(0, 2500));
+    before(wait(600));
     before(scroller(0, 5000));
+    before(wait(1500));
 
     it('loads the iframe', eltLoaded(test));
 
     it('it has really loaded the iframe html content', function() {
       assert.equal(window.iframeLoaded, true);
     });
-
-    after(function() {
-      try {
-        delete window.iframeLoaded;
-      } catch (e) {
-        window.iframeLoaded = undefined;
-      }
-    })
 
     after(clean(test));
   });

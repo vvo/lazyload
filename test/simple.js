@@ -8,7 +8,7 @@ describe('a simple usage with an image', function() {
 
   // not using a dataURI for IE
   var fakeSrc = '../b.gif?'+(+new Date());
-  var realSrc = 'fixtures/tiny.gif?'+(+new Date());
+  var realSrc = '/test/fixtures/tiny.gif?'+(+new Date());
 
   var test = createTest({
     tagName: 'img',
@@ -46,7 +46,9 @@ describe('a simple usage with an image', function() {
 
     // on anything but IE, this scroll is not needed
     before(scroller(1, 1));
+    before(wait(600));
     before(scroller(1, 1));
+    before(wait(600));
 
     it('loads the image when visible for a while', eltLoaded(test));
 

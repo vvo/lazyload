@@ -1,7 +1,7 @@
 describe('using data-uris as image sources', function() {
   // using a data-uri, will fail on IE, it does not triggers onload
   var fakeSrc = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-  var realSrc = 'fixtures/tiny.gif?'+(+new Date());
+  var realSrc = '/test/fixtures/tiny.gif?'+(+new Date());
 
   var test = createTest({
     tagName: 'img',

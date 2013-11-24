@@ -1,0 +1,25 @@
+ui: mocha-bdd
+scripts:
+  - "build/lazyload.min.js"
+  - "components/in-viewport/test/helpers/assert.js"
+  - "components/in-viewport/test/helpers/helper.js"
+  - "test/helpers/helper.js"
+server:
+  - ./test/fixtures/serve.js
+browsers:
+  - name: chrome
+    version: 27..latest
+  - name: firefox
+    version: 25..latest
+  - name: ie
+    version: 8..latest
+  - name: opera
+    version: latest
+  - name: safari
+    version: 5..latest
+  - name: ipad
+    version: 6..latest
+  - name: iphone
+    version: 6..latest
+  - name: android-browser
+    version: 4..latest

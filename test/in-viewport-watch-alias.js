@@ -30,7 +30,10 @@ describe('lazyload(elt, cb) is an alias for in-viewport ', function() {
   });
 
   describe('scrolling 9000px', function() {
+    before(scroller(0, 5000));
+    before(wait(600));
     before(scroller(0, 9000));
+    before(wait(600));
 
     it('callback called', function() {
       assert(called === true);

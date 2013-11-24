@@ -4,7 +4,7 @@
   "description": "Image lazy loading",
   "main": "build/lazyload.min.js",
   "scripts": {
-    "test": "mocha-phantomjs test/test.html"
+    "test": "zuul -- test/*.js"
   },
   "repository": {
     "type": "git",
@@ -18,46 +18,7 @@
     "grunt-closure-compiler": "git://github.com/vvo/grunt-closure-compiler.git#v0.1.0",
     "grunt-contrib-watch": "~0.4.3",
     "grunt-contrib-jshint": "~0.4.3",
-    "mocha": "~1.12.0"
-  },
-  "testling": {
-    "scripts": [
-      "build/lazyload.min.js",
-      "components/in-viewport/test/helpers/*.js",
-      "test/helpers/*.js",
-      "test/*.js"
-    ],
-    "harness": "mocha-bdd",
-    "browsers": {
-      "ie": [
-        8,
-        9,
-        10
-      ],
-      "chrome": [
-        24,
-        25
-      ],
-      "firefox": [
-        18,
-        19
-      ],
-      "opera": [
-        12
-      ],
-      "safari": [
-        5.1,
-        6
-      ],
-      "iphone": [
-        6
-      ],
-      "ipad": [
-        6
-      ],
-      "android-browser": [
-        4.2
-      ]
-    }
+    "mocha": "~1.14.0",
+    "express": "~3.4.4"
   }
 }
