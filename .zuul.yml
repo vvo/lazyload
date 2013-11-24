@@ -13,13 +13,5 @@ browsers:
     version: 25..latest
   - name: ie
     version: 8..latest
-  - name: opera
-    version: latest
-  - name: safari
-    version: 5..latest
-  - name: ipad
-    version: 6..latest
   - name: iphone
-    version: 6..latest
-  - name: android-browser
-    version: 4..latest
+    version: 5..latest
