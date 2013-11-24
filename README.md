@@ -4,7 +4,9 @@ Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
 Battle tested against IE8+ Android Ch FF.
 
-[![browser support](https://ci.testling.com/vvo/lazyload.png)](https://ci.testling.com/vvo/lazyload)
+[![Build Status](https://travis-ci.org/vvo/lazyload.png)](https://travis-ci.org/vvo/lazyload)
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/lazyloadvvo.svg)](https://saucelabs.com/u/lazyloadvvo)
 
 ## Usage
 
@@ -94,32 +96,11 @@ your elements [could not be shown](https://github.com/vvo/in-viewport/commit/223
 
 ## Testing
 
-Open `test/test.html` or use a headless browser:
-
-```bash
-# you may need to install phantomjs manually if you are on osx or windows
-npm install -g mocha-phantomjs phantomjs
-npm test
+```js
+npm install -g zuul mocha-phantomjs
+zuul --local 8080 -- test/*.js
+mocha-phantomjs http://localhost:8080/__zuul
 ```
-
-## Hacking
-
-You need package.json dependencies and grunt.
-
-```bash
-npm install
-npm install -g grunt-cli
-grunt watch
-```
-
-Start an http-server in root dir:
-
-```bash
-npm install http-server -g
-http-server
-```
-
-Open `test/test.html`, code, test.
 
 ## Building
 
