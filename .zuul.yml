@@ -13,5 +13,3 @@ browsers:
     version: 25..latest
   - name: ie
     version: 8..latest
-  - name: iphone
-    version: 5..latest
