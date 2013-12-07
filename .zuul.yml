@@ -10,6 +10,6 @@ browsers:
   - name: chrome
     version: 27..latest
   - name: firefox
-    version: 25..latest
+    version: 24..latest
   - name: ie
     version: 8..latest
