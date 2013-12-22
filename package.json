@@ -1,6 +1,6 @@
 {
   "name": "lazyload",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "Image lazy loading",
   "main": "build/lazyload.min.js",
   "scripts": {
