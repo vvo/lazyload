@@ -1,38 +1,41 @@
 describe('giving a specific callback with no default return', function() {
-  var standardSrc = 'fixtures/tiny.gif?'+(+new Date());
-  var hdSrc = 'fixtures/tiny.gif?HD&'+(+new Date());
+  require('./fixtures/bootstrap.js');
+  beforeEach(h.clean);
+  afterEach(h.clean);
+
+  var standardSrc = '/test/fixtures/tiny.gif?'+(+new Date());
+  var hdSrc = '/test/fixtures/tiny.gif?HD&'+(+new Date());
   var lazyFunc = 'customCallbackNoReturn';
   var called;
 
-  window[lazyFunc] = lazyload({
-    src: function(elt) {
-      called = true;
-    }
-  });
+  var test;
+  window[lazyFunc] = true;
 
-  var test = createTest({
-    tagName: 'img',
-    attributes: {
-      src: standardSrc,
-      'data-hdSrc': hdSrc,
-      width: 1,
-      height: 1,
-      onload: lazyFunc+'(this)'
-    },
-    style: {
-      position: 'relative',
-      top: 0,
-      left: 0
-    }
-  });
+  beforeEach(function() {
+    window[lazyFunc] = lazyload({
+      src: function(elt) {
+        called = true;
+      }
+    });
 
-  before(function() {
-    insertTest(test);
+    test = h.createTest({
+      tagName: 'img',
+      attributes: {
+        src: standardSrc,
+        'data-hdSrc': hdSrc,
+        width: 10,
+        height: 10,
+        onload: lazyFunc+'(this)'
+      }
+    });
+    h.insertTest(test);
   });
 
   describe('after some scrolling', function() {
-    before(scroller(1, 1));
-    before(scroller(1, 1));
+    beforeEach(h.scroller(0, 50));
+    beforeEach(h.wait(200));
+    beforeEach(h.scroller(0, 0));
+    beforeEach(h.wait(200));
 
     it('custom callback was called', function() {
       assert(called === true);
@@ -41,8 +44,5 @@ describe('giving a specific callback with no default return', function() {
     it('src was not changed', function() {
       assert(test.src.indexOf(standardSrc) !== -1);
     });
-
-    after(clean(test));
   });
-
 });

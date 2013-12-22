@@ -1,6 +1,5 @@
 node_modules/
-tests/
 test/
 build/
-components/
+bower_components/
 Gruntfile.js

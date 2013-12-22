@@ -2,9 +2,9 @@
 
 Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
-Battle tested against IE8+ Android Ch FF.
+[![Build Status](https://travis-ci.org/vvo/lazyload.png?branch=master)](https://travis-ci.org/vvo/lazyload)
 
-[![browser support](https://ci.testling.com/vvo/lazyload.png)](https://ci.testling.com/vvo/lazyload)
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/lazyloadvvo.svg)](https://saucelabs.com/u/lazyloadvvo)
 
 ## Usage
 
@@ -83,55 +83,26 @@ You could also load a blank image at start and choose either the desktop or hd v
 
 If your function does not returns anything special then the initial `src=` image will not be changed.
 
-## Dynamically created images/elements
-
-If you are using `document.createElement` on elements you want to lazyload,
-you should call lzld(elt) manually as soon as your element is inserted into
-the DOM.
-
-Do no try to call lzld(elt) before inserting it into the DOM, otherwise
-your elements [could not be shown](https://github.com/vvo/in-viewport/commit/2234efae0a07a765aa1f90bdd8c3ea5705d1c68a) by the lazyloader.
-
 ## Testing
 
-Open `test/test.html` or use a headless browser:
-
-```bash
-# you may need to install phantomjs manually if you are on osx or windows
-npm install -g mocha-phantomjs phantomjs
-npm test
+```js
+npm install -g zuul
+zuul --local 8080 -- test/*.js
 ```
 
-## Hacking
+Browse to [http://localhost:8080/__zuul](http://localhost:8080/__zuul).
 
-You need package.json dependencies and grunt.
-
-```bash
-npm install
-npm install -g grunt-cli
-grunt watch
-```
-
-Start an http-server in root dir:
-
-```bash
-npm install http-server -g
-http-server
-```
-
-Open `test/test.html`, code, test.
+[Tests](test/) are written with [mocha](https://github.com/visionmedia/mocha).
 
 ## Building
 
-We use closure compiler.
+[Install](http://code.google.com/p/closure-compiler/downloads/list) closure-compiler.
 
 ```bash
-CLOSURE_PATH="~/path/to/compiler.jar" grunt
+CLOSURE_PATH=~/path/to/closure-compiler/ grunt
 ```
 
-You get a `build/lazyload.min.js` file.
-
-`compiler.jar` is [google closure compiler](https://code.google.com/p/closure-compiler/downloads/list) .jar location.
+You get the [build/lazyload.min.js](build/lazyload.min.js) file.
 
 ## Sites using lazyload
 

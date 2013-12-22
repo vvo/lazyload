@@ -1,26 +1,30 @@
 describe('lazyloading an iframe', function() {
+  require('./fixtures/bootstrap.js');
+  beforeEach(h.clean);
+  afterEach(h.clean);
 
   var fakeSrc = 'about:blank';
-  var realSrc = 'fixtures/page.html';
+  var realSrc = '/test/fixtures/page.html';
 
-  var test = createTest({
-    tagName: 'iframe',
-    attributes: {
-      src: fakeSrc,
-      'data-src': realSrc,
-      width: 1,
-      height: 1,
-      onload: 'lzld(this)'
-    },
-    style: {
-      position: 'relative',
-      top: '5000px',
-      left: 0
-    }
-  });
+  var test;
 
-  before(function() {
-    insertTest(test);
+  beforeEach(function() {
+    test = h.createTest({
+      tagName: 'iframe',
+      attributes: {
+        id: 'iframetest',
+        src: fakeSrc,
+        'data-src': realSrc,
+        width: 10,
+        height: 10,
+        onload: 'lzld(this)'
+      },
+      style: {
+        top: '5000px'
+      }
+    });
+
+    h.insertTest(test);
   });
 
   it('src currently fake', function() {
@@ -32,24 +36,14 @@ describe('lazyloading an iframe', function() {
   });
 
   describe('scrolling to its position', function() {
-    before(scroller(0, 2500));
-    before(scroller(0, 5000));
+    mocha.globals(['iframetest', 'navigator']);
+    this.timeout(10000);
+    beforeEach(h.scroller(0, 2500));
+    beforeEach(h.wait(200));
+    beforeEach(h.scroller(0, 5000));
+    beforeEach(h.wait(600));
 
-    it('loads the iframe', eltLoaded(test));
-
-    it('it has really loaded the iframe html content', function() {
-      assert.equal(window.iframeLoaded, true);
-    });
-
-    after(function() {
-      try {
-        delete window.iframeLoaded;
-      } catch (e) {
-        window.iframeLoaded = undefined;
-      }
-    })
-
-    after(clean(test));
+    it('loads the iframe', h.eltLoaded('iframetest'));
   });
 
 });

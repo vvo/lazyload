@@ -1,10 +1,10 @@
 {
   "name": "lazyload",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "Image lazy loading",
   "main": "build/lazyload.min.js",
   "scripts": {
-    "test": "mocha-phantomjs test/test.html"
+    "test": "grunt jshint && zuul -- test/*.js"
   },
   "repository": {
     "type": "git",
@@ -13,51 +13,16 @@
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT",
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-closure-compiler": "git://github.com/vvo/grunt-closure-compiler.git#v0.1.0",
+    "grunt-closure-compiler": "0.0.21",
     "grunt-contrib-watch": "~0.4.3",
-    "grunt-contrib-jshint": "~0.4.3",
-    "mocha": "~1.12.0"
-  },
-  "testling": {
-    "scripts": [
-      "build/lazyload.min.js",
-      "components/in-viewport/test/helpers/*.js",
-      "test/helpers/*.js",
-      "test/*.js"
-    ],
-    "harness": "mocha-bdd",
-    "browsers": {
-      "ie": [
-        8,
-        9,
-        10
-      ],
-      "chrome": [
-        24,
-        25
-      ],
-      "firefox": [
-        18,
-        19
-      ],
-      "opera": [
-        12
-      ],
-      "safari": [
-        5.1,
-        6
-      ],
-      "iphone": [
-        6
-      ],
-      "ipad": [
-        6
-      ],
-      "android-browser": [
-        4.2
-      ]
-    }
+    "grunt-contrib-jshint": "~0.7.2",
+    "mocha": "~1.15.1",
+    "express": "~3.4.7",
+    "zuul": "~1.0.9",
+    "grunt-cli": "~0.1.11",
+    "in-viewport": "~0.4.0",
+    "merge": "~1.1.2"
   }
 }

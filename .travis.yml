@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - '0.10'
+env:
+  global:
+  - SAUCE_USERNAME=lazyloadvvo
+  - secure: ENLR9rLqdtys9hui4BAbDlreDZCM02hi+q69XsSKRh0Bwtushsm6s7xqomwVechk8OYyjF08MO0RWWC3KHRGALY8mWhdEww3+CMAulrIaSRCQuELai5OHHhNiaCjANXiySG4ByyDkBV9iOL4gGGPItuk9mW1q1wHeHjArUcQk2A=
