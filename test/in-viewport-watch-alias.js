@@ -11,11 +11,7 @@ describe('lazyload(elt, cb) is an alias for in-viewport ', function() {
     test = h.createTest({
       tagName: 'div',
       style: {
-        position: 'relative',
-        top: '10000px',
-        left: 0,
-        width: '1px',
-        height: '1px'
+        top: '10000px'
       }
     });
 

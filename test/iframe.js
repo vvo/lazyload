@@ -20,9 +20,7 @@ describe('lazyloading an iframe', function() {
         onload: 'lzld(this)'
       },
       style: {
-        position: 'relative',
-        top: '5000px',
-        left: 0
+        top: '5000px'
       }
     });
 

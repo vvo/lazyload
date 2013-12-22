@@ -19,11 +19,6 @@ describe('using data-uris as image sources', function() {
         width: 1,
         height: 1,
         onload: 'lzld(this)'
-      },
-      style: {
-        position: 'relative',
-        top: 0,
-        left: 0
       }
     });
 
@@ -39,6 +34,9 @@ describe('using data-uris as image sources', function() {
   });
 
   describe('after some scrolling', function() {
+    beforeEach(h.scroller(0, 50));
+    beforeEach(h.scroller(0, 0));
+
 
     it('loads the image when visible for a while', h.eltLoaded('data-uri'));
 
