@@ -67,6 +67,7 @@ describe('using a div as a reference container', function() {
 
   describe('when we scroll down inside the container to the element', function() {
     beforeEach(h.scroller(1000, 1000, 'container'));
+    beforeEach(h.scroller(1005, 1005, 'container'));
 
     it('loads the image', h.eltLoaded('custom-container'));
   });

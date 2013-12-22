@@ -6,7 +6,7 @@ server:
   - ./test/fixtures/serve.js
 browsers:
   - name: chrome
-    version: 27..latest
+    version: 28..latest
   - name: firefox
     version: 24..latest
   - name: ie

@@ -15,8 +15,8 @@ describe('lazyloading an iframe', function() {
         id: 'iframetest',
         src: fakeSrc,
         'data-src': realSrc,
-        width: 1,
-        height: 1,
+        width: 10,
+        height: 10,
         onload: 'lzld(this)'
       },
       style: {
@@ -36,7 +36,7 @@ describe('lazyloading an iframe', function() {
   });
 
   describe('scrolling to its position', function() {
-    mocha.globals(['iframetest']);
+    mocha.globals(['iframetest', 'navigator']);
     this.timeout(10000);
     beforeEach(h.scroller(0, 2500));
     beforeEach(h.wait(200));

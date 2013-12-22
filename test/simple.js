@@ -16,8 +16,8 @@ describe('a simple usage with an image', function() {
         id: 'simple',
         src: fakeSrc,
         'data-src': realSrc,
-        width: 1,
-        height: 1,
+        width: 10,
+        height: 10,
         onload: 'lzld(this)'
       }
     });
@@ -34,7 +34,9 @@ describe('a simple usage with an image', function() {
 
   describe('after some scrolling', function() {
     beforeEach(h.scroller(0, 50));
+    beforeEach(h.wait(50));
     beforeEach(h.scroller(0, 0));
+    beforeEach(h.wait(50));
 
     it('loads the image when visible for a while', h.eltLoaded('simple'));
   });

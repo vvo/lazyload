@@ -16,8 +16,8 @@ describe('using data-uris as image sources', function() {
         'id': 'data-uri',
         src: fakeSrc,
         'data-src': realSrc,
-        width: 1,
-        height: 1,
+        width: 10,
+        height: 10,
         onload: 'lzld(this)'
       }
     });

@@ -2,8 +2,6 @@
 
 Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
-Battle tested against IE8+ Android Ch FF.
-
 [![Build Status](https://travis-ci.org/vvo/lazyload.png?branch=master)](https://travis-ci.org/vvo/lazyload)
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/lazyloadvvo.svg)](https://saucelabs.com/u/lazyloadvvo)

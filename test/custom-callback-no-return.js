@@ -23,8 +23,8 @@ describe('giving a specific callback with no default return', function() {
       attributes: {
         src: standardSrc,
         'data-hdSrc': hdSrc,
-        width: 1,
-        height: 1,
+        width: 10,
+        height: 10,
         onload: lazyFunc+'(this)'
       }
     });

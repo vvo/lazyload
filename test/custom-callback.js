@@ -27,8 +27,8 @@ describe('giving a specific callback', function() {
         src: fakeSrc,
         'data-src': standardSrc,
         'data-hdSrc': hdSrc,
-        width: 1,
-        height: 1,
+        width: 10,
+        height: 10,
         onload: lazyFunc+'(this)'
       }
     });
@@ -50,8 +50,5 @@ describe('giving a specific callback', function() {
     it('has loaded the hdSrc image', function() {
       assert(test.src.indexOf(hdSrc) !== -1);
     });
-
-
   });
-
 });

@@ -29,8 +29,8 @@ describe('an image at x0, y4000, lazyload stored as `customlzld`, 500px offset, 
         id: 'custom-init',
         src: fakeSrc,
         'youpikai': realSrc,
-        width: 1,
-        height: 1,
+        width: 10,
+        height: 10,
         onload: lazyFunc + '(this)'
       },
       style: {
@@ -56,7 +56,12 @@ describe('an image at x0, y4000, lazyload stored as `customlzld`, 500px offset, 
   });
 
   describe('when scrolling at the triggering scroll position ('+scrollTo+'px)', function() {
+    beforeEach(h.scroller(0, scrollTo));
+    beforeEach(h.wait(50));
     beforeEach(h.scroller(0, scrollTo + 1));
+    beforeEach(h.wait(50));
+    beforeEach(h.scroller(0, scrollTo + 10));
+    beforeEach(h.wait(50));
 
     it('loads the image', h.eltLoaded('custom-init', lazyAttr));
   });
