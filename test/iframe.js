@@ -38,6 +38,7 @@ describe('lazyloading an iframe', function() {
   });
 
   describe('scrolling to its position', function() {
+    mocha.globals(['iframetest']);
     this.timeout(10000);
     beforeEach(h.scroller(0, 2500));
     beforeEach(h.wait(200));
