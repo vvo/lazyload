@@ -37,9 +37,9 @@ describe('lazyload(elt, cb) is an alias for in-viewport ', function() {
 
   describe('scrolling 9000px', function() {
     beforeEach(h.scroller(0, 5000));
-    beforeEach(h.wait(25));
+    beforeEach(h.wait(200));
     beforeEach(h.scroller(0, 9000));
-    beforeEach(h.wait(25));
+    beforeEach(h.wait(200));
 
     it('callback called', function() {
       assert(called === true);

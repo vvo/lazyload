@@ -12,7 +12,7 @@ describe('lazyloading an iframe', function() {
     test = h.createTest({
       tagName: 'iframe',
       attributes: {
-        id: 'iframe',
+        id: 'iframetest',
         src: fakeSrc,
         'data-src': realSrc,
         width: 1,
@@ -39,19 +39,12 @@ describe('lazyloading an iframe', function() {
 
   describe('scrolling to its position', function() {
     this.timeout(10000);
-    mocha.globals(['iframeLoaded']);
     beforeEach(h.scroller(0, 2500));
-    beforeEach(h.wait(25));
-    beforeEach(h.scroller(0, 5000));
     beforeEach(h.wait(200));
+    beforeEach(h.scroller(0, 5000));
+    beforeEach(h.wait(600));
 
-    it('loads the iframe', h.eltLoaded('iframe'));
-
-    it('it has really loaded the iframe html content', function() {
-      assert.equal(window.iframeLoaded, true);
-    });
-
-
+    it('loads the iframe', h.eltLoaded('iframetest'));
   });
 
 });

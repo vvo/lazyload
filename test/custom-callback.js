@@ -37,9 +37,9 @@ describe('giving a specific callback', function() {
 
   describe('after some scrolling', function() {
     beforeEach(h.scroller(0, 50));
-    beforeEach(h.wait(25));
+    beforeEach(h.wait(200));
     beforeEach(h.scroller(0, 0));
-    beforeEach(h.wait(25));
+    beforeEach(h.wait(200));
 
     it('custom callback was called', function() {
       assert(called === true);

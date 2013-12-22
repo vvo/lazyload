@@ -33,6 +33,9 @@ describe('a simple usage with an image', function() {
   });
 
   describe('after some scrolling', function() {
+    beforeEach(h.scroller(0, 50));
+    beforeEach(h.scroller(0, 0));
+
     it('loads the image when visible for a while', h.eltLoaded('simple'));
   });
 
