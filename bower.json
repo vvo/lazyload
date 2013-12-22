@@ -5,11 +5,11 @@
   "main": "lazyload.js",
   "ignore": [
     "**/.*",
-    "node_modules",
-    "components",
-    "test"
+    "node_modules/",
+    "bower_components/",
+    "test/"
   ],
   "dependencies": {
-    "in-viewport": "~0.3.0"
+    "in-viewport": "~0.4.0"
   }
 }

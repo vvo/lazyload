@@ -4,7 +4,7 @@
   "description": "Image lazy loading",
   "main": "build/lazyload.min.js",
   "scripts": {
-    "test": "zuul -- test/*.js"
+    "test": "grunt jshint && zuul -- test/*.js"
   },
   "repository": {
     "type": "git",
@@ -13,13 +13,16 @@
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT",
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-closure-compiler": "git://github.com/vvo/grunt-closure-compiler.git#v0.1.0",
+    "grunt-closure-compiler": "0.0.21",
     "grunt-contrib-watch": "~0.4.3",
-    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-jshint": "~0.7.2",
     "mocha": "~1.15.1",
-    "express": "~3.4.6",
-    "zuul": "~1.0.6"
+    "express": "~3.4.7",
+    "zuul": "~1.0.9",
+    "grunt-cli": "~0.1.11",
+    "in-viewport": "~0.4.0",
+    "merge": "~1.1.2"
   }
 }

@@ -1,62 +1,63 @@
-describe('an image at x0, y10000, lazyload stored as `customlzld`, 1000px offset, youpikai as data-src ', function() {
+describe('an image at x0, y4000, lazyload stored as `customlzld`, 500px offset, youpikai as data-src ', function() {
+  require('./fixtures/bootstrap.js');
+  beforeEach(h.clean);
+  afterEach(h.clean);
 
   var lazyAttr = 'youpikai';
   var lazyFunc = 'customlzld';
 
   var fakeSrc = '../b.gif?'+(+new Date());
   var realSrc = '/test/fixtures/tiny.gif?'+(+new Date());
-  var offset = 1000;
+  var offset = 500;
 
-  var scrollTo = 10000 -
+  var scrollTo = 4000 -
     document.documentElement.clientHeight -
     offset;
 
-  // on IE, onload will immediately be called so init lazyload before inserting
-  // the image into the DOM
-  window[lazyFunc] = lazyload({
-    offset: offset,
-    src: lazyAttr
+  var test;
+  window[lazyFunc] = true;
+
+  beforeEach(function() {
+    window[lazyFunc] = lazyload({
+      offset: offset,
+      src: lazyAttr
+    });
+
+    test = h.createTest({
+      tagName: 'img',
+      attributes: {
+        id: 'custom-init',
+        src: fakeSrc,
+        'youpikai': realSrc,
+        width: 1,
+        height: 1,
+        onload: lazyFunc + '(this)'
+      },
+      style: {
+        top: '4000px'
+      }
+    });
+
+    h.insertTest(test);
   });
 
-  var test = createTest({
-    tagName: 'img',
-    attributes: {
-      src: fakeSrc,
-      'youpikai': realSrc,
-      width: 1,
-      height: 1,
-      onload: lazyFunc + '(this)'
-    },
-    style: {
-      position: 'relative',
-      top: '10000px',
-      left: 0
-    }
-  });
-
-  before(function() {
-    insertTest(test);
-  });
-
-  it('does not loads the image at first', eltNotLoaded(test, lazyAttr));
+  it('does not loads the image at first', h.eltNotLoaded('custom-init', lazyAttr));
 
   describe('when scrolling 1000 pixels', function() {
-    before(scroller(0, 1000));
+    beforeEach(h.scroller(0, 1000));
 
-    it('does not loads the image', eltNotLoaded(test, lazyAttr));
+    it('does not loads the image', h.eltNotLoaded('custom-init', lazyAttr));
   });
 
   describe('when scrolling 1px the triggering scroll position ('+(scrollTo-1)+'px)', function() {
-    before(scroller(0, scrollTo - 1));
+    beforeEach(h.scroller(0, scrollTo - 1));
 
-    it('still does not loads the image', eltNotLoaded(test, lazyAttr));
+    it('still does not loads the image', h.eltNotLoaded('custom-init', lazyAttr));
   });
 
   describe('when scrolling at the triggering scroll position ('+scrollTo+'px)', function() {
-    before(scroller(0, scrollTo));
+    beforeEach(h.scroller(0, scrollTo + 1));
 
-    it('loads the image', eltLoaded(test, lazyAttr));
+    it('loads the image', h.eltLoaded('custom-init', lazyAttr));
   });
-
-  after(clean(test));
 });

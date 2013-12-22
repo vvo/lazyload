@@ -1,9 +1,7 @@
 ui: mocha-bdd
+html: node_modules/in-viewport/test/fixtures/template.html
 scripts:
   - "build/lazyload.min.js"
-  - "components/in-viewport/test/helpers/assert.js"
-  - "components/in-viewport/test/helpers/helper.js"
-  - "test/helpers/helper.js"
 server:
   - ./test/fixtures/serve.js
 browsers:
@@ -12,4 +10,8 @@ browsers:
   - name: firefox
     version: 24..latest
   - name: ie
-    version: 8..latest
+    version: 9..latest
+  - name: iphone
+    version: 5.0..latest
+  - name: ipad
+    version: 5.0..latest

@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     concat: {
       build: {
         src:  [
-          'components/in-viewport/in-viewport.js',
+          'node_modules/in-viewport/in-viewport.js',
           '<%= pkg.name %>.js'],
         dest: 'build/<%= pkg.name %>.js'
       }
@@ -26,17 +26,12 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc'
       }
-    },
-    watch: {
-      files: ['<%= jshint.files %>', '.jshintrc', 'package.json'],
-      tasks: ['jshint']
     }
   });
 
   grunt.loadNpmTasks('grunt-closure-compiler');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', [
     'jshint',

@@ -108,7 +108,7 @@
 
   // http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
   function indexOf(value) {
-      for (var i = this.length; i-- && this[i] !== value;);
+      for (var i = this.length; i-- && this[i] !== value;) {}
       return i;
   }
 

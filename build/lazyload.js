@@ -1,5 +1,5 @@
 /**
-* @license in-viewport v0.3.0 | github.com/vvo/in-viewport#license
+* @license in-viewport v0.4.0 | github.com/vvo/in-viewport#license
 */
 
 (function(win, doc){
@@ -75,6 +75,8 @@
 
   function createInViewport(container) {
     var watches = [];
+    var watching = [];
+
     var scrollContainer = container === doc.body ? win : container;
     var debouncedCheck = debounce(checkElements, 15);
 
@@ -84,10 +86,18 @@
       addEvent(win, 'resize', debouncedCheck);
     }
 
+    if (typeof window['MutationObserver'] === 'function') {
+      observeDOM(watching, container, debouncedCheck);
+    }
+
     function inViewport(elt, offset, cb) {
       if (!contains(doc.documentElement, elt) ||
           !contains(doc.documentElement, container)) {
-          return setTimeout(addWatch(elt, offset, cb), 0);
+          if (cb) {
+            return setTimeout(addWatch(elt, offset, cb), 0);
+          } else {
+            return false;
+          }
       }
 
       var eltRect = elt.getBoundingClientRect();
@@ -121,6 +131,7 @@
 
       if (visible) {
         if (cb) {
+          watching.splice(indexOf.call(watching, elt), 1);
           cb(elt);
         } else {
           return true;
@@ -135,9 +146,13 @@
     }
 
     function addWatch(elt, offset, cb) {
+      if (indexOf.call(watching, elt) === -1) {
+        watching.push(elt);
+      }
+
       return function() {
         watches.push(function() {
-          inViewport(elt, offset, cb, true);
+          inViewport(elt, offset, cb);
         });
       }
     }
@@ -152,6 +167,37 @@
     return {
       container: container,
       inViewport: inViewport
+    }
+  }
+
+  function indexOf(value) {
+    for (var i = this.length; i-- && this[i] !== value;) {}
+    return i;
+  }
+
+  function observeDOM(elements, container, cb) {
+    var observer = new MutationObserver(watch);
+    var filter = Array.prototype.filter;
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true
+    });
+
+    function watch(mutations) {
+      // some new DOM nodes where previously watched
+      // we should check their positions
+      if (mutations.some(knownNodes) === true) {
+        setTimeout(cb, 0);
+      }
+    }
+
+    function isWatched(node) {
+      return indexOf.call(elements, node) !== -1;
+    }
+
+    function knownNodes(mutation) {
+      return filter.call(mutation.addedNodes, isWatched).length > 0
     }
   }
 
@@ -266,8 +312,8 @@
 
   // http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
   function indexOf(value) {
-      for (var i = this.length; i-- && this[i] !== value;);
+      for (var i = this.length; i-- && this[i] !== value;) {}
       return i;
   }
 
-}(window, document))
+}(window, document));

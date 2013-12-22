@@ -1,55 +1,57 @@
 describe('giving a specific callback', function() {
+  require('./fixtures/bootstrap.js');
+  beforeEach(h.clean);
+  afterEach(h.clean);
+
   var fakeSrc = '../b.gif?'+(+new Date());
   var standardSrc = '/test/fixtures/tiny.gif?'+(+new Date());
   var hdSrc = '/test/fixtures/tiny.gif?HD&'+(+new Date());
   var lazyFunc = 'customCallback';
   var called;
 
-  window[lazyFunc] = lazyload({
-    src: function(elt) {
-      called = true;
-      return elt.getAttribute('data-hdSrc');
-    }
-  });
+  var test;
+  window[lazyFunc] = true;
 
-  var test = createTest({
-    tagName: 'img',
-    attributes: {
-      src: fakeSrc,
-      'data-src': standardSrc,
-      'data-hdSrc': hdSrc,
-      width: 1,
-      height: 1,
-      onload: lazyFunc+'(this)'
-    },
-    style: {
-      position: 'relative',
-      top: 0,
-      left: 0
-    }
-  });
+  beforeEach(function() {
+    window[lazyFunc] = lazyload({
+      src: function(elt) {
+        called = true;
+        return elt.getAttribute('data-hdSrc');
+      }
+    });
 
-  before(function() {
-    insertTest(test);
+    test = h.createTest({
+      tagName: 'img',
+      attributes: {
+        id: 'custom-callback',
+        src: fakeSrc,
+        'data-src': standardSrc,
+        'data-hdSrc': hdSrc,
+        width: 1,
+        height: 1,
+        onload: lazyFunc+'(this)'
+      }
+    });
+    h.insertTest(test);
   });
 
   describe('after some scrolling', function() {
-    before(scroller(1, 1));
-    before(wait(600));
-    before(scroller(1, 1));
-    before(wait(600));
+    beforeEach(h.scroller(0, 50));
+    beforeEach(h.wait(25));
+    beforeEach(h.scroller(0, 0));
+    beforeEach(h.wait(25));
 
     it('custom callback was called', function() {
       assert(called === true);
     });
 
-    it('loads the image when visible for a while', eltLoaded(test));
+    it('loads the image when visible for a while', h.eltLoaded('custom-callback'));
 
     it('has loaded the hdSrc image', function() {
       assert(test.src.indexOf(hdSrc) !== -1);
     });
 
-    after(clean(test));
+
   });
 
 });
