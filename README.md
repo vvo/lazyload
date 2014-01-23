@@ -13,20 +13,25 @@ Make sure you are in [standards mode](http://en.wikipedia.org/wiki/Document_Type
 Viewport computing is badly handled by browsers when in [quirksmode](http://en.wikipedia.org/wiki/Quirks_mode).
 
 ```html
-<!doctype html>
-<script src="lazyload.min.js"></script>
-<body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>lazyload</title>
+    <script src="lazyload.min.js"></script>
+  </head>
+  <body>
 
-  <img
-    data-src="real/image/src.jpg"
-    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-    onload=lzld(this) />
+    <img
+      data-src="real/image/src.jpg"
+      src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+      onload="lzld(this)">
 
-  <iframe
-    data-src="yourpage.html"
-    src="about:blank"
-    onload=lzld(this)></iframe>
-</body>
+    <iframe
+      data-src="yourpage.html"
+      src="about:blank"
+      onload="lzld(this)"></iframe>
+  </body>
+</html>
 ```
 
 If you do not want to use a data-uri as your src, you can also use the provided [b.gif](b.gif) which is
@@ -59,23 +64,28 @@ When giving a function to the `src` param, you can implement a custom src select
 So you can handle resolution dependent images.
 
 ```html
-<!doctype html>
-<script src="lazyload.min.js"></script>
-<script>
-var lazyHd = lazyload({ src: hidpi });
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>lazyload</title>
+    <script src="lazyload.min.js"></script>
+    <script>
+      var lazyHd = lazyload({ src: hidpi });
 
-function hidpi(img) {
-  if(window.devicePixelRatio > 1) {
-    return img.getAttribute('data-src-hd');
-  }
-}
-</script>
-<body>
-  <img
-    data-src-hd="images/src-hd.jpg"
-    src="images/src-desktop.jpg"
-    onload=lazyHd(this) />
-</body>
+      function hidpi(img) {
+        if(window.devicePixelRatio > 1) {
+          return img.getAttribute('data-src-hd');
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <img
+      data-src-hd="images/src-hd.jpg"
+      src="images/src-desktop.jpg"
+      onload="lazyHd(this)">
+  </body>
+</html>
 ```
 
 Here you go! You are now loading a standard desktop image and loading the hd version when needed.
