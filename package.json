@@ -6,10 +6,7 @@
   "scripts": {
     "test": "grunt jshint && zuul -- test/*.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/vvo/lazyload.git"
-  },
+  "repository": "vvo/lazyload",
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT",
   "devDependencies": {
