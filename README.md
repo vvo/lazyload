@@ -17,9 +17,9 @@ Viewport computing is badly handled by browsers when in [quirksmode](http://en.w
 <html>
   <head>
     <title>lazyload</title>
-    <script src="lazyload.min.js"></script>
   </head>
   <body>
+    <script src="lazyload.min.js"></script>
 
     <img
       data-src="real/image/src.jpg"
@@ -33,6 +33,11 @@ Viewport computing is badly handled by browsers when in [quirksmode](http://en.w
   </body>
 </html>
 ```
+
+Script should be included after the `<body>` element and before any
+lazyloaded image.
+
+See more [examples](examples/).
 
 If you do not want to use a data-uri as your src, you can also use the provided [b.gif](b.gif) which is
 the [tiniest gif ever](http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever).
