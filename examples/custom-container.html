@@ -1,0 +1,78 @@
+<!doctype html>
+<style>
+  #container {
+    width: 800px;
+    height: 500px;
+    overflow: scroll;
+    border: 2px solid black;
+  }
+</style>
+<title>lazyloading images</title>
+<script src="../build/lazyload.min.js"></script>
+
+<h1>simple images example</h1>
+<h2>scroll for more</h2>
+
+<div style="margin-top:2000px"></div>
+
+<h3>Not lazyloaded:</h3>
+  <img src=img/04.jpg />
+
+<h3>Lazyloaded:</h3>
+<div id=container>
+  <!-- lazyload init must be placed:
+    - after the container div
+    - before the first lazyloaded image
+  -->
+  <script>
+  var lazy = lazyload({
+    container: document.getElementById('container')
+  });
+  </script>
+
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/01.jpg
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/02.jpg
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/03.jpg
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/01.jpg?2
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/02.jpg?2
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/03.jpg?2
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/01.jpg?3
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/02.jpg?3
+    height=500
+    onload=lazy(this) />
+  <img
+    src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+    data-src=img/03.jpg?3
+    height=500
+    onload=lazy(this) />
+</div>
