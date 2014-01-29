@@ -81,7 +81,9 @@
     window[fullname].prototype.getAttribute = function(name) {
       if(name === 'src') {
         var realSrc;
-        for (var i = 0, max = lazyAttrs.length; i < max; i++) {
+        var max;
+        var i;
+        for (i = 0; max = lazyAttrs.length; i < max; i++) {
           if (realSrc = original.call(this, lazyAttrs[i])) {
             break;
           }
@@ -97,7 +99,8 @@
   }
 
   function merge(defaults, opts) {
-    for (var name in defaults) {
+    var name;
+    for (name in defaults) {
       if (opts[name] === undefined) {
         opts[name] = defaults[name];
       }
@@ -108,8 +111,9 @@
 
   // http://webreflection.blogspot.fr/2011/06/partial-polyfills.html
   function indexOf(value) {
-      for (var i = this.length; i-- && this[i] !== value;) {}
-      return i;
+    var i;
+    for (i = this.length; i-- && this[i] !== value) {}
+    return i;
   }
 
 }(window, document));
