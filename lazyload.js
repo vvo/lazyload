@@ -81,7 +81,7 @@
     window[fullname].prototype.getAttribute = function(name) {
       if(name === 'src') {
         var realSrc;
-        for (var i = 0, max = lazyAttrs.length; i < max; i++) {
+        for (var i = 0; i < lazyAttrs.length; i++) {
           if (realSrc = original.call(this, lazyAttrs[i])) {
             break;
           }
