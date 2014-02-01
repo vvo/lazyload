@@ -24,7 +24,8 @@ module.exports = function(grunt) {
     jshint: {
       files: ['<%= pkg.name %>.js', 'package.json'],
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
+        src: ['lazyload.js', 'Gruntfile.js']
       }
     }
   });
