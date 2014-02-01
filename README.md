@@ -4,6 +4,8 @@ Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
 [![Build Status](https://travis-ci.org/vvo/lazyload.png?branch=master)](https://travis-ci.org/vvo/lazyload)
 
+[![devDependency Status](https://david-dm.org/vvo/lazyload/dev-status.png?theme=shields.io)](https://david-dm.org/vvo/lazyload#info=devDependencies)
+
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/lazyloadvvo.svg)](https://saucelabs.com/u/lazyloadvvo)
 
 ## Usage
