@@ -123,7 +123,7 @@ You get the [build/lazyload.min.js](build/lazyload.min.js) file.
 
 ## Sites using lazyload
 
-Millions of pageviews are served using this project:
+Tens of millions of pageviews are served each month using this project:
 
 * [fasterize.com](http://fasterize.com) `lazyload` was first developed at fasterize (WPO solution)
 * [lemonde.fr](http://www.lemonde.fr)
@@ -133,6 +133,7 @@ Millions of pageviews are served using this project:
 * [playtv.fr](http://playtv.fr)
 * [voyages-sncf.com](http://www.voyages-sncf.com)
 * [rue89.com](http://www.rue89.com)
+* [flipkart.com](http://www.flipkart.com/)
 
 ## Licence
 
