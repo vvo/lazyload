@@ -10,7 +10,7 @@ browsers:
   - name: firefox
     version: 24..latest
   - name: ie
-    version: 9..latest
+    version: 8..latest
   - name: iphone
     version: 5.0..latest
   - name: ipad
