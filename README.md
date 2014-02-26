@@ -134,6 +134,10 @@ Tens of millions of pageviews are served each month using this project:
 * [voyages-sncf.com](http://www.voyages-sncf.com)
 * [rue89.com](http://www.rue89.com)
 * [flipkart.com](http://www.flipkart.com/)
+* [clubic.com](http://clubic.com)
+* [achetezfacile.com](http://www.achetezfacile.com/)
+
+.. And many unlisted websites, [add yours](https://github.com/vvo/lazyload/edit/master/README.md)!
 
 ## Licence
 
