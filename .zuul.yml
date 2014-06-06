@@ -6,9 +6,9 @@ server:
   - ./test/fixtures/serve.js
 browsers:
   - name: chrome
-    version: 28..latest
+    version: 34..latest
   - name: firefox
-    version: 24..latest
+    version: 28..latest
   - name: ie
     version: 8..latest
   - name: iphone

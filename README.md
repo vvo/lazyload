@@ -102,7 +102,7 @@ If your function does not returns anything special then the initial `src=` image
 
 ## Testing
 
-```js
+```shell
 npm install -g zuul
 zuul --local 8080 -- test/*.js
 ```

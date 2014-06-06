@@ -1,5 +1,5 @@
 /**
-* @license lazyload v2.1.0 | github.com/vvo/lazyload#license
+* @license lazyload v2.1.1 | github.com/vvo/lazyload#license
 */
 
 (function(window, document){

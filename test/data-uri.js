@@ -1,4 +1,8 @@
 describe('using data-uris as image sources', function() {
+  if( !document.addEventListener ){
+    return;
+  }
+
   require('./fixtures/bootstrap.js');
   beforeEach(h.clean);
   afterEach(h.clean);

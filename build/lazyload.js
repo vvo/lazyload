@@ -1,5 +1,5 @@
 /**
-* @license in-viewport v0.4.0 | github.com/vvo/in-viewport#license
+* @license in-viewport v0.4.1 | github.com/vvo/in-viewport#license
 */
 
 (function(win, doc){
@@ -82,6 +82,7 @@
 
     addEvent(scrollContainer, 'scroll', debouncedCheck);
 
+
     if (scrollContainer === win) {
       addEvent(win, 'resize', debouncedCheck);
     }
@@ -116,6 +117,16 @@
       if (container === doc.body) {
         viewport.width += doc.documentElement.clientWidth;
         viewport.height += doc.documentElement.clientHeight;
+
+        // We update body rect computing because
+        // when you have relative/absolute childs, you get bad compute
+        // we need to create a new Object, because it's read only
+        containerRect = {
+          bottom: container.scrollHeight,
+          top: 0,
+          left: 0,
+          right: container.scrollWidth
+        };
       } else {
         pos.left -= containerRect.left;
         pos.top -= containerRect.top;
@@ -124,10 +135,17 @@
       }
 
       var visible =
-        pos.left >= -offset &&
-        pos.left <= viewport.width &&
-        pos.top >= -offset &&
-        pos.top <= viewport.height;
+      // 1. They must overlap
+      !(
+        eltRect.right < containerRect.left ||
+        eltRect.left > containerRect.right ||
+        eltRect.bottom < containerRect.top ||
+        eltRect.top > containerRect.bottom
+      ) && (
+      // 2. They must be visible in the viewport
+        pos.top <= viewport.height &&
+        pos.left <= viewport.width
+      );
 
       if (visible) {
         if (cb) {
@@ -203,7 +221,7 @@
 
 })(window, document);
 /**
-* @license lazyload v2.1.0 | github.com/vvo/lazyload#license
+* @license lazyload v2.1.1 | github.com/vvo/lazyload#license
 */
 
 (function(window, document){
