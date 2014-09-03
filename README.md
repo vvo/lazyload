@@ -55,7 +55,7 @@ All parameters are optional.
 ```js
 var myLzld = lazyload({
   container: document.body,
-  offset: 200,
+  offset: 333,
   src: 'data-src' // or function(elt) { return customSrc }
 });
 ```
