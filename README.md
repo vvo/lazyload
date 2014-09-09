@@ -4,6 +4,7 @@ Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
 
 [![Dependency Status](http://img.shields.io/david/vvo/lazyload.svg?style=flat-square)](https://david-dm.org/vvo/lazyload)
 [![devDependency Status](http://img.shields.io/david/dev/vvo/lazyload.svg?style=flat-square)](https://david-dm.org/vvo/lazyload#info=devDependencies)
+
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/lazyloadvvo.svg)](https://saucelabs.com/u/lazyloadvvo)
 
 ## Usage
