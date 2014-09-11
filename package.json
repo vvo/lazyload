@@ -1,6 +1,6 @@
 {
   "name": "lazyload",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Image lazy loading",
   "main": "build/lazyload.min.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "grunt-contrib-concat": "^0.5.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-watch": "^0.6.1",
-    "in-viewport": "^0.4.1",
+    "in-viewport": "^0.4.2",
     "merge": "^1.2.0",
     "zuul": "^1.10.2"
   }

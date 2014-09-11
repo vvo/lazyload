@@ -1,5 +1,5 @@
 /**
-* @license in-viewport v0.4.1 | github.com/vvo/in-viewport#license
+* @license in-viewport v0.4.2 | github.com/vvo/in-viewport#license
 */
 
 (function(win, doc){
@@ -221,7 +221,7 @@
 
 })(window, document);
 /**
-* @license lazyload v2.1.1 | github.com/vvo/lazyload#license
+* @license lazyload v2.1.2 | github.com/vvo/lazyload#license
 */
 
 (function(window, document){
