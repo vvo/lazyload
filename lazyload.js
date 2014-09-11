@@ -29,7 +29,8 @@
     opts = merge({
       'offset': 333,
       'src': 'data-src',
-      'container': false
+      'container': false,
+      'onVisible': null
     }, opts || {});
 
     if (typeof opts['src'] === 'string') {
@@ -43,6 +44,9 @@
 
       if (src) {
         elt.src = src;
+        if(typeof opts.onVisible === 'function'){
+            opts.onVisible(elt);
+        }
       }
 
       elt['data-lzled'] = true;
