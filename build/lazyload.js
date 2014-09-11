@@ -221,7 +221,7 @@
 
 })(window, document);
 /**
-* @license lazyload v2.1.2 | github.com/vvo/lazyload#license
+* @license lazyload v2.1.3 | github.com/vvo/lazyload#license
 */
 
 (function(window, document){
@@ -284,6 +284,10 @@
       // needed by IE < 9, otherwise we get another onload when changing the src
       elt.onload = null;
       elt.removeAttribute('onload');
+
+      // https://github.com/vvo/lazyload/issues/62
+      elt.onerror = null;
+      elt.removeAttribute('onerror');
 
       if (indexOf.call(elts, elt) === -1) {
         inViewport(elt, opts, show);
