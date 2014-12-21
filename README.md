@@ -135,6 +135,7 @@ Tens of millions of pageviews are served each month using this project:
 * [flipkart.com](http://www.flipkart.com/)
 * [clubic.com](http://clubic.com)
 * [achetezfacile.com](http://www.achetezfacile.com/)
+* [mapado.com](http://www.mapado.com/)
 
 .. And many unlisted websites, [add yours](https://github.com/vvo/lazyload/edit/master/README.md)!
 
