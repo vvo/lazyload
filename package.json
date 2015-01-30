@@ -19,12 +19,12 @@
   "devDependencies": {
     "browserify": "^8.1.1",
     "deumdify": "^1.0.4",
-    "express": "^4.9.0",
+    "express": "^4.11.1",
     "http-server": "^0.7.4",
     "merge": "^1.2.0",
     "uglifyify": "^3.0.1",
     "watchify": "^2.2.1",
-    "zuul": "^1.10.2"
+    "zuul": "^1.16.5"
   },
   "browserify": {
     "transform": [
