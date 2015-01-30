@@ -1,17 +1,19 @@
-# lazyload
-
-Lazyload images, iframes, divs, widgets untill they are visible in the viewport.
-
-[![Dependency Status](http://img.shields.io/david/vvo/lazyload.svg?style=flat-square)](https://david-dm.org/vvo/lazyload)
+# lazyload [![Dependency Status](http://img.shields.io/david/vvo/lazyload.svg?style=flat-square)](https://david-dm.org/vvo/lazyload)
 [![devDependency Status](http://img.shields.io/david/dev/vvo/lazyload.svg?style=flat-square)](https://david-dm.org/vvo/lazyload#info=devDependencies)
+
+Lazyload images, iframes or any src* element until they are visible in the viewport.
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/lazyloadvvo.svg)](https://saucelabs.com/u/lazyloadvvo)
 
-## Usage
+## Install
 
-Make sure you are in [standards mode](http://en.wikipedia.org/wiki/Document_Type_Declaration#HTML5_DTD-less_DOCTYPE).
+```shell
+npm install lazyloadjs --save
+```
 
-Viewport computing is badly handled by browsers when in [quirksmode](http://en.wikipedia.org/wiki/Quirks_mode).
+## Simple example
+
+See more [examples](examples/).
 
 ```html
 <!DOCTYPE html>
@@ -22,23 +24,20 @@ Viewport computing is badly handled by browsers when in [quirksmode](http://en.w
   <body>
     <script src="lazyload.min.js"></script>
 
+    <!-- A lot of content -->
+    <!-- A lot of content -->
+
     <img
       data-src="real/image/src.jpg"
       src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
       onload="lzld(this)">
-
-    <iframe
-      data-src="yourpage.html"
-      src="about:blank"
-      onload="lzld(this)"></iframe>
   </body>
 </html>
 ```
 
-Script should be included after the `<body>` element and before any
-lazyloaded image.
+Make sure your webpage is in [standards mode](http://en.wikipedia.org/wiki/Document_Type_Declaration#HTML5_DTD-less_DOCTYPE).
 
-See more [examples](examples/).
+Viewport computing is badly handled by browsers when in [quirksmode](http://en.wikipedia.org/wiki/Quirks_mode).
 
 If you do not want to use a data-uri as your src, you can also use the provided [b.gif](b.gif) which is
 the [tiniest gif ever](http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever).
@@ -46,64 +45,60 @@ the [tiniest gif ever](http://probablyprogramming.com/2009/03/15/the-tiniest-gif
 On most websites, you better let the first top images not bound to lzld method.
 So that they shows really fast.
 
-## Options
+## Advanced example
 
-Here are the options and defaults.
-All parameters are optional.
+`lazyloadjs` is an npm module and is compatible with browserify.
 
 ```js
-var myLzld = lazyload({
+global.myLazyload = require('lazyloadjs')();
+```
+
+```html
+<img
+  data-src="real/image/src.jpg"
+  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+  onload="myLazyload(this)">
+```
+
+Per default, `lazyloadjs` exposes the `lzld` instance on the global
+object. So that in most cases, you just need to require it in your webpage.
+
+## API
+
+## var lzld = lazyload([opts])
+
+`opts` is an object with these defaults:
+
+```js
+{
   container: document.body,
   offset: 333,
   src: 'data-src' // or function(elt) { return customSrc }
-});
+}
 ```
 
-* **container**: Which element to be used as the `viewport`
-* **offset**: When watched element is `offset`px near the viewport bounds, show it (horizontal, vertical)
-* **src**: Where to find the real src of your element, either in another attribute (data-src) or
-    using a custom function
+`opts.container` is the referencing container, it's the viewport, defaults to `document.body`
 
-## hidpi images
+`opts.offset` is a length in pixels used to compute when an element will
+soon be visible. So that you load it just before it becomes visible.
 
-When giving a function to the `src` param, you can implement a custom src selector.
-So you can handle resolution dependent images.
+`src` is the attribute name storing the real src of the element to load.
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>lazyload</title>
-    <script src="lazyload.min.js"></script>
-    <script>
-      var lazyHd = lazyload({ src: hidpi });
+`src` can also be a `function`, so that you can have your custom `src` computing algorithm.
+You can use it to [lazyload High DPI/retina images](examples/hidpi.html).
 
-      function hidpi(img) {
-        if(window.devicePixelRatio > 1) {
-          return img.getAttribute('data-src-hd');
-        }
-      }
-    </script>
-  </head>
-  <body>
-    <img
-      data-src-hd="images/src-hd.jpg"
-      src="images/src-desktop.jpg"
-      onload="lazyHd(this)">
-  </body>
-</html>
-```
-
-Here you go! You are now loading a standard desktop image and loading the hd version when needed.
-You could also load a blank image at start and choose either the desktop or hd version.
-
-If your function does not returns anything special then the initial `src=` image will not be changed.
-
-## Testing
+## Launching the examples
 
 ```shell
-npm install -g zuul
-zuul --local 8080 -- test/*.js
+npm run examples
+```
+
+## Developing
+
+Launch the dev server:
+
+```shell
+npm run dev
 ```
 
 Browse to [http://localhost:8080/__zuul](http://localhost:8080/__zuul).
@@ -112,13 +107,17 @@ Browse to [http://localhost:8080/__zuul](http://localhost:8080/__zuul).
 
 ## Building
 
-[Install](http://code.google.com/p/closure-compiler/downloads/list) closure-compiler.
+We provide a pre-built version of `lazyloadjs` in `build/lazyload.min.js`.
 
-```bash
-CLOSURE_PATH=~/path/to/closure-compiler/ grunt
+But you can build your own:
+
+```shell
+npm run build
 ```
 
-You get the [build/lazyload.min.js](build/lazyload.min.js) file.
+You get the build in `build/lazyload.min.js`.
+
+Please consider using [browserify](https://github.com/substack/node-browserify).
 
 ## Sites using lazyload
 
@@ -145,7 +144,7 @@ Also see [LICENCE.fasterize](LICENCE.fasterize)
 
 (The MIT Licence)
 
-Copyright (c) 2012-2013 Vincent Voyer
+Copyright (c) Vincent Voyer
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
