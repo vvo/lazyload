@@ -4,7 +4,7 @@
   "description": "Image lazy loading",
   "main": "./lazyload.js",
   "scripts": {
-    "build": "browserify ./lazyload.js -s lazyload -p deumdify > build/lazyload.min.js",
+    "build": "browserify ./lazyload.js -s lazyload -p deumdify | ccjs - > build/lazyload.min.js",
     "watch": "watchify ./lazyload.js -d -s lazyload -p deumdify -o build/lazyload.min.js -v",
     "dev": "npm run watch & zuul --local 8080 -- test/*.js",
     "test": "npm run build && zuul --tunnel ngrok -- test/*.js",
@@ -18,42 +18,13 @@
   },
   "devDependencies": {
     "browserify": "^9.0.3",
+    "closurecompiler": "^1.5.1",
     "deumdify": "^1.1.0",
     "express": "^4.12.2",
     "http-server": "^0.7.5",
     "merge": "^1.2.0",
-    "uglifyify": "^3.0.1",
     "watchify": "^2.4.0",
     "zuul": "2.1.0",
     "zuul-ngrok": "git://github.com/vvo/zuul-ngrok#decbe165e0a50b7afaef3eb1dd1f49ed711bc8d7"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "uglifyify",
-        {
-          "mangle": true,
-          "screw-ie8": true,
-          "compress": {
-            "sequences": true,
-            "properties": true,
-            "dead_code": true,
-            "drop_debugger": true,
-            "unsafe": true,
-            "conditionals": true,
-            "comparisons": true,
-            "evaluate": true,
-            "booleans": true,
-            "loops": true,
-            "unused": true,
-            "hoist_funs": true,
-            "if_return": true,
-            "join_vars": true,
-            "cascade": true,
-            "drop_console": true
-          }
-        }
-      ]
-    ]
   }
 }
