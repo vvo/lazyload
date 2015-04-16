@@ -4,7 +4,7 @@
   "description": "Image lazy loading",
   "main": "./lazyload.js",
   "scripts": {
-    "build": "browserify ./lazyload.js -s lazyload -p deumdify | ccjs - > build/lazyload.min.js",
+    "build": "browserify ./lazyload.js -s lazyload -p deumdify > build/lazyload.js && ccjs build/lazyload.js > build/lazyload.min.js",
     "watch": "watchify ./lazyload.js -d -s lazyload -p deumdify -o build/lazyload.min.js -v",
     "dev": "npm run watch & DEBUG=zuul* zuul --local 8080 -- test/*.js",
     "test": "npm run build && DEBUG=zuul* zuul --tunnel ngrok -- test/*.js",
