@@ -1,0 +1,5 @@
+{
+  "name": "lazyload",
+  "version": "3.0.3",
+  "main": "build/lazyload.js"
+}

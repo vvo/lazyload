@@ -1,6 +1,6 @@
 {
   "name": "lazyloadjs",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Image lazy loading",
   "main": "./lazyload.js",
   "scripts": {
