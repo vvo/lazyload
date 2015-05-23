@@ -142,17 +142,17 @@ function inViewport(elt, params, cb) {
   ].isInViewport(elt, offset, cb);
 }
 
-function addEvent( el, type, fn ) {
+function addEvent(el, type, fn) {
   if (el.attachEvent) {
-    el.attachEvent( 'on' + type, fn );
+    el.attachEvent('on' + type, fn);
   } else {
-    el.addEventListener( type, fn, false );
+    el.addEventListener(type, fn, false);
   }
 }
 
 function debounce(func, wait, immediate) {
   var timeout;
-  return function() {
+  return function () {
     var context = this, args = arguments;
     var callNow = immediate && !timeout;
     clearTimeout(timeout);
@@ -168,21 +168,21 @@ function debounce(func, wait, immediate) {
 
 // https://github.com/jquery/sizzle/blob/3136f48b90e3edc84cbaaa6f6f7734ef03775a07/sizzle.js#L708
 var contains = global.document.documentElement.compareDocumentPosition ?
-  function( a, b ) {
-    return !!(a.compareDocumentPosition( b ) & 16);
+  function (a, b) {
+    return !!(a.compareDocumentPosition(b) & 16);
   } :
   global.document.documentElement.contains ?
-  function( a, b ) {
-    return a !== b && ( a.contains ? a.contains( b ) : false );
-  } :
-  function( a, b ) {
-    while (b = b.parentNode) {
-      if ( b === a ) {
-        return true;
+    function (a, b) {
+      return a !== b && ( a.contains ? a.contains(b) : false );
+    } :
+    function (a, b) {
+      while (b = b.parentNode) {
+        if (b === a) {
+          return true;
+        }
       }
-    }
-    return false;
-  };
+      return false;
+    };
 
 function createInViewport(container) {
   var watches = [];
@@ -203,12 +203,29 @@ function createInViewport(container) {
   }
 
   function isInViewport(elt, offset, cb) {
-    if (!contains(global.document.documentElement, elt) ||
-      !contains(global.document.documentElement, container)) {
+    var visible = isVisible(elt, offset);
+    if (visible) {
       if (cb) {
-        return setTimeout(addWatch(elt, offset, cb), 0);
+        watching.splice(indexOf.call(watching, elt), 1);
+        cb(elt);
       }
+      return true;
+    } else {
+      if (cb) {
+        setTimeout(addWatch(elt, offset, cb), 0);
+      }
+      return false;
+    }
+  }
 
+  function isVisible(elt, offset) {
+    if (!contains(global.document.documentElement, elt) || !contains(global.document.documentElement, container)) {
+      return false;
+    }
+
+    // Check if the element is visible 
+    // cf: https://github.com/jquery/jquery/blob/740e190223d19a114d5373758127285d14d6b71e/src/css/hiddenVisibleSelectors.js
+    if (!elt.offsetWidth || !elt.offsetHeight) {
       return false;
     }
 
@@ -246,30 +263,19 @@ function createInViewport(container) {
     }
 
     var visible =
-    // 1. They must overlap
-    !(
-      eltRect.right < containerRect.left ||
-      eltRect.left > containerRect.right ||
-      eltRect.bottom < containerRect.top ||
-      eltRect.top > containerRect.bottom
-    ) && (
-    // 2. They must be visible in the viewport
-      pos.top <= viewport.height &&
-      pos.left <= viewport.width
-    );
+      // 1. They must overlap
+      !(
+        eltRect.right < containerRect.left ||
+        eltRect.left > containerRect.right ||
+        eltRect.bottom < containerRect.top ||
+        eltRect.top > containerRect.bottom
+      ) && (
+        // 2. They must be visible in the viewport
+        pos.top <= viewport.height &&
+        pos.left <= viewport.width
+      );
 
-    if (visible) {
-      if (cb) {
-        watching.splice(indexOf.call(watching, elt), 1);
-        cb(elt);
-      } else {
-        return true;
-      }
-    } else if (cb) {
-      setTimeout(addWatch(elt, offset, cb), 0);
-    } else {
-      return false;
-    }
+    return visible;
   }
 
   function addWatch(elt, offset, cb) {
@@ -277,8 +283,8 @@ function createInViewport(container) {
       watching.push(elt);
     }
 
-    return function() {
-      watches.push(function() {
+    return function () {
+      watches.push(function () {
         isInViewport(elt, offset, cb);
       });
     };

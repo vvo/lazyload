@@ -1,6 +1,10 @@
+# 3.1.0 (2015-05-23)
+
+  * feat: upgrade in-viewport to 3.1.0, checks element is visible before triggering callback
+
 # 3.0.2 (2015-03-14)
 
-* upgrade all deps
+  * upgrade all deps
 
 # 3.0.1 (2015-03-12)
   
