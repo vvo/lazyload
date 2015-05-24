@@ -23,9 +23,9 @@ function eltLoaded(id, lazyAttr) {
   return function(done) {
     var elt = document.getElementById(id);
     setTimeout(function() {
-      assert(elt['data-lzled'] === true);
+      assert(elt.getAttribute('data-lzled') === true);
       done();
-    }, 25);
-  }
+    }, 40);
+  };
 }
 

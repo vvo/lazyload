@@ -36,7 +36,7 @@ function lazyload(opts) {
       elt.src = src;
     }
 
-    elt['data-lzled'] = true;
+    elt.setAttribute('data-lzled', true);
     elts[indexOf.call(elts, elt)] = null;
   }
 
