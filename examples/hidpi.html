@@ -5,9 +5,7 @@
   var lazyHd = lazyload({src: hidpi});
 
   function hidpi(img) {
-    console.log(window.devicePixelRatio)
     if(window.devicePixelRatio > 1) {
-      console.log(window.devicePixelRatio)
       return img.getAttribute('data-src-hd');
     }
   }

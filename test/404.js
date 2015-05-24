@@ -42,7 +42,6 @@ describe('when an image resolves to 404', function() {
     beforeEach(h.wait(200));
 
     it('custom callback was called only once (no infinite loop)', function() {
-      console.log('calls', calls)
       assert.equal(calls, 1, 'We should have called the callback only once');
     });
   });
