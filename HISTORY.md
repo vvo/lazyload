@@ -1,3 +1,7 @@
+# 3.2.0 (2015-05-24)
+
+  * upgrade in-viewport, fixes children in hidden parent case
+
 # 3.1.0 (2015-05-23)
 
   * feat: upgrade in-viewport to 3.1.0, checks element is visible before triggering callback
