@@ -1,3 +1,7 @@
+# 3.2.1 (2015-06-03)
+
+  * upgrade in-viewport, no new feature
+
 # 3.2.0 (2015-05-24)
 
   * upgrade in-viewport, fixes children in hidden parent case
