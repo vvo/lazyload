@@ -14,7 +14,7 @@
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT",
   "dependencies": {
-    "in-viewport": "3.2.0"
+    "in-viewport": "3.4.0"
   },
   "devDependencies": {
     "browserify": "9.0.3",
