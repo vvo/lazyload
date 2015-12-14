@@ -38,7 +38,7 @@ function lazyload(opts) {
       elt.src = src;
     }
 
-    elt['data-lzled'] = true;
+    elt.setAttribute('data-lzled', true);
     elts[indexOf.call(elts, elt)] = null;
   }
 
@@ -116,6 +116,7 @@ function indexOf(value) {
 module.exports = inViewport;
 
 var instances = [];
+var supportsMutationObserver = typeof global.MutationObserver === 'function';
 
 function inViewport(elt, params, cb) {
   var opts = {
@@ -185,36 +186,56 @@ var contains = global.document.documentElement.compareDocumentPosition ?
     };
 
 function createInViewport(container) {
-  var watches = [];
-  var watching = [];
+  var watches = createWatches();
 
   var scrollContainer = container === global.document.body ? global : container;
-  var debouncedCheck = debounce(checkElements, 15);
+  var debouncedCheck = debounce(watches.checkAll(watchInViewport), 15);
 
   addEvent(scrollContainer, 'scroll', debouncedCheck);
-
 
   if (scrollContainer === global) {
     addEvent(global, 'resize', debouncedCheck);
   }
 
-  if (typeof global.MutationObserver === 'function') {
-    observeDOM(watching, container, debouncedCheck);
+  if (supportsMutationObserver) {
+    observeDOM(watches, container, debouncedCheck);
   }
 
+  // failsafe check, every 200ms we check for visible images
+  // usecase: a hidden parent containing eleements
+  // when the parent becomes visible, we have no event that the children
+  // became visible
+  setInterval(debouncedCheck, 150);
+
   function isInViewport(elt, offset, cb) {
-    var visible = isVisible(elt, offset);
-    if (visible) {
-      if (cb) {
-        watching.splice(indexOf.call(watching, elt), 1);
-        cb(elt);
-      }
-      return true;
-    } else {
-      if (cb) {
-        setTimeout(addWatch(elt, offset, cb), 0);
-      }
-      return false;
+    if (!cb) {
+      return isVisible(elt, offset);
+    }
+
+    var remote = createRemote(elt, offset, cb);
+    remote.watch();
+    return remote;
+  }
+
+  function createRemote(elt, offset, cb) {
+    function watch() {
+      watches.add(elt, offset, cb);
+    }
+
+    function dispose() {
+      watches.remove(elt);
+    }
+
+    return {
+      watch: watch,
+      dispose: dispose
+    };
+  }
+
+  function watchInViewport(elt, offset, cb) {
+    if (isVisible(elt, offset)) {
+      watches.remove(elt);
+      cb(elt);
     }
   }
 
@@ -223,78 +244,42 @@ function createInViewport(container) {
       return false;
     }
 
-    // Check if the element is visible 
-    // cf: https://github.com/jquery/jquery/blob/740e190223d19a114d5373758127285d14d6b71e/src/css/hiddenVisibleSelectors.js
+    // Check if the element is visible
+    // https://github.com/jquery/jquery/blob/740e190223d19a114d5373758127285d14d6b71e/src/css/hiddenVisibleSelectors.js
     if (!elt.offsetWidth || !elt.offsetHeight) {
       return false;
     }
 
     var eltRect = elt.getBoundingClientRect();
-    var containerRect = container.getBoundingClientRect();
-
-    var pos = {
-      left: eltRect.left,
-      top: eltRect.top
-    };
-
-    var viewport = {
-      width: offset,
-      height: offset
-    };
+    var viewport = {};
 
     if (container === global.document.body) {
-      viewport.width += global.document.documentElement.clientWidth;
-      viewport.height += global.document.documentElement.clientHeight;
-
-      // We update body rect computing because
-      // when you have relative/absolute childs, you get bad compute
-      // we need to create a new Object, because it's read only
-      containerRect = {
-        bottom: container.scrollHeight,
-        top: 0,
-        left: 0,
-        right: container.scrollWidth
+      viewport = {
+        top: -offset,
+        left: -offset,
+        right: global.document.documentElement.clientWidth + offset,
+        bottom: global.document.documentElement.clientHeight + offset
       };
     } else {
-      pos.left -= containerRect.left;
-      pos.top -= containerRect.top;
-      viewport.width += container.clientWidth;
-      viewport.height += container.clientHeight;
+      var containerRect = container.getBoundingClientRect();
+      viewport = {
+        top: containerRect.top - offset,
+        left: containerRect.left - offset,
+        right: containerRect.right + offset,
+        bottom: containerRect.bottom + offset
+      };
     }
 
+    // The element must overlap with the visible part of the viewport
     var visible =
-      // 1. They must overlap
-      !(
-        eltRect.right < containerRect.left ||
-        eltRect.left > containerRect.right ||
-        eltRect.bottom < containerRect.top ||
-        eltRect.top > containerRect.bottom
-      ) && (
-        // 2. They must be visible in the viewport
-        pos.top <= viewport.height &&
-        pos.left <= viewport.width
+      (
+        eltRect.right >= viewport.left &&
+        eltRect.left <= viewport.right &&
+        eltRect.bottom >= viewport.top &&
+        eltRect.top <= viewport.bottom
       );
 
     return visible;
-  }
-
-  function addWatch(elt, offset, cb) {
-    if (indexOf.call(watching, elt) === -1) {
-      watching.push(elt);
-    }
-
-    return function () {
-      watches.push(function () {
-        isInViewport(elt, offset, cb);
-      });
-    };
-  }
-
-  function checkElements() {
-    var cb;
-    while (cb = watches.shift()) {
-      cb();
-    }
   }
 
   return {
@@ -303,18 +288,61 @@ function createInViewport(container) {
   };
 }
 
-function indexOf(value) {
-  for (var i = this.length; i-- && this[i] !== value;) {}
-  return i;
+function createWatches() {
+  var watches = [];
+
+  function add(elt, offset, cb) {
+    if (!isWatched(elt)) {
+      watches.push([elt, offset, cb]);
+    }
+  }
+
+  function remove(elt) {
+    var pos = indexOf(elt);
+    if (pos !== -1) {
+      watches.splice(pos, 1);
+    }
+  }
+
+  function indexOf(elt) {
+    for (var i = watches.length - 1; i >= 0; i--) {
+      if (watches[i][0] === elt) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  function isWatched(elt) {
+    return indexOf(elt) !== -1;
+  }
+
+  function checkAll(cb) {
+    return function () {
+      for (var i = watches.length - 1; i >= 0; i--) {
+        cb.apply(this, watches[i]);
+      }
+    };
+  }
+
+  return {
+    add: add,
+    remove: remove,
+    isWatched: isWatched,
+    checkAll: checkAll
+  };
 }
 
-function observeDOM(elements, container, cb) {
+function observeDOM(watches, container, cb) {
   var observer = new MutationObserver(watch);
   var filter = Array.prototype.filter;
+  var concat = Array.prototype.concat;
 
   observer.observe(container, {
     childList: true,
-    subtree: true
+    subtree: true,
+    // changes like style/width/height/display will be catched
+    attributes: true
   });
 
   function watch(mutations) {
@@ -325,12 +353,12 @@ function observeDOM(elements, container, cb) {
     }
   }
 
-  function isWatched(node) {
-    return indexOf.call(elements, node) !== -1;
-  }
-
   function knownNodes(mutation) {
-    return filter.call(mutation.addedNodes, isWatched).length > 0;
+    var nodes = concat.call([],
+      Array.prototype.slice.call(mutation.addedNodes),
+      mutation.target
+    );
+    return filter.call(nodes, watches.isWatched).length > 0;
   }
 }
 

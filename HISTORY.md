@@ -1,3 +1,7 @@
+# 3.2.2 (2015-12-14)
+
+  * upgrade in-viewport
+
 # 3.2.1 (2015-06-03)
 
   * upgrade in-viewport, no new feature
