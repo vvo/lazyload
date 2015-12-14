@@ -14,17 +14,17 @@
   "author": "Vincent Voyer <vincent.voyer@gmail.com> (http://github.com/vvo)",
   "license": "MIT",
   "dependencies": {
-    "in-viewport": "3.4.0"
+    "in-viewport": "^3.4.1"
   },
   "devDependencies": {
-    "browserify": "9.0.3",
-    "closurecompiler": "1.5.1",
-    "deumdify": "1.1.0",
-    "express": "4.12.2",
-    "http-server": "0.7.5",
-    "merge": "1.2.0",
-    "watchify": "2.4.0",
-    "zuul": "2.1.1",
-    "zuul-ngrok": "3.0.0"
+    "browserify": "^12.0.1",
+    "closurecompiler": "^1.5.2",
+    "deumdify": "^1.2.2",
+    "express": "^4.13.3",
+    "http-server": "^0.8.5",
+    "merge": "^1.2.0",
+    "watchify": "^3.6.1",
+    "zuul": "^3.8.0",
+    "zuul-ngrok": "^3.2.0"
   }
 }
