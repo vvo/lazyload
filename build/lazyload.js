@@ -3,7 +3,7 @@
 module.exports = lazyload;
 
 var inViewport = require('in-viewport');
-var lazyAttrs = ['data-src'];
+var lazyAttrs = ['data-src', 'data-background-src'];
 
 global.lzld = lazyload();
 
@@ -11,6 +11,8 @@ global.lzld = lazyload();
 // and not the fake data-src
 replaceGetAttribute('Image');
 replaceGetAttribute('IFrame');
+replaceGetAttribute('Div');
+replaceGetAttribute('A');
 
 function registerLazyAttr(attr) {
   if (indexOf.call(lazyAttrs, attr) === -1) {
@@ -32,14 +34,30 @@ function lazyload(opts) {
   var elts = [];
 
   function show(elt) {
-    var src = findRealSrc(elt);
+    if (elt.hasAttribute('data-background-src')) {
+      var src = findRealBackgroundSrc(elt);
 
-    if (src) {
-      elt.src = src;
+      if (src) {
+        elt.style.backgroundImage = 'url(' + src + ')';
+      }
+    } else {
+      var src = findRealSrc(elt);
+
+      if (src) {
+        elt.src = src;
+      }
     }
 
     elt.setAttribute('data-lzled', true);
     elts[indexOf.call(elts, elt)] = null;
+  }
+
+  function findRealBackgroundSrc(elt) {
+    if (typeof opts.src === 'function') {
+      return opts.src(elt);
+    }
+
+    return elt.getAttribute(opts.src == 'data-src' ? 'data-background-src': opts.src);
   }
 
   function findRealSrc(elt) {
