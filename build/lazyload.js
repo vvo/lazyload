@@ -9,10 +9,7 @@ global.lzld = lazyload();
 
 // Provide libs using getAttribute early to get the good src
 // and not the fake data-src
-replaceGetAttribute('Image');
-replaceGetAttribute('IFrame');
-replaceGetAttribute('Div');
-replaceGetAttribute('A');
+replaceGetAttribute();
 
 function registerLazyAttr(attr) {
   if (indexOf.call(lazyAttrs, attr) === -1) {
@@ -86,8 +83,8 @@ function lazyload(opts) {
   return register;
 }
 
-function replaceGetAttribute(elementName) {
-  var fullname = 'HTML' + elementName + 'Element';
+function replaceGetAttribute() {
+  var fullname = 'HTMLElement';
   if (fullname in global === false) {
     return;
   }
