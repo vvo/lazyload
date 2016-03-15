@@ -1,0 +1,31 @@
+<!doctype html>
+<title>lazyloading images</title>
+<script src="../build/lazyload.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(event) {
+  var nodeList = document.querySelectorAll('.lazyload');
+  var nodes = Array.prototype.slice.call(nodeList, 0);
+
+  nodes.forEach(lzld);
+});
+</script>
+
+<style type="text/css">
+.lazyload {
+  background-image: url(data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
+}
+</style>
+
+<h1>background images example</h1>
+<h2>scroll for more</h2>
+
+<div style="margin-top:2000px"></div>
+
+<div class="lazyload" style="width:599px; height:449px;" data-background-src="img/01.jpg"></div>
+
+<div class="lazyload" style="width:408px; height:580px;" data-background-src="img/02.jpg"></div>
+
+<div class="lazyload" style="width:486px; height:604px;" data-background-src="img/03.jpg"></div>
+
+<div class="lazyload" style="width:598px; height:391px;" data-background-src="img/04.jpg"></div>
+
