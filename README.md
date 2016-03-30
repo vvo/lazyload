@@ -10,6 +10,9 @@ Lazyload images, iframes or any src* element until they are visible in the viewp
 npm install lazyloadjs --save
 ```
 
+Also available for `<script>` users:
+  - https://cdnjs.com/libraries/lazyloadjs
+
 ## Simple example
 
 See more [examples](examples/).
