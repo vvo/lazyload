@@ -139,6 +139,7 @@ Tens of millions of pageviews are served each month using this project:
 * [mapado.com](http://www.mapado.com/)
 * [decitre.fr](http://www.decitre.fr/)
 * [base-orb.fr](http://www.base-orb.fr/)
+* [kokoroe.co](https://www.kokoroe.co/fr/)
 
 .. And many unlisted websites, [add yours](https://github.com/vvo/lazyload/edit/master/README.md)!
 
