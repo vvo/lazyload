@@ -1,3 +1,7 @@
+**NOTE FROM MAINTAINERS**
+This library is still working but not actively maintained, we recommend you use https://github.com/ApoorvSaxena/lozad.js first rather than this one.
+**/NOTE FROM MAINTAINERS**
+
 # lazyload [![Dependency Status](http://img.shields.io/david/vvo/lazyload.svg?style=flat-square)](https://david-dm.org/vvo/lazyload) [![devDependency Status](http://img.shields.io/david/dev/vvo/lazyload.svg?style=flat-square)](https://david-dm.org/vvo/lazyload#info=devDependencies)
 
 Lazyload images, iframes or any src* element until they are visible in the viewport.
