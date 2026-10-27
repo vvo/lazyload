@@ -6,6 +6,15 @@ This library is still working but not actively maintained, we recommend you use 
 
 Lazyload images, iframes or any src* element until they are visible in the viewport.
 
+<p align="center">
+  <a href="https://turnshift.app/?utm_source=github&utm_medium=sponsor&utm_campaign=lazyload">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./sponsor/turnshift-dark.png">
+      <img width="880" alt="Sponsored by TurnShift, the team calendar in Slack. Try it free for 14 days." src="./sponsor/turnshift-light.png">
+    </picture>
+  </a>
+</p>
+
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/lazyloadvvo.svg)](https://saucelabs.com/u/lazyloadvvo)
 
 ## Install
